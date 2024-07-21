@@ -5,6 +5,7 @@ import Signup from './components/get_started/signup';
 import Login from './components/get_started/login';
 import MainHomePage from './components/home/mainHomePage';
 import RestaurantsList from './components/restaurants/restaurantsList';
+import MainProducts from './components/products/mainProductsPage';
 function App() {
 
   return (
@@ -13,7 +14,8 @@ function App() {
     // <Signup/>
     // <Login/>
     // <MainHomePage/>
-    <RestaurantsList/>
+    // <RestaurantsList/>
+    <MainProducts/>
   );
 }
 
