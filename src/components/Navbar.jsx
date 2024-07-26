@@ -13,7 +13,7 @@ function MainNavbar() {
       <Container>
         <Navbar.Brand href="/">
           <Image
-          className="mr-60"
+          className="mr-48"
             src={navbar_logo}
             style={{ width: " 60px", height: "60px" }}
             roundedCircle
@@ -27,7 +27,7 @@ function MainNavbar() {
           >
             <Nav.Link className="mr-5" href="/">Home</Nav.Link>
             <Nav.Link className="mr-5" href="/restaurants">Restaurants</Nav.Link>
-            <Nav.Link className="mr-5" href="#link">Partner with us</Nav.Link>
+            <Nav.Link className="text-nowrap mr-5" href="#link">Partner with us</Nav.Link>
             <Nav.Link className="mr-5" href="#link">Shops</Nav.Link>
             <Nav.Link className="mr-5" href="#link">Sell</Nav.Link>
             <Nav.Link className="mr-5" href="#link">Profile</Nav.Link>
