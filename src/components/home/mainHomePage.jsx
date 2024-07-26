@@ -18,6 +18,7 @@ import partner_4 from "../../assets/partner_4.png";
 import partner_5 from "../../assets/partner_5.png";
 import partner_6 from "../../assets/partner_6.png";
 import { Container } from "react-bootstrap";
+import Footer from './../footer/footer';
 
 function MainHomePage() {
   const [isLaptop, setIsLaptop] = useState(window.innerWidth >= 992);
@@ -146,6 +147,7 @@ function MainHomePage() {
             <p className="text-xl font-extrabold">Food items</p>
           </div>
         </div>
+        <Footer/>
       </Container>
     </>
   );

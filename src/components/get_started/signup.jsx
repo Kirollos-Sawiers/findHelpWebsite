@@ -10,6 +10,8 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Footer from './../footer/footer';
+import { Link } from 'react-router-dom';
 import {
   faGoogle,
   faFacebook,
@@ -29,7 +31,7 @@ function Signup() {
   const onSubmit = (data) => console.log(data);
 
   return (
-    <Container fluid>
+    <Container className="p-0" fluid>
       <Navbar />
       <Container className="mb-5">
         <Row className="shadow-lg rounded-2xl">
@@ -154,8 +156,10 @@ function Signup() {
               />
             </Form>
             <div className="flex justify-center w-full my-4">
-              <h6 className="text-center small">Already have an account?</h6>
-              <h6 className="font-bold small">Signin</h6>
+              <h6 className="text-center small mr-2">Already have an account?</h6>
+              <Link to="/login" style={{textDecoration:"none",}}>
+              <h6 className="font-bold small"> Login</h6>
+              </Link>
             </div>
             <div className="flex items-center w-2/3 mb-5">
               <div
@@ -232,6 +236,7 @@ function Signup() {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </Container>
   );
 }

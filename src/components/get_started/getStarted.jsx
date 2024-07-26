@@ -5,9 +5,17 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import get_started_img from "../../assets/get_started_img.png";
+import Footer from './../footer/footer';
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGoogle,
+  faFacebook,
+  faApple,
+} from "@fortawesome/free-brands-svg-icons";
 function GetStarted() {
   return (
-    <Container fluid>
+    <Container className="p-0" fluid>
       <Navbar />
       <Container className="mb-5">
         <Row className="rounded-lg shadow-lg">
@@ -20,7 +28,7 @@ function GetStarted() {
             <Button
               className="w-2/3 h-12 my-5 text-center"
               variant="warning"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -38,7 +46,7 @@ function GetStarted() {
             <Button
               className="w-2/3 h-12 my-3 text-center border-2 border-black"
               variant="light"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -46,12 +54,16 @@ function GetStarted() {
                 borderRadius: "15px",
               }}
             >
+              <FontAwesomeIcon
+                icon={faGoogle}
+                style={{ color: "#000000", marginRight: "0.7rem" }}
+              />
               Continue with Google
             </Button>{" "}
             <Button
               className="w-2/3 h-12 my-3 text-center border-2 border-black"
               variant="light"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -59,12 +71,16 @@ function GetStarted() {
                 borderRadius: "15px",
               }}
             >
+              <FontAwesomeIcon
+                icon={faFacebook}
+                style={{ color: "#000000", marginRight: "0.7rem" }}
+              />
               Continue with Facebook
             </Button>{" "}
             <Button
               className="w-2/3 h-12 my-3 text-center border-2 border-black"
               variant="light"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -72,19 +88,28 @@ function GetStarted() {
                 borderRadius: "15px",
               }}
             >
+              <FontAwesomeIcon
+                icon={faApple}
+                style={{ color: "#000000", marginRight: "0.7rem" }}
+              />
               Continue with Apple
             </Button>
             <div className="flex justify-center w-full my-4">
-              <h6 className="text-center small">Already have an account?</h6>
-              <h6 className="font-bold small">Signin</h6>
+              <h6 className="text-center small mr-2">Already have an account?</h6>
+              <Link to="/login" style={{textDecoration:"none"}}>
+              <h6 className="font-bold small">Login</h6>
+              </Link>
             </div>
+            <Link to="/login" style={{textDecoration:"none"}}>
             <h6 className="font-bold text-center small">Skip</h6>
+            </Link>
           </Col>
           <Col className="hidden p-0 md:block lg:block">
             <Image className="rounded-tr-lg rounded-br-lg" src={get_started_img} />
           </Col>
         </Row>
       </Container>
+      <Footer/>
     </Container>
   );
 }

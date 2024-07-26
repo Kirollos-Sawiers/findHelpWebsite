@@ -10,11 +10,13 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Footer from './../footer/footer';
 import {
   faGoogle,
   faFacebook,
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
+import { Link } from "react-router-dom";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -29,7 +31,7 @@ function Login() {
   const onSubmit = (data) => console.log(data);
 
   return (
-    <Container fluid>
+    <Container className="p-0" fluid>
       <Navbar />
       <Container className="mb-5">
         <Row className="shadow-lg rounded-2xl">
@@ -50,7 +52,7 @@ function Login() {
               
               {errors.email && (
                 <p
-                  className="w-2/3 mt-1 mb-0 ml-3 small"
+                  className="w-full mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
                   Enter a valid email
@@ -77,7 +79,7 @@ function Login() {
               /> */}
               {errors.password && (
                 <p
-                  className="w-2/3 mt-1 mb-0 ml-3 small"
+                  className="w-full ml-3 mt-1 mb-0 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
                   password is required
@@ -101,7 +103,9 @@ function Login() {
             <div className="w-full ml-16 font-semibold">Forgot password?</div>
             <div className="flex justify-start w-full my-4 ml-16">
               <h6 className="text-start">Don't have an account? </h6>
+              <Link to="/signup" style={{textDecoration:"none",}}>
               <h6 className="font-bold">Create an account</h6>
+              </Link>
             </div>
             <div className="flex items-center w-2/3 mb-1">
               <div
@@ -119,7 +123,7 @@ function Login() {
             <Button
               className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
               variant="light"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -135,7 +139,7 @@ function Login() {
             <Button
               className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
               variant="light"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -151,7 +155,7 @@ function Login() {
             <Button
               className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
               variant="light"
-              href="#link"
+              // href="#link"
               style={{
                 color: "black",
                 fontWeight: "bold",
@@ -175,6 +179,7 @@ function Login() {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </Container>
   );
 }

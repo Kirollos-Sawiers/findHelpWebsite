@@ -10,8 +10,53 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faPercent } from "@fortawesome/free-solid-svg-icons";
 import { faStar as offStar } from "@fortawesome/free-regular-svg-icons";
-function RestaurantsList() {
+import Footer from "./../footer/footer";
+import { Link } from "react-router-dom";
 
+function RestaurantsList() {
+  const restaurantCard = () => {
+    return (
+      <>
+      <Link to="/products"  style={{ textDecoration: 'none', color: 'black' }}>
+        <div className="rounded-2xl mb-3 shadow-md">
+          <Image className="rounded-t-lg" src={restaurant_list_img} />
+          <div className="flex justify-between">
+            <div className="ml-2">
+              <p className="font-bold my-1">Sultan Ayup</p>
+              <p className="small mb-0">Turkish</p>
+            </div>
+            <div className="m-2.5">
+              <Rating
+                value={3}
+                readOnly
+                cancel={false}
+                onIcon={
+                  <FontAwesomeIcon icon={faStar} style={{ color: "#f0a835" }} />
+                }
+                offIcon={
+                  <FontAwesomeIcon
+                    icon={offStar}
+                    style={{ color: "#f0a835" }}
+                  />
+                }
+              />
+            </div>
+          </div>
+          <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
+            <FontAwesomeIcon
+              className="mt-1 ml-3"
+              icon={faPercent}
+              style={{ color: "#f0a835" }}
+            />
+            <p className="text-[#f0a835] text-sm ml-1 mb-0">
+              50EGP on orders above 120 EGP
+            </p>
+          </div>
+        </div>
+        </Link>
+      </>
+    );
+  };
   return (
     <>
       <Container fluid className="p-0">
@@ -76,238 +121,18 @@ function RestaurantsList() {
                 />
               </div>
               <div className="flex flex-wrap justify-around">
-                <div className="rounded-2xl mb-3 shadow-md">
-                  <Image className="rounded-t-lg" src={restaurant_list_img} />
-                  <div className="flex justify-between">
-                    <div className="ml-2">
-                      <p className="font-bold my-1">Sultan Ayup</p>
-                      <p className="small mb-0">Turkish</p>
-                    </div>
-                    <div className="m-2.5">
-                      <Rating
-                        value={3}
-                        readOnly
-                        cancel={false}
-                        onIcon={
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                        offIcon={
-                          <FontAwesomeIcon
-                            icon={offStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-                    <FontAwesomeIcon
-                    className="mt-1 ml-3"
-                      icon={faPercent}
-                      style={{ color: "#f0a835" }}
-                    />
-                    <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                      50EGP on orders above 120 EGP
-                    </p>
-                  </div>
-                </div>
-                <div className="rounded-2xl mb-3 shadow-md">
-                  <Image className="rounded-t-lg" src={restaurant_list_img} />
-                  <div className="flex justify-between">
-                    <div className="ml-2">
-                      <p className="font-bold my-1">Sultan Ayup</p>
-                      <p className="small mb-0">Turkish</p>
-                    </div>
-                    <div className="m-2.5">
-                      <Rating
-                        value={1}
-                        readOnly
-                        cancel={false}
-                        onIcon={
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                        offIcon={
-                          <FontAwesomeIcon
-                            icon={offStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-                    <FontAwesomeIcon
-                    className="mt-1 ml-3"
-                      icon={faPercent}
-                      style={{ color: "#f0a835" }}
-                    />
-                    <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                      50EGP on orders above 120 EGP
-                    </p>
-                  </div>
-                </div>
-                <div className="rounded-2xl mb-3 shadow-md">
-                  <Image className="rounded-t-lg" src={restaurant_list_img} />
-                  <div className="flex justify-between">
-                    <div className="ml-2">
-                      <p className="font-bold my-1">Sultan Ayup</p>
-                      <p className="small mb-0">Turkish</p>
-                    </div>
-                    <div className="m-2.5">
-                      <Rating
-                        value={4}
-                        readOnly
-                        cancel={false}
-                        onIcon={
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                        offIcon={
-                          <FontAwesomeIcon
-                            icon={offStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-                    <FontAwesomeIcon
-                    className="mt-1 ml-3"
-                      icon={faPercent}
-                      style={{ color: "#f0a835" }}
-                    />
-                    <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                      50EGP on orders above 120 EGP
-                    </p>
-                  </div>
-                </div>
-                <div className="rounded-2xl mb-3 shadow-md">
-                  <Image className="rounded-t-lg" src={restaurant_list_img} />
-                  <div className="flex justify-between">
-                    <div className="ml-2">
-                      <p className="font-bold my-1">Sultan Ayup</p>
-                      <p className="small mb-0">Turkish</p>
-                    </div>
-                    <div className="m-2.5">
-                      <Rating
-                        value={5}
-                        readOnly
-                        cancel={false}
-                        onIcon={
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                        offIcon={
-                          <FontAwesomeIcon
-                            icon={offStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-                    <FontAwesomeIcon
-                    className="mt-1 ml-3"
-                      icon={faPercent}
-                      style={{ color: "#f0a835" }}
-                    />
-                    <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                      50EGP on orders above 120 EGP
-                    </p>
-                  </div>
-                </div>
-                <div className="rounded-2xl mb-3 shadow-md">
-                  <Image className="rounded-t-lg" src={restaurant_list_img} />
-                  <div className="flex justify-between">
-                    <div className="ml-2">
-                      <p className="font-bold my-1">Sultan Ayup</p>
-                      <p className="small mb-0">Turkish</p>
-                    </div>
-                    <div className="m-2.5">
-                      <Rating
-                        value={3}
-                        readOnly
-                        cancel={false}
-                        onIcon={
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                        offIcon={
-                          <FontAwesomeIcon
-                            icon={offStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-                    <FontAwesomeIcon
-                    className="mt-1 ml-3"
-                      icon={faPercent}
-                      style={{ color: "#f0a835" }}
-                    />
-                    <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                      50EGP on orders above 120 EGP
-                    </p>
-                  </div>
-                </div>
-                <div className="rounded-2xl mb-3 shadow-md">
-                  <Image className="rounded-t-lg" src={restaurant_list_img} />
-                  <div className="flex justify-between">
-                    <div className="ml-2">
-                      <p className="font-bold my-1">Sultan Ayup</p>
-                      <p className="small mb-0">Turkish</p>
-                    </div>
-                    <div className="m-2.5">
-                      <Rating
-                        value={2}
-                        readOnly
-                        cancel={false}
-                        onIcon={
-                          <FontAwesomeIcon
-                            icon={faStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                        offIcon={
-                          <FontAwesomeIcon
-                            icon={offStar}
-                            style={{ color: "#f0a835" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-                    <FontAwesomeIcon
-                    className="mt-1 ml-3"
-                      icon={faPercent}
-                      style={{ color: "#f0a835" }}
-                    />
-                    <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                      50EGP on orders above 120 EGP
-                    </p>
-                  </div>
-                </div>
+                {restaurantCard()}
+                {restaurantCard()}
+                {restaurantCard()}
+                {restaurantCard()}
+                {restaurantCard()}
+                {restaurantCard()}
+                {restaurantCard()}
               </div>
             </Col>
           </Row>
         </Container>
+        <Footer />
       </Container>
     </>
   );
