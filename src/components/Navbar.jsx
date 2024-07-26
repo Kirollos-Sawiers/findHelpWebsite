@@ -13,6 +13,7 @@ function MainNavbar() {
       <Container>
         <Navbar.Brand href="/">
           <Image
+          className="mr-60"
             src={navbar_logo}
             style={{ width: " 60px", height: "60px" }}
             roundedCircle
@@ -24,13 +25,13 @@ function MainNavbar() {
             className="me-auto"
             style={{ color: "black", fontWeight: "bolder", fontSize: "14px" }}
           >
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/restaurants">Restaurants</Nav.Link>
-            <Nav.Link href="#link">Partner with us</Nav.Link>
-            <Nav.Link href="#link">Shops</Nav.Link>
-            <Nav.Link href="#link">Sell</Nav.Link>
-            <Nav.Link href="#link">Profile</Nav.Link>
-            <Nav.Link href="#link">العربية</Nav.Link>
+            <Nav.Link className="mr-5" href="/">Home</Nav.Link>
+            <Nav.Link className="mr-5" href="/restaurants">Restaurants</Nav.Link>
+            <Nav.Link className="mr-5" href="#link">Partner with us</Nav.Link>
+            <Nav.Link className="mr-5" href="#link">Shops</Nav.Link>
+            <Nav.Link className="mr-5" href="#link">Sell</Nav.Link>
+            <Nav.Link className="mr-5" href="#link">Profile</Nav.Link>
+            <Nav.Link className="mr-5" href="#link">العربية</Nav.Link>
             <Button
               variant="warning"
               href="/get-started"
