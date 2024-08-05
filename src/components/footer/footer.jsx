@@ -52,11 +52,10 @@ function Footer() {
         <Row className="p-3">
           <div className="flex justify-between items-center">
             <p className="text-white font-bold w-2/3 m-0">All rights reserved © Find Help</p>
-            <div className="flex justify-evenly w-1/3 mb-3">
+            <div className="flex flex-col justify-evenly w-14 mb-3 md:w-1/3 md:flex md:flex-row md:justify-evenly">
             <img src={bwfb} alt="facebook" />
             <img src={bwyt} alt="youtube" />
             <img src={bwinsta} alt="instagram" />
-
             </div>
           </div>
         </Row>

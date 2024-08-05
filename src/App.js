@@ -11,8 +11,9 @@ import Login from "./components/get_started/login";
 import MainHomePage from "./components/home/mainHomePage";
 import RestaurantsList from "./components/restaurants/restaurantsList";
 import MainProducts from "./components/products/mainProductsPage";
-import Footer from "./components/footer/footer";
 import Checkout from "./components/orders/checkout";
+import PartnerWithUs from './components/partner_with_us/partnerWithUs';
+import RideWithUs from './components/ride_with_us/rideWithUs';
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -24,6 +25,8 @@ function App() {
         <Route path="/restaurants" element={<RestaurantsList/>} />
         <Route path="/products" element={<MainProducts/>} />
         <Route path="/checkout" element={<Checkout/>} />
+        <Route path="/partnerwithus" element={<PartnerWithUs/>} />
+        <Route path="/ridewithus" element={<RideWithUs/>} />
       </Route>
     )
   );

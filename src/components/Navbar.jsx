@@ -27,7 +27,7 @@ function MainNavbar() {
           >
             <Nav.Link className="mr-5" href="/">Home</Nav.Link>
             <Nav.Link className="mr-5" href="/restaurants">Restaurants</Nav.Link>
-            <Nav.Link className="text-nowrap mr-5" href="#link">Partner with us</Nav.Link>
+            <Nav.Link className="text-nowrap mr-5" href="partnerwithus">Partner with us</Nav.Link>
             <Nav.Link className="mr-5" href="#link">Shops</Nav.Link>
             <Nav.Link className="mr-5" href="#link">Sell</Nav.Link>
             <Nav.Link className="mr-5" href="#link">Profile</Nav.Link>
