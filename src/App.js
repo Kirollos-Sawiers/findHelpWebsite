@@ -14,6 +14,7 @@ import MainProducts from "./components/products/mainProductsPage";
 import Checkout from "./components/orders/checkout";
 import PartnerWithUs from './components/partner_with_us/partnerWithUs';
 import RideWithUs from './components/ride_with_us/rideWithUs';
+import MainAccountSitting from './components/account/accountSetting';
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,10 +24,12 @@ function App() {
         <Route path="/signup" element={<Signup/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/restaurants" element={<RestaurantsList/>} />
+        <Route path="/shops" element={<RestaurantsList/>} />
         <Route path="/products" element={<MainProducts/>} />
         <Route path="/checkout" element={<Checkout/>} />
         <Route path="/partnerwithus" element={<PartnerWithUs/>} />
         <Route path="/ridewithus" element={<RideWithUs/>} />
+        <Route path="/profile" element={<MainAccountSitting/>} />
       </Route>
     )
   );

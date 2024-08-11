@@ -17,8 +17,11 @@ import {
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../features/auth/authSlice';
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -29,7 +32,8 @@ function Login() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => console.log(data);
-
+  const dispatch = useDispatch();
+  const { status, error } = useSelector((state) => state.auth);
   return (
     <Container className="p-0" fluid>
       <Navbar />
