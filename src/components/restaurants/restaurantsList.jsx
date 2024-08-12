@@ -14,11 +14,12 @@ import Footer from "./../footer/footer";
 import { Link, useLocation } from "react-router-dom";
 
 function RestaurantsList() {
-  const [restaurantData, setRestaurantData] = useState([]);
+  const [restaurantCategoryData, setRestaurantCategoryData] = useState([]);
+  const [restaurantData, setRestaurantData] = useState();
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   useEffect(() => {
-    const fetchRestaurantData = async () => {
+    const fetchRestaurantCategoryData = async () => {
       try {
         const response = await fetch("https://findhelpapp.com/api/v1/meta/restaurant_categories", {
           method: "GET",
@@ -29,7 +30,7 @@ function RestaurantsList() {
           },
         });
         const data = await response.json();
-        setRestaurantData(data);
+        setRestaurantCategoryData(data);
         console.log(data)
         setLoading(false);
       } catch (error) {
@@ -37,7 +38,32 @@ function RestaurantsList() {
         setLoading(false);
       }
     };
-    const fetchShopsData = async () => {
+    const fetchRestaurantData = async (params) => {
+      try {
+        // Construct the URL with query parameters
+        const url = new URL("https://findhelpapp.com/api/v1/users/shops");
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Accept-Language": "ar",
+          },
+        });
+    
+        const data = await response.json();
+        setRestaurantData(data.data);
+        console.log(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+      console.log(restaurantData);
+    };
+    const fetchShopsCategoryData = async () => {
       try {
         const response = await fetch("https://findhelpapp.com/api/v1/meta/store_categories", {
           method: "GET",
@@ -48,7 +74,7 @@ function RestaurantsList() {
           },
         });
         const data = await response.json();
-        setRestaurantData(data);
+        setRestaurantCategoryData(data);
         console.log(data)
         setLoading(false);
       } catch (error) {
@@ -57,9 +83,10 @@ function RestaurantsList() {
       }
     };
     if (location.pathname === '/restaurants') {
-      fetchRestaurantData();
+      fetchRestaurantCategoryData();
+      fetchRestaurantData({ type: "restaurant", });
     } else if (location.pathname === '/shops') {
-      fetchShopsData();
+      fetchShopsCategoryData();
     } 
     
   }, []);
@@ -68,16 +95,19 @@ function RestaurantsList() {
     return (
       <>
         <Link to="/products" style={{ textDecoration: 'none', color: 'black' }}>
-          <div className="rounded-2xl mb-3 shadow-md">
-            <Image className="rounded-t-lg" src={restaurant_list_img} />
+        <div className="flex flex-wrap justify-around">
+        {restaurantData.map((rest)=>{
+        //  console.log(rest?.restaurant_categories[0]?.name.en) 
+          return(<>
+          <div id={rest.id} className="rounded-2xl mb-3 shadow-md">
+            <Image className="w-64 h-36 rounded-t-lg" src={rest?.image?.url} />
             <div className="flex justify-between">
               <div className="ml-2">
-                <p className="font-bold my-1">Sultan Ayup</p>
-                <p className="small mb-0">Turkish</p>
-              </div>
-              <div className="m-2.5">
+                <p className="font-bold my-1">{rest?.name?.en}</p>
+                <p className="small mb-0">{rest?.restaurant_categories[0]?.name.en || "Food"}</p>
+                <div className="m-2.5">
                 <Rating
-                  value={3}
+                  value={rest?.orders_reviews_avg_rates}
                   readOnly
                   cancel={false}
                   onIcon={
@@ -91,8 +121,10 @@ function RestaurantsList() {
                   }
                 />
               </div>
+              </div>
+              
             </div>
-            <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
+            {/* <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
               <FontAwesomeIcon
                 className="mt-1 ml-3"
                 icon={faPercent}
@@ -101,7 +133,10 @@ function RestaurantsList() {
               <p className="text-[#f0a835] text-sm ml-1 mb-0">
                 50EGP on orders above 120 EGP
               </p>
-            </div>
+            </div> */}
+          </div>
+          </>)
+        })}
           </div>
         </Link>
       </>
@@ -112,8 +147,8 @@ function RestaurantsList() {
     return (
       <>
         <div className="overflow-x-auto flex space-x-4 p-4 bg-gray-50 mb-5">
-          {restaurantData.length > 0 ? (
-            restaurantData.map((item) => {
+          {restaurantCategoryData.length > 0 ? (
+            restaurantCategoryData.map((item) => {
               return (
                 <div key={item.id} className="min-w-[100px] flex-shrink-0 p-2 bg-white rounded-lg shadow-md text-center">
                   <img src={item.image?.url} alt={item.name?.en} className="h-16 w-16 mx-auto mb-2" />
@@ -201,13 +236,7 @@ function RestaurantsList() {
                 {categoryHeader()}
               </div>
 
-              <div className="flex flex-wrap justify-around">
-                {restaurantCard()}
-                {restaurantCard()}
-                {restaurantCard()}
-                {restaurantCard()}
-                {restaurantCard()}
-                {restaurantCard()}
+              <div>
                 {restaurantCard()}
               </div>
             </Col>
