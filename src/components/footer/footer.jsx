@@ -8,6 +8,7 @@ import google_store_icon from "../../assets/google_store_icon.png";
 import bwfb from "../../assets/bwfb.png";
 import bwyt from "../../assets/bwyt.png";
 import bwinsta from "../../assets/bwinsta.png";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -23,8 +24,8 @@ function Footer() {
           <Col md={2}>
             <div>
               <p className="text-white font-bold">Contact us</p>
-              <p className="text-white">info@findhelp.com</p>
-              <p className="text-white">1-800-200-300</p>
+              <p className="text-white">newfindhelpapp@gmail.com</p>
+              <p className="text-white">01000067629</p>
             </div>
           </Col>
           <Col md={2}>
@@ -43,9 +44,14 @@ function Footer() {
           </Col>
           <Col md={2}>
           <div className="flex flex-col">
+            <Link to="https://apps.apple.com/eg/app/findhelpapp/id1450736684" target="_blank">
               <img className="w-40 mb-2" src={apple_store_icon} alt="apple-store" />
+            </Link>
+            <Link to="https://play.google.com/store/apps/details?id=com.extreme.help" target="_blank">
               <img className="w-40" src={google_store_icon} alt="google-store" />
+            </Link>
             </div>
+            
           </Col>
           <Col md={1}></Col>
         </Row>
