@@ -12,6 +12,7 @@ import { faPercent } from "@fortawesome/free-solid-svg-icons";
 import { faStar as offStar } from "@fortawesome/free-regular-svg-icons";
 import Footer from "./../footer/footer";
 import { Link, useLocation } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner';
 
 function RestaurantsList() {
   const [restaurantCategoryData, setRestaurantCategoryData] = useState([]);
@@ -56,12 +57,14 @@ function RestaurantsList() {
         const data = await response.json();
         setRestaurantData(data.data);
         console.log(data);
+
         setLoading(false);
+        console.log(restaurantData);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
       }
-      console.log(restaurantData);
+  
     };
     const fetchShopsCategoryData = async () => {
       try {
@@ -74,9 +77,12 @@ function RestaurantsList() {
           },
         });
         const data = await response.json();
-        setRestaurantCategoryData(data);
-        console.log(data)
-        setLoading(false);
+        if(data){
+          setRestaurantCategoryData(data);
+          setLoading(false);
+          console.log(data)
+        }
+       
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
@@ -100,7 +106,7 @@ function RestaurantsList() {
         //  console.log(rest?.restaurant_categories[0]?.name.en) 
           return(<>
           <div id={rest.id} className="rounded-2xl mb-3 shadow-md">
-            <Image className="w-64 h-36 rounded-t-lg" src={rest?.image?.url} />
+            <Image className="w-72 h-44 rounded-t-lg" src={rest?.image?.url} />
             <div className="flex justify-between">
               <div className="ml-2">
                 <p className="font-bold my-1">{rest?.name?.en}</p>
@@ -165,7 +171,7 @@ function RestaurantsList() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center align-middle items-center h-96"><Spinner animation="border" variant="warning" /></div>;
   }
 
   return (
@@ -237,7 +243,8 @@ function RestaurantsList() {
               </div>
 
               <div>
-                {restaurantCard()}
+                {location.pathname === '/restaurants'?restaurantCard():null}
+                
               </div>
             </Col>
           </Row>
