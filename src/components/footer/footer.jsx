@@ -5,9 +5,10 @@ import { Col, Row } from "react-bootstrap";
 import navbar_logo from "../../assets/navbar_logo.png";
 import apple_store_icon from "../../assets/apple_store_icon.png";
 import google_store_icon from "../../assets/google_store_icon.png";
-import bwfb from "../../assets/bwfb.png";
-import bwyt from "../../assets/bwyt.png";
-import bwinsta from "../../assets/bwinsta.png";
+import facebook from "../../assets/facebook.png";
+import instagram from "../../assets/instagram.png";
+import snapchat from "../../assets/snapchat.png";
+import tiktok from "../../assets/tiktok.png";
 import { Link } from "react-router-dom";
 
 function Footer() {
@@ -45,7 +46,7 @@ function Footer() {
           <Col md={2}>
           <div className="flex flex-col">
             <Link to="https://apps.apple.com/eg/app/findhelpapp/id1450736684" target="_blank">
-              <img className="w-40 mb-2" src={apple_store_icon} alt="apple-store" />
+              <img className="w-40 mb-4" src={apple_store_icon} alt="apple-store" />
             </Link>
             <Link to="https://play.google.com/store/apps/details?id=com.extreme.help" target="_blank">
               <img className="w-40" src={google_store_icon} alt="google-store" />
@@ -59,9 +60,19 @@ function Footer() {
           <div className="flex justify-between items-center">
             <p className="text-white font-bold w-2/3 m-0">All rights reserved © Find Help</p>
             <div className="flex flex-col justify-evenly w-14 mb-3 md:w-1/3 md:flex md:flex-row md:justify-evenly">
-            <img src={bwfb} alt="facebook" />
-            <img src={bwyt} alt="youtube" />
-            <img src={bwinsta} alt="instagram" />
+            <Link to="https://www.facebook.com/profile.php?id=61559402712536" target="_blank">
+            <img className="w-14 h-14" src={facebook} alt="facebook" />
+            </Link>
+            <Link to="https://www.tiktok.com/@findhelp.eg" target="_blank">
+            <img className="w-14 h-14" src={tiktok} alt="tiktok" />
+            </Link>
+            <Link to="https://www.instagram.com/find.helpapp/" target="_blank">
+            <img className="w-14 h-14" src={instagram} alt="instagram" />
+            </Link>
+            <Link to="https://snapchat.com/t/P8JaPyM0" target="_blank">
+            <img className="w-14 h-14" src={snapchat} alt="snapchat" />
+            </Link>
+            
             </div>
           </div>
         </Row>

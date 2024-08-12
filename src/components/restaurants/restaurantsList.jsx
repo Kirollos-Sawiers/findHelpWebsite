@@ -106,7 +106,7 @@ function RestaurantsList() {
         //  console.log(rest?.restaurant_categories[0]?.name.en) 
           return(<>
           <div id={rest.id} className="rounded-2xl mb-3 shadow-md">
-            <Image className="w-72 h-44 rounded-t-lg" src={rest?.image?.url} />
+            <Image className="w-60 h-44 rounded-t-lg" src={rest?.image?.url} />
             <div className="flex justify-between">
               <div className="ml-2">
                 <p className="font-bold my-1">{rest?.name?.en}</p>

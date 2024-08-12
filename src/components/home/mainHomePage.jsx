@@ -19,6 +19,7 @@ import partner_5 from "../../assets/partner_5.png";
 import partner_6 from "../../assets/partner_6.png";
 import { Container } from "react-bootstrap";
 import Footer from './../footer/footer';
+import { Link } from 'react-router-dom';
 
 function MainHomePage() {
   const [isLaptop, setIsLaptop] = useState(window.innerWidth >= 992);
@@ -73,12 +74,16 @@ function MainHomePage() {
               Order Restaurant food, takeaway and groceries
             </p>
             <div className="flex mb-5">
+            <Link to="https://apps.apple.com/eg/app/findhelpapp/id1450736684" target="_blank">
               <Image
                 className="pr-2"
                 src={apple_store_icon}
                 onClick={() => {}}
-              />
+                />
+                </Link>
+                <Link to="https://play.google.com/store/apps/details?id=com.extreme.help" target="_blank">
               <Image className="" src={google_store_icon} />
+                </Link>
             </div>
           </div>
           <div className="ml-2">
