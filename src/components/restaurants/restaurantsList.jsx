@@ -18,7 +18,9 @@ function RestaurantsList() {
   const [restaurantCategoryData, setRestaurantCategoryData] = useState([]);
   const [restaurantData, setRestaurantData] = useState();
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
+
   useEffect(() => {
     const fetchRestaurantCategoryData = async () => {
       try {
@@ -32,19 +34,19 @@ function RestaurantsList() {
         });
         const data = await response.json();
         setRestaurantCategoryData(data);
-        console.log(data)
+        console.log(data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
-    const fetchRestaurantData = async (params) => {
+
+    const fetchRestaurantData = async (page) => {
       try {
-        // Construct the URL with query parameters
         const url = new URL("https://findhelpapp.com/api/v1/users/shops");
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-    
+        url.searchParams.append('page', page);
+
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -53,19 +55,17 @@ function RestaurantsList() {
             "Accept-Language": "ar",
           },
         });
-    
+
         const data = await response.json();
         setRestaurantData(data.data);
         console.log(data);
-
         setLoading(false);
-        console.log(restaurantData);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
       }
-  
     };
+
     const fetchShopsCategoryData = async () => {
       try {
         const response = await fetch("https://findhelpapp.com/api/v1/meta/store_categories", {
@@ -77,74 +77,61 @@ function RestaurantsList() {
           },
         });
         const data = await response.json();
-        if(data){
+        if (data) {
           setRestaurantCategoryData(data);
           setLoading(false);
-          console.log(data)
+          console.log(data);
         }
-       
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
+
     if (location.pathname === '/restaurants') {
       fetchRestaurantCategoryData();
-      fetchRestaurantData({ type: "restaurant", });
+      fetchRestaurantData(currentPage);
     } else if (location.pathname === '/shops') {
       fetchShopsCategoryData();
-    } 
-    
-  }, []);
+    }
+  }, [location.pathname, currentPage]);
 
   const restaurantCard = () => {
     return (
       <>
-        <Link to="/products" style={{ textDecoration: 'none', color: 'black' }}>
         <div className="flex flex-wrap justify-around">
-        {restaurantData.map((rest)=>{
-        //  console.log(rest?.restaurant_categories[0]?.name.en) 
-          return(<>
-          <div id={rest.id} className="rounded-2xl mb-3 shadow-md">
-            <Image className="w-60 h-44 rounded-t-lg" src={rest?.image?.url} />
-            <div className="flex justify-between">
-              <div className="ml-2">
-                <p className="font-bold my-1">{rest?.name?.en}</p>
-                <p className="small mb-0">{rest?.restaurant_categories[0]?.name.en || "Food"}</p>
-                <div className="m-2.5">
-                <Rating
-                  value={rest?.orders_reviews_avg_rates}
-                  readOnly
-                  cancel={false}
-                  onIcon={
-                    <FontAwesomeIcon icon={faStar} style={{ color: "#f0a835" }} />
-                  }
-                  offIcon={
-                    <FontAwesomeIcon
-                      icon={offStar}
-                      style={{ color: "#f0a835" }}
-                    />
-                  }
-                />
-              </div>
-              </div>
-              
-            </div>
-            {/* <div className="flex p-2.5 bg-[#F0A8351A] rounded-full m-1">
-              <FontAwesomeIcon
-                className="mt-1 ml-3"
-                icon={faPercent}
-                style={{ color: "#f0a835" }}
-              />
-              <p className="text-[#f0a835] text-sm ml-1 mb-0">
-                50EGP on orders above 120 EGP
-              </p>
-            </div> */}
-          </div>
-          </>)
-        })}
-          </div>
-        </Link>
+          {restaurantData.map((rest) => {
+            return (
+              <Link to={`/products/${rest.id}`} style={{ textDecoration: 'none', color: 'black' }} key={rest.id}>
+                <div className="rounded-2xl mb-3 shadow-md mr-1">
+                  <Image className="w-60 h-44 rounded-t-lg" src={rest?.image?.url} />
+                  <div className="flex justify-between">
+                    <div className="ml-2">
+                      <p className="font-bold my-1">{rest?.name?.en}</p>
+                      <p className="small mb-0">{rest?.restaurant_categories[0]?.name.en || "Food"}</p>
+                      <div className="m-2.5">
+                        <Rating
+                          value={rest?.orders_reviews_avg_rates}
+                          readOnly
+                          cancel={false}
+                          onIcon={
+                            <FontAwesomeIcon icon={faStar} style={{ color: "#f0a835" }} />
+                          }
+                          offIcon={
+                            <FontAwesomeIcon
+                              icon={offStar}
+                              style={{ color: "#f0a835" }}
+                            />
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </>
     );
   };
@@ -243,8 +230,22 @@ function RestaurantsList() {
               </div>
 
               <div>
-                {location.pathname === '/restaurants'?restaurantCard():null}
-                
+                {location.pathname === '/restaurants' ? restaurantCard() : null}
+              </div>
+
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  className="w-32 px-4 py-2 mr-5 bg-[#f0a835] rounded text-white font-bold"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  className="w-32 px-4 py-2 bg-[#f0a835] rounded text-white font-bold"
+                >
+                  Next
+                </button>
               </div>
             </Col>
           </Row>
