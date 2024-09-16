@@ -11,7 +11,12 @@ import { useForm } from "react-hook-form";
 import Footer from "./../footer/footer";
 import { faCircleCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
+import { useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 function MainAccountSitting() {
+  const userData = JSON.parse(localStorage.getItem("user"));
+  console.log(userData);
+
   const {
     register,
     handleSubmit,
@@ -43,8 +48,8 @@ function MainAccountSitting() {
                   </p>
                   <input
                     className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
-                    placeholder="AlySameh@gmail.com"
-                    value="AlySameh@gmail.com"
+                    placeholder="Enter your email address"
+                    value={userData.email}
                     disabled
                     {...register("email", {
                       required: true,
@@ -71,8 +76,8 @@ function MainAccountSitting() {
                   </p>
                   <input
                     className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
-                    placeholder="Full Name"
-                    value="Aly Sameh"
+                    placeholder="Enter Full Name"
+                    value={userData.name}
                     disabled
                     {...register("name", {
                       required: true,
@@ -108,7 +113,6 @@ function MainAccountSitting() {
                         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     })}
                   />
-
                   {errors.name && (
                     <p
                       className="w-full mt-1 mb-0 ml-3 small"
@@ -118,12 +122,14 @@ function MainAccountSitting() {
                     </p>
                   )}
                 </form>
-                <div className="w-full h-12 mt-2 shadow-lg rounded-lg flex items-center ">
+                {/* <div className="w-full h-12 mt-2 shadow-lg rounded-lg flex items-center ">
                   <p className="m-0">Change Email</p>
+                </div> */}
+                <Link to="/reset-password" style={{textDecoration:"none",}}>
+                <div className="w-full h-12 mt-4 shadow-lg rounded-lg flex items-center">
+                <p className="m-0 pl-3 text-[#f0a835] font-semibold">Change Password</p>
                 </div>
-                <div className="w-full h-12 mt-4 shadow-lg rounded-lg flex items-center ">
-                  <p className="m-0">Change Password</p>
-                </div>
+              </Link>
               </Row>
             </Tab>
             <Tab eventKey="savedAddresses" title="Saved Addresses">

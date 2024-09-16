@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -11,14 +11,31 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Footer from './../footer/footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Password } from 'primereact/password';
 import {
   faGoogle,
   faFacebook,
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
+import { signUpWeb } from '../../features/auth/authSlice';
+import { useDispatch, useSelector } from "react-redux";
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userData = useSelector(
+    (state) => state.auth.user
+  );
+  const token = useSelector(
+    (state) => state.auth.token
+  );
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -28,7 +45,19 @@ function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) =>{ 
+const cred = {
+  name: data.fullName,
+  email: data.email,
+  password: data.password,
+  password_confirmation: data.password,
+  phone: data.phoneNumber,
+  phone_country: "EG",
+}
+dispatch(signUpWeb(cred));
+console.log(userData)
+console.log(token)
+}
 
   return (
     <Container className="p-0" fluid>
@@ -90,6 +119,8 @@ function Signup() {
               )}
 
               {/* password */}
+              <div className="card flex justify-content-center">
+        </div>
               <input
                 type={showPassword ? "text" : "password"}
                 className="block w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
@@ -133,7 +164,7 @@ function Signup() {
               )}
 
               <Button
-                className="w-2/3 h-12 mt-3 mb-5 text-center"
+                className="w-2/3 h-12 mt-3 mb-2 text-center"
                 variant="warning"
                 style={{
                   color: "black",
@@ -146,16 +177,7 @@ function Signup() {
                 Sign Up
               </Button>
             </form>
-            <Form className="w-full ml-20">
-              <Form.Check
-                style={{ textAlign: "left" }}
-                className="font-medium small"
-                type="checkbox"
-                id="checkbox"
-                label="Receive offers and discounts"
-              />
-            </Form>
-            <div className="flex justify-center w-full my-4">
+            <div className="flex justify-center w-full my-2">
               <h6 className="text-center small mr-2">Already have an account?</h6>
               <Link to="/login" style={{textDecoration:"none",}}>
               <h6 className="font-bold small"> Login</h6>

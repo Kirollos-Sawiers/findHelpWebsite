@@ -3,8 +3,8 @@ import { instance } from '../../axios/axios';
 
 
 // Async Thunk for signup
-export const signUp = createAsyncThunk(
-  'api/v1/users/auth/signup',
+export const signUpWeb = createAsyncThunk(
+  'users/signup',
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await instance.post("api/v1/users/auth/signup", credentials);
@@ -16,12 +16,40 @@ export const signUp = createAsyncThunk(
   }
 );
 // Async Thunk for login
-export const login = createAsyncThunk(
-  'api/v1/users/auth/login',
+export const loginWeb = createAsyncThunk(
+  'users/login',
   async (credentials, { rejectWithValue }) => {
+    console.log(credentials)
     try {
       const response = await instance.post("api/v1/users/auth/login", credentials);
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const resetPassword = createAsyncThunk(
+  'users/resetPassword',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      console.log(credentials);
+      const response = await instance.post("api/v1/users/auth/reset-password", credentials);
+      console.log("يا عم احلى باسورد علييييك");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const forgetPassword = createAsyncThunk(
+  'users/forgetPassword',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      console.log(credentials);
+      const response = await instance.post("api/v1/users/auth/forgot", credentials);
+      console.log("يسطى الباسورد اتغير تمااام");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -30,7 +58,7 @@ export const login = createAsyncThunk(
 );
 
 // Async Thunk for logout
-export const logout = createAsyncThunk('auth/logout', async () => {
+export const logoutWeb = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('token');
 });
 
@@ -45,31 +73,54 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signUp.pending, (state) => {
+      .addCase(signUpWeb.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(signUp.fulfilled, (state, action) => {
+      .addCase(signUpWeb.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.token = action.payload.token;
         state.user = action.payload.user;
       })
-      .addCase(signUp.rejected, (state, action) => {
+      .addCase(signUpWeb.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addCase(login.pending, (state) => {
+      .addCase(loginWeb.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(loginWeb.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.token = action.payload.token;
         state.user = action.payload.user;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(loginWeb.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addCase(logout.fulfilled, (state) => {
+      .addCase(resetPassword.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        console.log(action.payload);
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(forgetPassword.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        console.log(action.payload);
+        console.log("يسطى الباسورد اتغير تمااام");
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(logoutWeb.fulfilled, (state) => {
         state.token = null;
         state.user = null;
         state.status = 'idle';

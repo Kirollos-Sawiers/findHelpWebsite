@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -10,18 +10,30 @@ import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import Footer from './../footer/footer';
+import Footer from "./../footer/footer";
 import {
   faGoogle,
   faFacebook,
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../features/auth/authSlice';
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginWeb } from "../../features/auth/authSlice";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
+  const { status, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+console.log(userData);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -31,9 +43,19 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
-  const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
+  const onSubmit = (data) => {
+    const cred = {
+      // name: "kiro",
+      email: data.email,
+      phone: "01280377117",
+      phone_country: "EG",
+      password: data.password,
+      // password_confirmation: data.password,
+      verify_type : 'email_otp'
+    }
+    dispatch(loginWeb(cred));
+  };
+
   return (
     <Container className="p-0" fluid>
       <Navbar />
@@ -53,7 +75,7 @@ function Login() {
                   pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                 })}
               />
-              
+
               {errors.email && (
                 <p
                   className="w-full mt-1 mb-0 ml-3 small"
@@ -104,11 +126,15 @@ function Login() {
                 Sign in
               </Button>
             </form>
-            <div className="w-full ml-16 font-semibold">Forgot password?</div>
+            <div className="w-full ml-16 font-semibold">
+            <Link to="/forget-password" style={{ textDecoration: "none" }}>
+                <h6 className="font-bold">Forget password?</h6>
+              </Link>
+              </div>
             <div className="flex justify-start w-full my-4 ml-16">
               <h6 className="text-start">Don't have an account? </h6>
-              <Link to="/signup" style={{textDecoration:"none",}}>
-              <h6 className="font-bold">Create an account</h6>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
+                <h6 className="font-bold">Create an account</h6>
               </Link>
             </div>
             <div className="flex items-center w-2/3 mb-1">
@@ -168,7 +194,12 @@ function Login() {
             >
               <FontAwesomeIcon
                 icon={faApple}
-                style={{ color: "#000000", marginRight: "0.7rem", width:"20px", height: "20px" }}
+                style={{
+                  color: "#000000",
+                  marginRight: "0.7rem",
+                  width: "20px",
+                  height: "20px",
+                }}
               />
               Continue with Apple
             </Button>

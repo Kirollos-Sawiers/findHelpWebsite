@@ -22,6 +22,7 @@ import {
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
+
 function PartnerWithUs() {
   const imgsArray = [
     partner_card_1,
@@ -43,26 +44,25 @@ function PartnerWithUs() {
     return (
       <>
         <div className="flex justify-center flex-wrap">
-          {imgsArray.map((imageName) => {
+          {imgsArray.map((imageName, index) => {
             return (
-              <>
-                <div className="flex flex-col items-center m-3 w-[25rem] shadow-xl rounded-lg">
-                  <Image className="w-[25rem] h-auto" src={imageName} />
-                  <div className="flex flex-col items-center my-3 p-3">
-                    <p className="font-bold">Grow your business</p>
-                    <p>
-                      Reach new customers and increase your sales with no
-                      upfront fees.
-                    </p>
-                  </div>
+              <div key={index} className="flex flex-col items-center m-3 w-[25rem] shadow-xl rounded-lg">
+                <Image className="w-[25rem] h-auto" src={imageName} />
+                <div className="flex flex-col items-center my-3 p-3">
+                  <p className="font-bold">Grow your business</p>
+                  <p>
+                    Reach new customers and increase your sales with no
+                    upfront fees.
+                  </p>
                 </div>
-              </>
+              </div>
             );
           })}
         </div>
       </>
     );
   };
+
   return (
     <Container fluid className="p-0">
       <Navbar />
@@ -112,7 +112,7 @@ function PartnerWithUs() {
                 className="w-full mt-1 mb-0 ml-3 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Name
+                Name is required
               </p>
             )}
             <input
@@ -120,7 +120,7 @@ function PartnerWithUs() {
               placeholder="Email"
               {...register("email", {
                 required: true,
-                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                pattern: emailPattern,
               })}
             />
 
@@ -129,7 +129,7 @@ function PartnerWithUs() {
                 className="w-full mt-1 mb-0 ml-3 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Business Email
+                Valid email is required
               </p>
             )}
             <input
@@ -143,7 +143,7 @@ function PartnerWithUs() {
                 className="w-1/3 mt-1 mb-0 ml-3 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                This field is required
+                Phone number is required
               </p>
             )}
             <input
@@ -152,12 +152,12 @@ function PartnerWithUs() {
               placeholder="message"
               {...register("message", { required: true })}
             />
-            {errors.password && (
+            {errors.message && (
               <p
                 className="w-full ml-3 mt-1 mb-0 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Message
+                Message is required
               </p>
             )}
 
@@ -179,32 +179,32 @@ function PartnerWithUs() {
         <div className="flex flex-col justify-center items-center my-5">
           <p className="text-7xl font-bold">FAQ</p>
           <div className="w-2/3">
-          <Accordion>
-            <Accordion.Item eventKey="0">
-              <Accordion.Header>Question #1</Accordion.Header>
-              <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Accordion.Body>
-            </Accordion.Item>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header>Question #2</Accordion.Header>
-              <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Question #1</Accordion.Header>
+                <Accordion.Body>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                  in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                  nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                  sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>Question #2</Accordion.Header>
+                <Accordion.Body>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                  in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                  nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                  sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
           </div>
         </div>
       </Container>
