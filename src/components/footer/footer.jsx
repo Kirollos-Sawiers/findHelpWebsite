@@ -19,19 +19,19 @@ function Footer() {
     window.location.href = `mailto:${email}`;
   };
   return (
-    <>
-      <Container fluid className="bg-black">
-        <Row className="px-5 pt-3 pb-3">
+    <footer className="bg-black">
+      <Container fluid>
+        <Row className="pt-3 pb-3">
           <Col md={1}></Col>
-          <Col md={2}>
+          <Col md={1}>
             <div>
               <img src={navbar_logo} alt="Logo_img" />
             </div>
           </Col>
-          <Col md={2}>
+          <Col md={3}>
             <div>
               <p className="text-white font-bold">Contact us</p>
-              <p className="text-white text-clip cursor-pointer"  onClick={() => handleEmailClick('newfindhelpapp@gmail.com')}>
+              <p className="text-white cursor-pointer text-pretty w-10" onClick={() => handleEmailClick('newfindhelpapp@gmail.com')}>
                 newfindhelpapp@gmail.com
               </p>
               <p
@@ -114,7 +114,7 @@ function Footer() {
           </div>
         </Row>
       </Container>
-    </>
+    </footer>
   );
 }
 

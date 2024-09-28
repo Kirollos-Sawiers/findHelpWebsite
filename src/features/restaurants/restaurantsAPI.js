@@ -19,6 +19,50 @@ export const getAllRestaurants = createAsyncThunk(
     }
   }
 );
+export const getRestaurantsByCategoryID = createAsyncThunk(
+  "restaurants/fetchRestaurantsByCategoryId",
+  async ({ page, selectedCategoryId }, { rejectWithValue }) => {
+    console.log({ page, selectedCategoryId });
+    try {
+      const response = await instance.get(
+        `api/v1/users/shops?page=${page}&category_id=${selectedCategoryId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Accept-Language": "ar",
+          },
+        }
+      );
+
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+export const getShopsByCategoryID = createAsyncThunk(
+  "shops/fetchShopsByCategoryId",
+  async ({ page, selectedCategoryId }, { rejectWithValue }) => {
+    console.log({ page, selectedCategoryId });
+    try {
+      const response = await instance.get(
+        `api/v1/users/shops?type=shop&page=${page}&category_id=${selectedCategoryId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Accept-Language": "ar",
+          },
+        }
+      );
+
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
 export const getAllShops = createAsyncThunk(
   "shops/fetchData",
   async (page, { rejectWithValue }) => {
@@ -137,7 +181,7 @@ export const getAllRestaurantProductsData = createAsyncThunk(
 export const getProductDetails = createAsyncThunk(
   "Product/fetchProductDetails",
   async (params, { rejectWithValue }) => {
-    console.log(params)
+    console.log(params);
     try {
       const response = await instance.get(
         `api/v1/users/products?shop_id=${params.shop_id}&category_id=${params?.category_id}&ids=${params?.product_id}`,

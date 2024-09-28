@@ -7,6 +7,8 @@ import {
   getAllRestaurantProductsData,
   getAllShops,
   getProductDetails,
+  getRestaurantsByCategoryID,
+  getShopsByCategoryID,
 } from "./restaurantsAPI";
 
 const initialState = {
@@ -34,6 +36,30 @@ const restaurantsSlice = createSlice({
         state.restaurants = action.payload;
       })
       .addCase(getAllRestaurants.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getRestaurantsByCategoryID.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRestaurantsByCategoryID.fulfilled, (state, action) => {
+        state.loading = false;
+        state.restaurants = action.payload;
+      })
+      .addCase(getRestaurantsByCategoryID.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getShopsByCategoryID.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getShopsByCategoryID.fulfilled, (state, action) => {
+        state.loading = false;
+        state.restaurants = action.payload;
+      })
+      .addCase(getShopsByCategoryID.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -10,20 +10,81 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutWeb, resetPassword, forgetPassword } from "../features/auth/authSlice";
+import { getAllCountries } from "../features/location/locationSlice";
 import { FaShoppingCart } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function MainNavbar() {
-  const { token } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   const [cartItems, setCartItems] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const { token } = useSelector((state) => state.auth);
+  const { allCountries } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Simulate fetching cart items from an API or local storage
     const items = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(items);
+    dispatch(getAllCountries)
+    console.log(allCountries)
   }, []);
+
+  const handleCountryChange = (e) => {
+    setSelectedCountry(e.target.value);
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
+
+  const countryCityDropdown = () => {
+    return (
+      <div className="pt-1">
+        <div className="mb-4">
+          {/* <label className="block text-sm font-bold mb-2" htmlFor="country">
+            Country
+          </label> */}
+          <select
+            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            id="country"
+            value={selectedCountry}
+            onChange={handleCountryChange}
+          >
+            <option value="">Select a country</option>
+            {countries.map((country) => (
+              <option key={country} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+        </div>
+  
+        {selectedCountry && (
+          <div className="mb-4">
+            <label className="block text-sm font-bold mb-2" htmlFor="city">
+              City
+            </label>
+            <select
+              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              id="city"
+              value={selectedCity}
+              onChange={handleCityChange}
+            >
+              <option value="">Select a city</option>
+              {cities.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   const toggleLoginButton = () => {
     if (token) {
@@ -94,6 +155,8 @@ function MainNavbar() {
     }
   };
 
+  
+
   return (
     <>
       <Navbar expand="lg">
@@ -118,15 +181,19 @@ function MainNavbar() {
               <Nav.Link className="mr-5 leading-none" href="/restaurants">
                 Restaurants
               </Nav.Link>
-              <Nav.Link className="text-nowrap mr-5 leading-none" href="partnerwithus">
-                Partner with us
-              </Nav.Link>
               <Nav.Link className="mr-5 leading-none" href="/shops">
                 Shops
               </Nav.Link>
-              <Nav.Link className="mr-5 leading-none" href="#link">
-                Sell
+              <Nav.Link className="text-nowrap mr-5 leading-none" href="partnerwithus">
+                Partner with us
               </Nav.Link>
+              <Nav.Link className="text-nowrap mr-5 leading-none" href="ridewithus">
+                Ride With us
+              </Nav.Link>
+              {/* <Nav.Link className="mr-5 leading-none" href="#link">
+                Sell
+              </Nav.Link> */}
+              {/* {countryCityDropdown()} */}
               {toggleLoginButton()}
               {/* <Nav.Link className="ml-2 leading-none w-10" onClick={handleCartClick}>
                 <FaShoppingCart /> ({cartItems.length})
