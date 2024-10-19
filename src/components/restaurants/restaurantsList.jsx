@@ -20,7 +20,6 @@ import RestaurantCard from "./restaurantCard";
 import CategoryHeader from "./categoryHeader";
 import LoadingSpinner from "./loadingSpinner";
 import ErrorDisplay from "./errorDisplay";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 function RestaurantsList() {
