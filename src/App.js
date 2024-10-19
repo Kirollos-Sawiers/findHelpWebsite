@@ -19,6 +19,7 @@ import MainAccountSitting from "./components/account/accountSetting";
 import ResetPassword from "./components/get_started/forgetPassword";
 import TermsAndConditions from './components/terms_conditions/terms';
 import PrivacyPolicy from './components/terms_conditions/policy';
+import ServicesMainPage from "./components/services/sevicesMainPage";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const { token } = useSelector((state) => state.auth);
@@ -41,6 +42,7 @@ function App() {
         <Route path="/restaurants" element={<RestaurantsList />} />
         <Route path="/shops" element={<RestaurantsList />} />
         <Route path="/products/:id" element={<MainProducts />} />
+        <Route path="/services" element={<ServicesMainPage />} />
         <Route path="/TermsandConditions" element={<TermsAndConditions />} />
         <Route path="/Privacy-policy" element={<PrivacyPolicy />} />
         <Route
