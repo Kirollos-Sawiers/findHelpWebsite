@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 import Footer from "../footer/footer";
 import { getTermsData } from "../../features/terms/TermsSlice";
 import { useDispatch } from "react-redux";
+import LoadingSpinner from './../restaurants/loadingSpinner';
 
 const TermsAndConditions = () => {
   const [rules, setRules] = useState([]);
@@ -26,7 +27,7 @@ const TermsAndConditions = () => {
               Terms and Conditions
             </div>
             <div className="font-semibold mb-3 w-full h-fit">
-              {rules ? rules : null}
+              {rules ? rules : <LoadingSpinner />}
             </div>
           </Row>
         </Container>

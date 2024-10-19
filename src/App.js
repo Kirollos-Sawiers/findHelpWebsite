@@ -11,6 +11,7 @@ import Signup from "./components/get_started/signup";
 import Login from "./components/get_started/login";
 import MainHomePage from "./components/home/mainHomePage";
 import RestaurantsList from "./components/restaurants/restaurantsList";
+import ServicesMainPage from "./components/services/sevicesMainPage";
 import MainProducts from "./components/products/mainProductsPage";
 import Checkout from "./components/orders/checkout";
 import PartnerWithUs from "./components/partner_with_us/partnerWithUs";
@@ -19,7 +20,6 @@ import MainAccountSitting from "./components/account/accountSetting";
 import ResetPassword from "./components/get_started/forgetPassword";
 import TermsAndConditions from './components/terms_conditions/terms';
 import PrivacyPolicy from './components/terms_conditions/policy';
-import ServicesMainPage from "./components/services/sevicesMainPage";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const { token } = useSelector((state) => state.auth);
@@ -41,10 +41,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/restaurants" element={<RestaurantsList />} />
         <Route path="/shops" element={<RestaurantsList />} />
-        <Route path="/products/:id" element={<MainProducts />} />
         <Route path="/services" element={<ServicesMainPage />} />
+        <Route path="/products/:id" element={<MainProducts />} />
         <Route path="/TermsandConditions" element={<TermsAndConditions />} />
-        <Route path="/Privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/Privacy-Policy" element={<PrivacyPolicy />} />
         <Route
           path="/checkout"
           element={
