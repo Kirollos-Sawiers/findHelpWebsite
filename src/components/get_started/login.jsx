@@ -32,7 +32,7 @@ function Login() {
       navigate("/");
     }
   }, [token, navigate]);
-console.log(userData);
+console.log(error);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -47,7 +47,7 @@ console.log(userData);
     const cred = {
       // name: "kiro",
       email: data.email,
-      phone: "01280377117",
+      phone: "01272507533",
       phone_country: "EG",
       password: data.password,
       // password_confirmation: data.password,
@@ -137,7 +137,7 @@ console.log(userData);
                 <h6 className="font-bold">Create an account</h6>
               </Link>
             </div>
-            <div className="flex items-center w-2/3 mb-1">
+            {/* <div className="flex items-center w-2/3 mb-1">
               <div
                 className="w-1/2 h-1"
                 style={{ backgroundColor: "lightgray" }}
@@ -149,8 +149,8 @@ console.log(userData);
                 className="w-1/2 h-1"
                 style={{ backgroundColor: "lightgray" }}
               ></div>
-            </div>
-            <Button
+            </div> */}
+            {/* <Button
               className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
               variant="light"
               // href="#link"
@@ -202,7 +202,7 @@ console.log(userData);
                 }}
               />
               Continue with Apple
-            </Button>
+            </Button> */}
           </Col>
           <Col className="hidden p-0 md:block lg:block">
             <div className="flex justify-end">

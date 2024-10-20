@@ -19,11 +19,11 @@ export const signUpWeb = createAsyncThunk(
 export const loginWeb = createAsyncThunk(
   'users/login',
   async (credentials, { rejectWithValue }) => {
-    console.log(credentials)
     try {
       const response = await instance.post("api/v1/users/auth/login", credentials);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -36,7 +36,6 @@ export const resetPassword = createAsyncThunk(
     try {
       console.log(credentials);
       const response = await instance.post("api/v1/users/auth/reset-password", credentials);
-      console.log("يا عم احلى باسورد علييييك");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -49,7 +48,6 @@ export const forgetPassword = createAsyncThunk(
     try {
       console.log(credentials);
       const response = await instance.post("api/v1/users/auth/forgot", credentials);
-      console.log("يسطى الباسورد اتغير تمااام");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

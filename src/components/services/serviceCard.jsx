@@ -7,10 +7,9 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as offStar } from "@fortawesome/free-regular-svg-icons";
 
 function ServiceCard({ service }) {
-    console.log(service);
   return (
     <Link
-      to={`/products/${service.id}`}
+      to={`/service/${service.id}`}
       style={{ textDecoration: "none", color: "black" }}
       key={service.id}
     >

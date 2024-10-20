@@ -183,7 +183,7 @@ console.log(token)
               <h6 className="font-bold small"> Login</h6>
               </Link>
             </div>
-            <div className="flex items-center w-2/3 mb-5">
+            {/* <div className="flex items-center w-2/3 mb-5">
               <div
                 className="w-1/2 h-1"
                 style={{ backgroundColor: "lightgray" }}
@@ -246,7 +246,7 @@ console.log(token)
                 style={{ color: "#000000", marginRight: "0.7rem" }}
               />
               Continue with Apple
-            </Button>
+            </Button> */}
           </Col>
           <Col className="hidden p-0 md:block lg:block">
             <div className="flex justify-end">

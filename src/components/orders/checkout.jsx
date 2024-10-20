@@ -2,25 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Navbar from "../Navbar";
 import Footer from "../footer/footer";
-import address_pin from "../../assets/address_pin.png";
-import rest_logo from "../../assets/rest_logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleCheck,
-  faTrashCan,
-  faPercent,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { calculateOrderPrice } from "../../features/orders/orderSlice";
 import { useDispatch } from "react-redux";
-
+import GoogleMapComponent from "../../features/googelMap/map";
 const Checkout = () => {
   const [cartItems, setCartItems] = useState([]);
   const [orderPriceData, setOrderPriceData] = useState();
   const [products, setProducts] = useState([]);
-  const dispatch = useDispatch();
+  const [paymentMethod, setPaymentMethod] = useState(); 
 
+  const dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // dispatch(placeService({ serviceData }));
+  };
   const calculateCartPrice = () => {
     if (cartItems) {
       const newProducts = cartItems.map((item) => ({
@@ -149,8 +148,44 @@ const Checkout = () => {
               </div>
             </Col>
             <Col xs={12} md={12} lg={6}>
+       
               {cartItems.length > 0 && orderPriceData && (
-                <div className="mx-28">
+                
+                <div className="">
+                         <div className="mb-3">
+                <h3>Location</h3>
+                <GoogleMapComponent />
+              </div>
+              <form onSubmit={handleSubmit} className="my-3">
+        <div>
+            <h3>Payment Method</h3>
+        </div>
+      <div>
+          <input
+            type="radio"
+            value="4"
+            checked={paymentMethod === '4'}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            <label className="ml-2 font-medium">
+          Cash
+        </label>
+      </div>
+      <div>
+          <input
+            type="radio"
+            value="10"
+            checked={paymentMethod === '10'}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            />
+            <label className="ml-2 font-medium">
+              Visa / Mastercard
+            </label>
+      </div>
+      {/* <div className="flex justify-center">
+      <button className="w-[20%] h-8 bg-[#f0a835] text-white font-bold rounded-md" type="submit">Book Service</button>
+      </div> */}
+    </form>
                   <div className="flex justify-between">
                     <p className="font-bold text-2xl">Subtotal</p>
                     <p className="font-bold text-xl">

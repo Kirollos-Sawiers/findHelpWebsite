@@ -1,13 +1,11 @@
 import Container from "react-bootstrap/Container";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row } from "react-bootstrap";
 import navbar_logo from "../../assets/navbar_logo.png";
 import apple_store_icon from "../../assets/apple_store_icon.png";
 import google_store_icon from "../../assets/google_store_icon.png";
 import facebook from "../../assets/bwfb.png";
 import instagram from "../../assets/bwinsta.png";
-import snapchat from "../../assets/bwyt.png";
+import snapchat from "../../assets/bwsc.png";
 // import tiktok from "../../assets/tiktok.png";
 import { Link } from "react-router-dom";
 
@@ -64,7 +62,9 @@ function Footer() {
             <Link to="/shops" className="no-underline">
               <p className="text-white">Shops</p>
             </Link>
-            <p className="text-white">Sell</p>
+            <Link to="/services" className="no-underline">
+              <p className="text-white">Services</p>
+            </Link>
           </Col>
           <Col md={2}>
             <div className="flex flex-col">
