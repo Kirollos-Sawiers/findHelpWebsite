@@ -58,14 +58,18 @@ function MainHomePage() {
         <Image className="px-10" src={isLaptop ? homepageBanner : homepageBannerTablet} />
       </Container>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
+      <Link to="/partnerwithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
         <Image
-          className="w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
+          className=""
           src={partnerWithUs}
         />
+       </Link>
+      <Link to="/ridewithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
         <Image
-          className="w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
+          className=""
           src={rideWithUs}
         />
+       </Link>
       </div>
       <div className="flex justify-center mt-5">
       <button
