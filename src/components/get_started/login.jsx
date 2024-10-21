@@ -45,12 +45,8 @@ console.log(error);
   } = useForm();
   const onSubmit = (data) => {
     const cred = {
-      // name: "kiro",
       email: data.email,
-      phone: "01272507533",
-      phone_country: "EG",
       password: data.password,
-      // password_confirmation: data.password,
       verify_type : 'email_otp'
     }
     dispatch(loginWeb(cred));

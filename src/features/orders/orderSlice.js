@@ -27,6 +27,29 @@ export const calculateOrderPrice = createAsyncThunk(
     }
   }
 );
+export const placeOrder = createAsyncThunk(
+  'order/createOrder',
+  async (orderDetails, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await instance.post(
+        "api/v1/users/orders/calculate",
+        orderDetails,
+        { headers:{
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Accept-Language": "ar",
+          "Authorization": `Bearer ${token}`,
+          "Country-Id": 65,
+
+        }, } 
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 
 const orderSlice = createSlice({
@@ -47,6 +70,17 @@ const orderSlice = createSlice({
         state.orderPrice = action.payload;
       })
       .addCase(calculateOrderPrice.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(placeOrder.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(placeOrder.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.orderPrice = action.payload;
+      })
+      .addCase(placeOrder.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })

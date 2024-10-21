@@ -146,23 +146,27 @@ function ServiceDetails() {
                     <p className="font-bold ml-2">Working Hours</p>
                   </div>
                   <div className="ml-5">
-                    {Object.entries(
-                      serviseDetailsData?.work_times.holidays
-                    ).map(([day, is_holiday]) => (
-                      <div key={day}>
-                        {is_holiday === "false" ? (
-                          <p className="font-semibold">
-                            - {day.toUpperCase()}:{" "}
-                            {serviseDetailsData?.work_times.time_from} -{" "}
-                            {serviseDetailsData?.work_times.time_to}
-                          </p>
-                        ) : (
-                          <p className="font-semibold">
-                            - {day.toUpperCase()}: Closed
-                          </p>
-                        )}
-                      </div>
-                    ))}
+                    {serviseDetailsData?.work_times?.holidays ? (
+                      Object.entries(
+                        serviseDetailsData?.work_times?.holidays
+                      ).map(([day, is_holiday]) => (
+                        <div key={day}>
+                          {is_holiday === "false" ? (
+                            <p className="font-semibold">
+                              - {day.toUpperCase()}:{" "}
+                              {serviseDetailsData?.work_times.time_from} -{" "}
+                              {serviseDetailsData?.work_times.time_to}
+                            </p>
+                          ) : (
+                            <p className="font-semibold">
+                              - {day.toUpperCase()}: Closed
+                            </p>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p>No working times available</p>
+                    )}
                   </div>
                 </div>
               </div>

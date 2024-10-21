@@ -6,6 +6,7 @@ import partner_card_1 from "../../assets/partner_card_1.png";
 import partner_card_2 from "../../assets/partner_card_2.png";
 import partner_card_3 from "../../assets/partner_card_3.png";
 import Accordion from "react-bootstrap/Accordion";
+import emailjs from "emailjs-com";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
@@ -33,12 +34,24 @@ function PartnerWithUs() {
     partner_card_3,
   ];
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+   console.log(data)
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', data, 'YOUR_USER_ID')
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        alert("Email sent successfully!");
+      }, (err) => {
+        console.log('FAILED...', err);
+        alert("Failed to send email.");
+      });
+  };
+
 
   const Card = () => {
     return (
@@ -95,86 +108,73 @@ function PartnerWithUs() {
           </p>
         </div>
         <div>
-          <form
-            className="flex flex-col items-center w-full "
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <input
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Name"
-              {...register("name", {
-                required: true,
-              })}
-            />
+        <form
+      className="flex flex-col items-center w-full"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <input
+        className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
+        placeholder="Name"
+        {...register("name", { required: true })}
+      />
+      {errors.name && (
+        <p className="w-full mt-1 mb-0 ml-3 small" style={{ textAlign: "left", color: "red" }}>
+          Name is required
+        </p>
+      )}
 
-            {errors.name && (
-              <p
-                className="w-full mt-1 mb-0 ml-3 small"
-                style={{ textAlign: "left", color: "red" }}
-              >
-                Name is required
-              </p>
-            )}
-            <input
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Email"
-              {...register("email", {
-                required: true,
-                pattern: emailPattern,
-              })}
-            />
+      <input
+        className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
+        placeholder="Email"
+        {...register("email", {
+          required: true,
+          pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        })}
+      />
+      {errors.email && (
+        <p className="w-full mt-1 mb-0 ml-3 small" style={{ textAlign: "left", color: "red" }}>
+          Valid email is required
+        </p>
+      )}
 
-            {errors.email && (
-              <p
-                className="w-full mt-1 mb-0 ml-3 small"
-                style={{ textAlign: "left", color: "red" }}
-              >
-                Valid email is required
-              </p>
-            )}
-            <input
-              type="number"
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Phone Number"
-              {...register("phoneNumber", { required: true })}
-            />
-            {errors.phoneNumber && (
-              <p
-                className="w-1/3 mt-1 mb-0 ml-3 small"
-                style={{ textAlign: "left", color: "red" }}
-              >
-                Phone number is required
-              </p>
-            )}
-            <input
-              type="text"
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="message"
-              {...register("message", { required: true })}
-            />
-            {errors.message && (
-              <p
-                className="w-full ml-3 mt-1 mb-0 small"
-                style={{ textAlign: "left", color: "red" }}
-              >
-                Message is required
-              </p>
-            )}
+      <input
+        type="number"
+        className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
+        placeholder="Phone Number"
+        {...register("phoneNumber", { required: true })}
+      />
+      {errors.phoneNumber && (
+        <p className="w-full mt-1 mb-0 ml-3 small" style={{ textAlign: "left", color: "red" }}>
+          Phone number is required
+        </p>
+      )}
 
-            <Button
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small text-center"
-              variant="warning"
-              style={{
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "16px",
-                borderRadius: "15px",
-              }}
-              type="submit"
-            >
-              SUBMIT
-            </Button>
-          </form>
+      <input
+        type="text"
+        className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
+        placeholder="Message"
+        {...register("message", { required: true })}
+      />
+      {errors.message && (
+        <p className="w-full ml-3 mt-1 mb-0 small" style={{ textAlign: "left", color: "red" }}>
+          Message is required
+        </p>
+      )}
+
+      <Button
+        className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small text-center"
+        variant="warning"
+        style={{
+          color: "white",
+          fontWeight: "bold",
+          fontSize: "16px",
+          borderRadius: "15px",
+        }}
+        type="submit"
+      >
+        SUBMIT
+      </Button>
+    </form>
         </div>
         <div className="flex flex-col justify-center items-center my-5">
           <p className="text-7xl font-bold">FAQ</p>
