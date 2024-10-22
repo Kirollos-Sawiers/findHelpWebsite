@@ -3,12 +3,12 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
-  height: '200px'
+  height: '200px',
 };
 
 const GoogleMapComponent = () => {
   const apiKey = "AIzaSyDqUdEh5B0fLBG6_PyuN9EdyuEvOwcGkq8";
-  const [center, setCenter] = useState(); // Default center
+  const [center, setCenter] = useState(null); // Set initial center to null
   const googleMapsLoaded = useRef(false);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const GoogleMapComponent = () => {
           {
             enableHighAccuracy: true,
             timeout: 20000,
-            maximumAge: 1000
+            maximumAge: 1000,
           }
         );
       } else {
@@ -81,23 +81,29 @@ const GoogleMapComponent = () => {
 
   const onLoad = () => {
     googleMapsLoaded.current = true;
-    // Fetch address for the initial location after Google Maps API is loaded
-    getAddressFromLatLng(center.lat, center.lng);
+    if (center) {
+      // Fetch address for the initial location after Google Maps API is loaded
+      getAddressFromLatLng(center.lat, center.lng);
+    }
   };
 
   return (
     <LoadScript googleMapsApiKey={apiKey} onLoad={onLoad}>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={15}
-      >
-        <Marker
-          position={center}
-          draggable={true}
-          onDragEnd={handleDragEnd}
-        />
-      </GoogleMap>
+      {center ? (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={15}
+        >
+          <Marker
+            position={center}
+            draggable={true}
+            onDragEnd={handleDragEnd}
+          />
+        </GoogleMap>
+      ) : (
+        <p>Loading map...</p> // Show loading state until center is set
+      )}
     </LoadScript>
   );
 };
