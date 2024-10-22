@@ -12,17 +12,51 @@ import Footer from "./../footer/footer";
 import { faCircleCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { updateUserData } from "../../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 function MainAccountSitting() {
   const userData = JSON.parse(localStorage.getItem("user"));
-  console.log(userData);
+  const dispatch = useDispatch();
+  const [profileImage, setProfileImage] = useState(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", userData.email);
+    formData.append("phoneNumber", userData.phone || "");
+    formData.append("phone_country", userData.phone_country);
+    if (profileImage) {
+      const imageFile = document.getElementById("profileImageInput").files[0];
+      formData.append("image", imageFile);
+    }
+  
+    dispatch(updateUserData(formData)).then((res) => {
+      if (res.payload) {
+        localStorage.setItem("user", JSON.stringify(res.payload.user));
+      } else {
+      }
+    });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      if (!validTypes.includes(file.type)) {
+        alert("Please upload a valid image (JPEG, PNG, GIF)");
+        return;
+      }
+      setProfileImage(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <>
       <Container fluid className="p-0">
@@ -37,9 +71,10 @@ function MainAccountSitting() {
             <Tab className="mt-20" eventKey="accountInfo" title="Account Info">
               <Row className="mx-5">
                 <form
-                  className="flex flex-col items-center w-full "
+                  className="w-full h-fit"
                   onSubmit={handleSubmit(onSubmit)}
                 >
+                  {/* Email */}
                   <p
                     className="w-full mt-1 mb-0 ml-3 font-semibold"
                     style={{ textAlign: "left" }}
@@ -47,12 +82,11 @@ function MainAccountSitting() {
                     Email
                   </p>
                   <input
-                    className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
+                    className="w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
                     placeholder="Enter your email address"
                     value={userData.email}
                     disabled
                     {...register("email", {
-                      required: true,
                       pattern:
                         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     })}
@@ -67,6 +101,32 @@ function MainAccountSitting() {
                     </p>
                   )}
 
+                  {/* Phone Number */}
+                  <p
+                    className="w-full mt-1 mb-0 ml-3 font-semibold"
+                    style={{ textAlign: "left" }}
+                  >
+                    Phone Number
+                  </p>
+                  <input
+                    className="w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
+                    placeholder="Enter Phone Number"
+                    disabled
+                    defaultValue={userData.phone || ""}
+                    {...register("phoneNumber", {
+                      pattern: /^[0-9]+$/,
+                    })}
+                  />
+
+                  {errors.phoneNumber && (
+                    <p
+                      className="w-full mt-1 mb-0 ml-3 small"
+                      style={{ textAlign: "left", color: "red" }}
+                    >
+                      Enter a valid phone number
+                    </p>
+                  )}
+
                   {/* Full Name */}
                   <p
                     className="w-full mt-1 mb-0 ml-3 font-semibold"
@@ -75,14 +135,12 @@ function MainAccountSitting() {
                     Full Name
                   </p>
                   <input
-                    className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
+                    className="w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
                     placeholder="Enter Full Name"
-                    value={userData.name}
-                    disabled
+                    defaultValue={userData.name}
                     {...register("name", {
                       required: true,
-                      pattern:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      pattern: /^[a-zA-Z\s]+$/,
                     })}
                   />
 
@@ -95,44 +153,53 @@ function MainAccountSitting() {
                     </p>
                   )}
 
-                  {/* Date Of Birth */}
+                  {/* Profile Image */}
                   <p
                     className="w-full mt-1 mb-0 ml-3 font-semibold"
                     style={{ textAlign: "left" }}
                   >
-                    Date Of Birth
+                    Profile Image
                   </p>
-                  <input
-                    className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
-                    placeholder="Date of Birth"
-                    value="12-12-2000"
-                    disabled
-                    {...register("name", {
-                      required: true,
-                      pattern:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    })}
-                  />
-                  {errors.name && (
-                    <p
-                      className="w-full mt-1 mb-0 ml-3 small"
-                      style={{ textAlign: "left", color: "red" }}
+                  <div className="w-full md:w-2/3 lg:w-2/3 mt-3">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                      id="profileImageInput"
+                    />
+                    <label
+                      htmlFor="profileImageInput"
+                      className="cursor-pointer bg-[#f0a835] text-white px-4 py-2 rounded-lg"
                     >
-                      Enter Your Date of Birth
-                    </p>
-                  )}
+                      Upload Image
+                    </label>
+                    {profileImage && (
+                      <img
+                        src={profileImage}
+                        alt="Profile"
+                        className="m-5 w-[40%] h-[40%] rounded-2xl"
+                      />
+                    )}
+                  </div>
+
+                  <Link to="/reset-password" style={{ textDecoration: "none" }}>
+                    <div className="w-full h-12 mt-4 shadow-lg rounded-lg flex items-center mb-5">
+                      <p className="m-0 pl-3 text-[#f0a835] font-semibold">
+                        Change Password
+                      </p>
+                    </div>
+                  </Link>
+                  <button
+                    type="submit"
+                    className="w-full md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
+                  >
+                    Save Changes
+                  </button>
                 </form>
-                {/* <div className="w-full h-12 mt-2 shadow-lg rounded-lg flex items-center ">
-                  <p className="m-0">Change Email</p>
-                </div> */}
-                <Link to="/reset-password" style={{textDecoration:"none",}}>
-                <div className="w-full h-12 mt-4 shadow-lg rounded-lg flex items-center">
-                <p className="m-0 pl-3 text-[#f0a835] font-semibold">Change Password</p>
-                </div>
-              </Link>
               </Row>
             </Tab>
-            <Tab eventKey="savedAddresses" title="Saved Addresses">
+            {/* <Tab eventKey="savedAddresses" title="Saved Addresses">
               <Container>
                 <Row className="">
                   <div className="mt-5">
@@ -170,12 +237,12 @@ function MainAccountSitting() {
                   </div>
                 </Row>
               </Container>
-            </Tab>
-            <Tab eventKey="savedCards" title="Saved Cards">
+            </Tab> */}
+
+            {/* <Tab eventKey="savedCards" title="Saved Cards">
               <Container>
                 <Row className="mt-5">
                   <div className="flex flex-col px-5">
-                    {/* Card Section */}
                     <div className="flex flex-row justify-between p-4 shadow-xl rounded-lg mb-3">
                       <div className="flex flex-row justify-center items-center">
                         <div>
@@ -224,8 +291,9 @@ function MainAccountSitting() {
                   </div>
                 </Row>
               </Container>
-            </Tab>
-            <Tab eventKey="orderHistory" title="Order History">
+            </Tab> */}
+
+            {/* <Tab eventKey="orderHistory" title="Order History">
               <Container>
                 <Row className="mt-5">
                   <div className="flex justify-between items-center rounded-lg shadow-lg mb-4">
@@ -284,7 +352,7 @@ function MainAccountSitting() {
                   </div>
                 </Row>
               </Container>
-            </Tab>
+            </Tab> */}
           </Tabs>
         </div>
         <Footer />

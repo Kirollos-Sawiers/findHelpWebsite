@@ -30,6 +30,23 @@ export const loginWeb = createAsyncThunk(
     }
   }
 );
+
+export const updateUserData = createAsyncThunk(
+  'users/updateUser',
+  async (newUserData, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token'); // Get the token from localStorage
+      const response = await instance.post("api/v1/users/auth/update", newUserData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Set the Authorization header
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const resetPassword = createAsyncThunk(
   'users/resetPassword',
   async (credentials, { rejectWithValue }) => {
@@ -46,7 +63,6 @@ export const forgetPassword = createAsyncThunk(
   'users/forgetPassword',
   async (credentials, { rejectWithValue }) => {
     try {
-      console.log(credentials);
       const response = await instance.post("api/v1/users/auth/forgot", credentials);
       return response.data;
     } catch (error) {
@@ -111,10 +127,19 @@ const authSlice = createSlice({
       })
       .addCase(forgetPassword.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
-        console.log("يسطى الباسورد اتغير تمااام");
       })
       .addCase(forgetPassword.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(updateUserData.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateUserData.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        console.log(action.payload);
+      })
+      .addCase(updateUserData.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })

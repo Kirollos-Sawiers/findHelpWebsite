@@ -30,10 +30,12 @@ export const calculateOrderPrice = createAsyncThunk(
 export const placeOrder = createAsyncThunk(
   'order/createOrder',
   async (orderDetails, { rejectWithValue }) => {
+    console.log("mn create order")
+    console.log(orderDetails)
     try {
       const token = localStorage.getItem('token');
       const response = await instance.post(
-        "api/v1/users/orders/calculate",
+        "api/v1/users/orders",
         orderDetails,
         { headers:{
           "Content-Type": "application/json",
@@ -56,6 +58,7 @@ const orderSlice = createSlice({
   name: 'order',
   initialState: {
     orderPrice: null,
+    orderPlaced: null,
     status: 'idle',
     error: null,
   },
@@ -78,7 +81,7 @@ const orderSlice = createSlice({
       })
       .addCase(placeOrder.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.orderPrice = action.payload;
+        state.orderPlaced = action.payload;
       })
       .addCase(placeOrder.rejected, (state, action) => {
         state.status = 'failed';

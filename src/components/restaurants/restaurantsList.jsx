@@ -58,7 +58,7 @@ function RestaurantsList() {
       if (selectedCategoryId) {
         dispatch(getRestaurantsByCategoryID(currentPage, selectedCategoryId));
       } else {
-        dispatch(getAllRestaurants(currentPage))
+        dispatch(getAllRestaurants(9))
       }
     } else if (location.pathname === "/shops") {
       if (selectedCategoryId) {

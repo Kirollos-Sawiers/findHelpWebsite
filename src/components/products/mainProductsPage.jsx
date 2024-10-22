@@ -552,7 +552,7 @@ function MainProducts() {
                     <Row className="mt-20">
                       <Col md={2}></Col>
                       <Col>
-                        {shopData?.orders_reviews.map((review, index) => {
+                        {shopData?.orders_reviews?.map((review, index) => {
                           return (
                             <div key={index} className="m-5">
                               <p className="text-sm text-zinc-500">

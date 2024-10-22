@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import navbar_logo from "../assets/navbar_logo.png";
+import profile_pic from "../assets/profile_pic.png";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
@@ -24,9 +25,7 @@ function MainNavbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-  const { allCountriesData, allCitiesData } = useSelector(
-    (state) => state.locationData
-  );
+  const userData = JSON.parse(localStorage.getItem("user"));
 
 
   useEffect(() => {
@@ -39,9 +38,11 @@ function MainNavbar() {
     if (token) {
       return (
         <>
-          <Nav.Link className="mr-3 leading-none" href="/profile">
-            Profile
+         <Nav.Link className="ml-3 leading-none " href="/profile">
+          profile
+            {/* <img className="w-10 h-10 p-0 rounded-full" src={userData?.image?.url || profile_pic}  alt="pp"/> */}
           </Nav.Link>
+          
           <Button
             variant="warning"
             href="/login"
@@ -53,11 +54,15 @@ function MainNavbar() {
               width: "7rem",
               height: "2rem",
             }}
-            onClick={() => dispatch(logoutWeb())}
+            onClick={() => {dispatch(logoutWeb())
+              localStorage.removeItem("cart");
+              localStorage.removeItem("user");
+            }}
           >
             <span className="leading-none">Logout</span>{" "}
             <FontAwesomeIcon icon={faRightFromBracket} />
           </Button>
+         
         </>
       );
     } else {
@@ -153,7 +158,7 @@ function MainNavbar() {
               {countryCityDropdown()}
               </Nav.Link> */}
               {toggleLoginButton()}
-              <Nav.Link className="ml-2 leading-none" onClick={handleCartClick}>
+              <Nav.Link className="ml-2 leading-none pl-0" onClick={handleCartClick}>
                 <div className="flex justify-center">
                 <FaShoppingCart />
                 <div>
