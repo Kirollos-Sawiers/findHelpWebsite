@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
-  height: '200px',
+  height: '400px',
 };
 
 const GoogleMapComponent = () => {
@@ -63,9 +63,9 @@ const GoogleMapComponent = () => {
         const address = results[0].formatted_address;
         localStorage.setItem('location', JSON.stringify({ lat, lng, address }));
         // Log latitude, longitude, and address to the console
-        console.log(`Latitude: ${lat}`);
-        console.log(`Longitude: ${lng}`);
-        console.log(`Address: ${address}`);
+        // console.log(`Latitude: ${lat}`);
+        // console.log(`Longitude: ${lng}`);
+        // console.log(`Address: ${address}`);
       } else {
         console.error('Geocode was not successful for the following reason:', status);
       }

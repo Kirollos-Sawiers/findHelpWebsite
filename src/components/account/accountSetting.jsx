@@ -12,21 +12,50 @@ import Footer from "./../footer/footer";
 import { faCircleCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 import { useSelector } from "react-redux";
+import profile_pic from "../../assets/profile_pic.png";
 import { Link } from "react-router-dom";
-import { updateUserData } from "../../features/auth/authSlice";
+import {
+  updateUserData,
+  getUserSavedAddresses,
+  deleteUserAddress,
+  addUserAddress,
+} from "../../features/auth/authSlice";
+import {
+  getAllCountries,
+  getAllCities,
+  getAllAreas
+} from "../../features/location/locationAPI";
 import { useDispatch } from "react-redux";
+import Spinner from "react-bootstrap/Spinner";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import GoogleMapComponent from "../../features/googelMap/map";
+
 function MainAccountSitting() {
   const userData = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState(null);
+  const [loading, setLoading] = useState(false); // State to manage loading state
+  const [activeTab, setActiveTab] = useState("accountInfo");
+  const [savedAddresses, setSavedAddresses] = useState([]);
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [location, setLocation] = useState(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   const onSubmit = (data) => {
+    setLoading(true); // Set loading state to true
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("email", userData.email);
@@ -36,10 +65,12 @@ function MainAccountSitting() {
       const imageFile = document.getElementById("profileImageInput").files[0];
       formData.append("image", imageFile);
     }
-  
+
     dispatch(updateUserData(formData)).then((res) => {
+      setLoading(false); // Set loading state to false
       if (res.payload) {
         localStorage.setItem("user", JSON.stringify(res.payload.user));
+        window.location.reload(); // Reload the page after successful update
       } else {
       }
     });
@@ -48,7 +79,7 @@ function MainAccountSitting() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      const validTypes = ["image/jpeg", "image/png", "image/gif"];
       if (!validTypes.includes(file.type)) {
         alert("Please upload a valid image (JPEG, PNG, GIF)");
         return;
@@ -56,6 +87,85 @@ function MainAccountSitting() {
       setProfileImage(URL.createObjectURL(file));
     }
   };
+
+
+  useEffect(() => {
+    if (activeTab === "savedAddresses") {
+      dispatch(getUserSavedAddresses()).then((res) => {
+        setSavedAddresses(res.payload);
+        setLocation()
+      });
+    }
+  }, [activeTab, dispatch]);
+
+  const handleLocationUpdate = (newLocation) => {
+    localStorage.setItem('location', JSON.stringify(newLocation));
+    setLocation(newLocation); // Update state after picking location
+  };
+
+  const handleDeleteAddress = (addressId) => {
+    dispatch(deleteUserAddress(addressId)).then(() => {
+      // Refresh the addresses list after deletion
+      dispatch(getUserSavedAddresses()).then((res) => {
+        setSavedAddresses(res.payload);
+      });
+    });
+  };
+
+  const handleAddAddress = (data) => {
+  const newLocation = localStorage.getItem('location')
+  setLocation(JSON.parse(newLocation));
+  if(location){
+    console.log(location)
+    const addressData = {
+      "name": data.name,
+      "phone": userData.phone,
+      "phone_country": userData.phone_country,
+      "country_id": selectedCountry,
+      "city_id": selectedCity,
+      "area_id": data.area,
+      "details": location.address,
+      "lat": location.lat,
+      "lng": location.lng,
+      "postal_code": data.postalCode
+    };
+    console.log(addressData);
+
+    dispatch(addUserAddress(addressData)).then(() => {
+      // Refresh the addresses list after adding a new address
+      dispatch(getUserSavedAddresses()).then((res) => {
+        setSavedAddresses(res.payload);
+      });
+      setShowModal(false); // Close the modal
+    });
+  }
+    
+  };
+
+  useEffect(() => {
+    if (showModal) {
+      dispatch(getAllCountries()).then((data) => {
+        setCountries(data.payload.data);
+      });
+    }
+  }, [showModal]);
+
+  useEffect(() => {
+    if (selectedCountry) {
+      dispatch(getAllCities(selectedCountry)).then((data) => {
+        setCities(data.payload.data);
+        console.log(data.payload)
+      });
+    }
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    if (selectedCity) {
+      dispatch(getAllAreas(selectedCity)).then((data) => {
+        setAreas(data.payload.data);
+      });
+    }
+  }, [selectedCity]);
 
   return (
     <>
@@ -67,6 +177,7 @@ function MainAccountSitting() {
             id="justify-tab-example"
             className="mb-3"
             justify
+            onSelect={(k) => setActiveTab(k)} // Update active tab state
           >
             <Tab className="mt-20" eventKey="accountInfo" title="Account Info">
               <Row className="mx-5">
@@ -153,14 +264,20 @@ function MainAccountSitting() {
                     </p>
                   )}
 
-                  {/* Profile Image */}
-                  <p
-                    className="w-full mt-1 mb-0 ml-3 font-semibold"
-                    style={{ textAlign: "left" }}
-                  >
-                    Profile Image
-                  </p>
-                  <div className="w-full md:w-2/3 lg:w-2/3 mt-3">
+                  <div className="flex items-center">
+                    <img
+                      className="w-[8%] h-[8%] rounded-full"
+                      src={userData?.image?.url || profile_pic}
+                      alt="pp"
+                    />
+                    <p
+                      className="w-full mt-1 mb-0 ml-3 font-semibold"
+                      style={{ textAlign: "left" }}
+                    >
+                      Profile Image
+                    </p>
+                  </div>
+                  <div className="w-full md:w-2/3 lg:w-2/3 mt-3 ">
                     <input
                       type="file"
                       accept="image/*"
@@ -193,53 +310,196 @@ function MainAccountSitting() {
                   <button
                     type="submit"
                     className="w-full md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
+                    disabled={loading} // Disable the button when loading
                   >
-                    Save Changes
+                    {loading ? (
+                      <Spinner animation="border" size="sm" /> // Show spinner when loading
+                    ) : (
+                      "Save Changes"
+                    )}
                   </button>
                 </form>
               </Row>
             </Tab>
-            {/* <Tab eventKey="savedAddresses" title="Saved Addresses">
+            <Tab eventKey="savedAddresses" title="Saved Addresses">
               <Container>
                 <Row className="">
-                  <div className="mt-5">
-                    <p className="font-bold">Add New Location</p>
-                  </div>
-                  <div className="flex flex-row justify-between p-4 shadow-xl rounded-lg mb-3">
-                    <div className="flex flex-row justify-center items-center">
-                      <div>
-                        <img className="mr-4" src={address_pin} alt="address" />
+                  {savedAddresses ? (
+                    <>
+                      {savedAddresses.map((address, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="flex flex-row justify-between p-4 shadow-xl rounded-lg my-3"
+                          >
+                            <div className="flex flex-row justify-center items-center">
+                              <div>
+                                <img
+                                  className="mr-4"
+                                  src={address_pin}
+                                  alt="address"
+                                />
+                              </div>
+                              <div className="flex flex-col">
+                                <p className="font-bold mb-2">
+                                  {address?.name}
+                                </p>
+                                <p className="mb-0">{address.details}</p>
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <p
+                                className="font-medium mb-0 text-[#ff2424] cursor-pointer"
+                                onClick={() => handleDeleteAddress(address.id)}
+                              >
+                                Delete
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <div className="flex justify-center mt-5">
+                        <button
+                          className="w-1/2 md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
+                          onClick={() => setShowModal(true)}
+                        >
+                          Add New Address
+                        </button>
                       </div>
-                      <div className="flex flex-col">
-                        <p className="font-bold mb-2">Home</p>
-                        <p className="mb-0">836 Anderson Plains</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-full h-screen flex justify-center items-center">
+                        <Spinner animation="border" size="lg" />
                       </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm text-[#f0a835] mb-0 mr-5">Edit</p>
-                      <p className="text-sm mb-0 ">Delete</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-row justify-between p-4 shadow-xl rounded-lg mb-3">
-                    <div className="flex flex-row justify-center items-center">
-                      <div>
-                        <img className="mr-4" src={address_pin} alt="address" />
-                      </div>
-                      <div className="flex flex-col">
-                        <p className="font-bold mb-2">Office</p>
-                        <p className="mb-0">0332 Hoeger Gardens</p>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm text-[#f0a835] mb-0 mr-5">Edit</p>
-                      <p className="text-sm mb-0 ">Delete</p>
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </Row>
               </Container>
-            </Tab> */}
+            </Tab>
+          </Tabs>
+        </div>
+        <Footer />
+      </Container>
 
-            {/* <Tab eventKey="savedCards" title="Saved Cards">
+      {/* Add Address Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Address</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit(handleAddAddress)}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                {...register("name", { required: true })}
+              />
+              {errors.name && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="country">
+              <Form.Label>Country</Form.Label>
+              <Form.Control
+                as="select"
+                {...register("country", { required: true })}
+                onChange={(e) => setSelectedCountry(e.target.value)}
+              >
+                <option value="">Select Country</option>
+                {countries.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country?.name?.en}
+                  </option>
+                ))}
+              </Form.Control>
+              {errors.country && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="city">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                as="select"
+                {...register("city", { required: true })}
+                onChange={(e) => setSelectedCity(e.target.value)}
+              >
+                <option value="">Select City</option>
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city?.name?.en}
+                  </option>
+                ))}
+              </Form.Control>
+              {errors.city && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="area">
+              <Form.Label>Area</Form.Label>
+              <Form.Control
+                as="select"
+                {...register("area", { required: true })}
+              >
+                <option value="">Select Area</option>
+                {areas.map((area) => (
+                  <option key={area.id} value={area.id}>
+                    {area?.name?.en}
+                  </option>
+                ))}
+              </Form.Control>
+              {errors.area && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="postalCode">
+              <Form.Label>Postal Code</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter postal code"
+                {...register("postalCode", { required: true })}
+              />
+              {errors.postalCode && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+<div className="my-3">
+            <GoogleMapComponent onLocationUpdate={handleLocationUpdate} />
+
+</div>
+<div className="flex justify-center my-2">
+
+            <button className="w-1/2 md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white" type="submit">
+              Add Address
+            </button>
+</div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
+export default MainAccountSitting;
+
+
+
+
+
+
+
+{/* <Tab eventKey="savedCards" title="Saved Cards">
               <Container>
                 <Row className="mt-5">
                   <div className="flex flex-col px-5">
@@ -353,12 +613,3 @@ function MainAccountSitting() {
                 </Row>
               </Container>
             </Tab> */}
-          </Tabs>
-        </div>
-        <Footer />
-      </Container>
-    </>
-  );
-}
-
-export default MainAccountSitting;

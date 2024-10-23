@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { instance } from '../../axios/axios';
-import { getAllCountries, getAllCities } from "./locationAPI"
+import { getAllCountries, getAllCities,getAllAreas } from "./locationAPI"
 
 
 const initialState = {
   allCountriesData: [],
   allCitiesData: [],
+  allAreasData: [],
   loading: false,
   error: null,
 }
@@ -37,6 +38,18 @@ const locationSlice = createSlice({
         state.allCitiesData = action.payload.data;
       })
       .addCase(getAllCities.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getAllAreas.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllAreas.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allAreasData = action.payload.data;
+      })
+      .addCase(getAllAreas.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

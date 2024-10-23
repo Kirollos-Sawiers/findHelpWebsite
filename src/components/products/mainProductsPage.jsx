@@ -164,17 +164,18 @@ function MainProducts() {
     return (
       <>
         {loading ? (
-          <div className="flex justify-center align-middle items-center h-96 w-full">
+          <div className="flex justify-center align-middle items-center h-screen w-full">
             <Spinner animation="border" variant="warning" />
           </div>
         ) : (
           <>
+          <div className="flex flex-wrap w-[95%] h-fit">
             {allRestaurantProducts?.data?.map((product, index) => {
               return (
                 <div
                   key={index}
                   id={product.id}
-                  className="bg-white rounded-lg shadow-xl p-4 flex items-center m-3 w-2/5 cursor-pointer"
+                  className="bg-white rounded-lg shadow-xl p-4 flex items-center m-3 w-96 cursor-pointer"
                   onClick={() => {
                     handleShow();
                     dispatch(
@@ -213,12 +214,10 @@ function MainProducts() {
                       </div>
                     )}
                   </div>
-                  <button className="bg-yellow-500 text-white rounded-full p-2 ml-auto flex-shrink-0">
-                    +
-                  </button>
                 </div>
               );
             })}
+            </div>
           </>
         )}
       </>
@@ -300,7 +299,6 @@ function MainProducts() {
         {productDetailsData && productDetailsData.data ? (
           <>
             {productDetailsData.data.map((product, index) => {
-              console.log(product);
               return (
                 <>
                   <div key={index} className="bg-white rounded-lg pl-3 w-80">
@@ -530,7 +528,7 @@ function MainProducts() {
                       {sideBar()}
                     </Col>
                     <Col md={9}>
-                      <div className="flex flex-wrap">{menuCard()}</div>
+                      <div className="">{menuCard()}</div>
                       <Offcanvas
                         show={show}
                         onHide={handleClose}

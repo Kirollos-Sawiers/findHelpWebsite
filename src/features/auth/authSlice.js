@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { instance } from '../../axios/axios';
 
 
-// Async Thunk for signup
 export const signUpWeb = createAsyncThunk(
   'users/signup',
   async (credentials, { rejectWithValue }) => {
@@ -15,7 +14,7 @@ export const signUpWeb = createAsyncThunk(
     }
   }
 );
-// Async Thunk for login
+
 export const loginWeb = createAsyncThunk(
   'users/login',
   async (credentials, { rejectWithValue }) => {
@@ -35,10 +34,59 @@ export const updateUserData = createAsyncThunk(
   'users/updateUser',
   async (newUserData, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token'); // Get the token from localStorage
+      const token = localStorage.getItem('token');
       const response = await instance.post("api/v1/users/auth/update", newUserData, {
         headers: {
-          Authorization: `Bearer ${token}`, // Set the Authorization header
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const addUserAddress = createAsyncThunk(
+  'users/addUserAddress',
+  async (addressData, { rejectWithValue }) => {
+    console.log(addressData)
+    try {
+      const token = localStorage.getItem('token');
+      const response = await instance.post("api/v1/users/addresses",addressData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getUserSavedAddresses = createAsyncThunk(
+  'users/fetchUserAddresses',
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await instance.get("api/v1/users/addresses", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const deleteUserAddress = createAsyncThunk(
+  'users/deleteUserAddress',
+  async (address_id, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await instance.delete(`api/v1/users/addresses/${address_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -71,7 +119,6 @@ export const forgetPassword = createAsyncThunk(
   }
 );
 
-// Async Thunk for logout
 export const logoutWeb = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('token');
 });
@@ -83,6 +130,7 @@ const authSlice = createSlice({
     token: localStorage.getItem('token') || null,
     status: 'idle',
     error: null,
+    addresses: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -140,6 +188,38 @@ const authSlice = createSlice({
         console.log(action.payload);
       })
       .addCase(updateUserData.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(addUserAddress.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addUserAddress.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.addresses = action.payload;
+      })
+      .addCase(addUserAddress.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(getUserSavedAddresses.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getUserSavedAddresses.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.addresses = action.payload;
+      })
+      .addCase(getUserSavedAddresses.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(deleteUserAddress.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteUserAddress.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+      })
+      .addCase(deleteUserAddress.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
