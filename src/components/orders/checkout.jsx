@@ -159,22 +159,22 @@ const Checkout = () => {
                 ? cartItems.map((cartItem, index) => (
                     <div
                       key={index}
-                      className="bg-white p-4 rounded-xl shadow-lg flex items-center max-w-md mx-auto mb-5"
+                      className="bg-white rounded-xl shadow-lg flex items-center w-full mb-5 px-2 py-3"
                     >
                       <img
                         src={cartItem.image.url}
                         alt={cartItem.name.en}
-                        className="rounded-full w-32 h-32 mr-4"
+                        className="rounded-full w-32 h-32 mr-4 "
                       />
-                      <div className="flex-grow">
-                        <h3 className="text-lg font-semibold">
+                      <div className="">
+                        <h3 className="sm:text-base md:text-lg font-semibold">
                           {cartItem.name.en}
                         </h3>
                         <p className="text-zinc-500 text-sm">
                           {cartItem.description.en}
                         </p>
-                        <div className="flex items-center mt-4">
-                          <span className="text-lg font-semibold text-[#f0a835]">
+                        <div className="flex items-center mt-4 pr-2">
+                          <span className="sm:text-base md:text-lg font-semibold text-[#f0a835]">
                             EGP{" "}
                             {(
                               cartItem.userQuantity *
@@ -183,7 +183,7 @@ const Checkout = () => {
                                 : cartItem?.selling_price)
                             ).toFixed(2)}
                           </span>
-                          <span className="ml-3 text-lg font-semibold text-[#f0a835]">
+                          <span className="ml-3 sm:text-base md:text-lg font-semibold text-[#f0a835]">
                             Quantity : {cartItem.userQuantity}
                           </span>
                           <div className="flex items-center ml-auto">

@@ -19,8 +19,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginWeb } from "../../features/auth/authSlice";
+import ErrorModal from './errorModal';
+
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.user);
@@ -32,25 +36,37 @@ function Login() {
       navigate("/");
     }
   }, [token, navigate]);
-console.log(error);
+
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(error);
+      setShowErrorModal(true);
+      console.log(error)
+    }
+
+  }, [error]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data) => {
     const cred = {
       email: data.email,
       password: data.password,
-      verify_type : 'email_otp'
-    }
+      verify_type: 'email_otp'
+    };
     dispatch(loginWeb(cred));
   };
+
+  const handleCloseErrorModal = () => setShowErrorModal(false);
 
   return (
     <Container className="p-0" fluid>
@@ -123,82 +139,16 @@ console.log(error);
               </Button>
             </form>
             <div className="w-full ml-16 font-semibold">
-            <Link to="/forget-password" style={{ textDecoration: "none" }}>
+              <Link to="/forget-password" style={{ textDecoration: "none" }}>
                 <h6 className="font-bold">Forget password?</h6>
               </Link>
-              </div>
+            </div>
             <div className="flex justify-start w-full my-4 ml-16">
-              <h6 className="text-start">Don't have an account? </h6>
+              <h6 className="text-start">Don't have an account? </h6>
               <Link to="/signup" style={{ textDecoration: "none" }}>
                 <h6 className="font-bold">Create an account</h6>
               </Link>
             </div>
-            {/* <div className="flex items-center w-2/3 mb-1">
-              <div
-                className="w-1/2 h-1"
-                style={{ backgroundColor: "lightgray" }}
-              ></div>
-              <h6 className="mx-3 small" style={{ color: "lightgray" }}>
-                OR
-              </h6>
-              <div
-                className="w-1/2 h-1"
-                style={{ backgroundColor: "lightgray" }}
-              ></div>
-            </div> */}
-            {/* <Button
-              className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
-              variant="light"
-              // href="#link"
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                borderRadius: "15px",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faGoogle}
-                style={{ color: "#000000", marginRight: "0.7rem" }}
-              />
-              Continue with Google
-            </Button>{" "}
-            <Button
-              className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
-              variant="light"
-              // href="#link"
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                borderRadius: "15px",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faFacebook}
-                style={{ color: "#000000", marginRight: "0.7rem" }}
-              />
-              Continue with Facebook
-            </Button>{" "}
-            <Button
-              className="w-full md:w-2/3 lg:w-2/3 h-12 my-3 text-sm p-2 text-center border-2 border-black"
-              variant="light"
-              // href="#link"
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                borderRadius: "15px",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faApple}
-                style={{
-                  color: "#000000",
-                  marginRight: "0.7rem",
-                  width: "20px",
-                  height: "20px",
-                }}
-              />
-              Continue with Apple
-            </Button> */}
           </Col>
           <Col className="hidden p-0 md:block lg:block">
             <div className="flex justify-end">
@@ -211,6 +161,7 @@ console.log(error);
         </Row>
       </Container>
       <Footer />
+      <ErrorModal show={showErrorModal} onHide={handleCloseErrorModal} errorMessage={errorMessage} />
     </Container>
   );
 }

@@ -10,39 +10,38 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  logoutWeb,
-  resetPassword,
-  forgetPassword,
-} from "../features/auth/authSlice";
-import { FaShoppingCart } from "react-icons/fa";
+import { logoutWeb, getNotifications } from "../features/auth/authSlice";
+import { FaShoppingCart, FaBell } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 function MainNavbar() {
   const [cartItems, setCartItems] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-  const userData = JSON.parse(localStorage.getItem("user"));
-
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(items);
+    dispatch(getNotifications()).then((res) => {
+      setNotifications(res.payload.data);
+      console.log(res.payload.data);
+    });
   }, []);
-
 
   const toggleLoginButton = () => {
     if (token) {
       return (
         <>
-         <Nav.Link className="ml-3 leading-none " href="/profile">
-          profile
+          <Nav.Link className="ml-3 leading-none " href="/profile">
+            profile
             {/* <img className="w-10 h-10 p-0 rounded-full" src={userData?.image?.url || profile_pic}  alt="pp"/> */}
           </Nav.Link>
-          
+
           <Button
             variant="warning"
             href="/login"
@@ -54,7 +53,8 @@ function MainNavbar() {
               width: "7rem",
               height: "2rem",
             }}
-            onClick={() => {dispatch(logoutWeb())
+            onClick={() => {
+              dispatch(logoutWeb());
               localStorage.removeItem("cart");
               localStorage.removeItem("user");
             }}
@@ -62,7 +62,6 @@ function MainNavbar() {
             <span className="leading-none">Logout</span>{" "}
             <FontAwesomeIcon icon={faRightFromBracket} />
           </Button>
-         
         </>
       );
     } else {
@@ -111,6 +110,10 @@ function MainNavbar() {
     }
   };
 
+  const handleNotificationsClick = () => {
+    setShowNotifications(!showNotifications);
+  };
+
   return (
     <>
       <Navbar expand="lg">
@@ -153,19 +156,41 @@ function MainNavbar() {
               >
                 Ride With us
               </Nav.Link>
-              {/* <Nav.Link className="mr-3 leading-none" href="#link">
-                Sell
-              {countryCityDropdown()}
-              </Nav.Link> */}
               {toggleLoginButton()}
-              <Nav.Link className="ml-2 leading-none pl-0" onClick={handleCartClick}>
+              <Nav.Link
+                className="ml-2 leading-none pl-0"
+                onClick={handleCartClick}
+              >
                 <div className="flex justify-center">
-                <FaShoppingCart />
-                <div>
-                 ({cartItems.length})
-                </div>
+                  <FaShoppingCart />
+                  <div>({cartItems.length})</div>
                 </div>
               </Nav.Link>
+              <Nav.Link
+                className="ml-2 leading-none pl-0"
+                onClick={handleNotificationsClick}
+              >
+                <div className="relative">
+                  <FaBell />
+                  {notifications.length > 0 && (
+                    <div className="absolute top-0 right-0 bg-[#f00] text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                      {notifications.length}
+                    </div>
+                  )}
+                </div>
+              </Nav.Link>
+              {showNotifications && (
+                <div className="absolute right-0 mt-10 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
+                  <div className="p-4">
+                    {notifications.map((notification, index) => (
+                      <div key={index} className="mb-2">
+                        <div className="font-bold">{notification?.data?.title}</div>
+                        <div>{notification?.data?.body}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

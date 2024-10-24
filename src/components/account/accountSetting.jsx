@@ -23,7 +23,7 @@ import {
 import {
   getAllCountries,
   getAllCities,
-  getAllAreas
+  getAllAreas,
 } from "../../features/location/locationAPI";
 import { useDispatch } from "react-redux";
 import Spinner from "react-bootstrap/Spinner";
@@ -88,18 +88,17 @@ function MainAccountSitting() {
     }
   };
 
-
   useEffect(() => {
     if (activeTab === "savedAddresses") {
       dispatch(getUserSavedAddresses()).then((res) => {
         setSavedAddresses(res.payload);
-        setLocation()
+        setLocation();
       });
     }
   }, [activeTab, dispatch]);
 
   const handleLocationUpdate = (newLocation) => {
-    localStorage.setItem('location', JSON.stringify(newLocation));
+    localStorage.setItem("location", JSON.stringify(newLocation));
     setLocation(newLocation); // Update state after picking location
   };
 
@@ -113,33 +112,32 @@ function MainAccountSitting() {
   };
 
   const handleAddAddress = (data) => {
-  const newLocation = localStorage.getItem('location')
-  setLocation(JSON.parse(newLocation));
-  if(location){
-    console.log(location)
-    const addressData = {
-      "name": data.name,
-      "phone": userData.phone,
-      "phone_country": userData.phone_country,
-      "country_id": selectedCountry,
-      "city_id": selectedCity,
-      "area_id": data.area,
-      "details": location.address,
-      "lat": location.lat,
-      "lng": location.lng,
-      "postal_code": data.postalCode
-    };
-    console.log(addressData);
+    const newLocation = localStorage.getItem("location");
+    setLocation(JSON.parse(newLocation));
+    if (location) {
+      console.log(location);
+      const addressData = {
+        name: data.name,
+        phone: userData.phone,
+        phone_country: userData.phone_country,
+        country_id: selectedCountry,
+        city_id: selectedCity,
+        area_id: data.area,
+        details: location.address,
+        lat: location.lat,
+        lng: location.lng,
+        postal_code: data.postalCode,
+      };
+      console.log(addressData);
 
-    dispatch(addUserAddress(addressData)).then(() => {
-      // Refresh the addresses list after adding a new address
-      dispatch(getUserSavedAddresses()).then((res) => {
-        setSavedAddresses(res.payload);
+      dispatch(addUserAddress(addressData)).then(() => {
+        // Refresh the addresses list after adding a new address
+        dispatch(getUserSavedAddresses()).then((res) => {
+          setSavedAddresses(res.payload);
+        });
+        setShowModal(false); // Close the modal
       });
-      setShowModal(false); // Close the modal
-    });
-  }
-    
+    }
   };
 
   useEffect(() => {
@@ -154,7 +152,7 @@ function MainAccountSitting() {
     if (selectedCountry) {
       dispatch(getAllCities(selectedCountry)).then((data) => {
         setCities(data.payload.data);
-        console.log(data.payload)
+        console.log(data.payload);
       });
     }
   }, [selectedCountry]);
@@ -377,129 +375,7 @@ function MainAccountSitting() {
                 </Row>
               </Container>
             </Tab>
-          </Tabs>
-        </div>
-        <Footer />
-      </Container>
-
-      {/* Add Address Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Address</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit(handleAddAddress)}>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter name"
-                {...register("name", { required: true })}
-              />
-              {errors.name && (
-                <Form.Text className="text-danger">
-                  This field is required
-                </Form.Text>
-              )}
-            </Form.Group>
-            <Form.Group controlId="country">
-              <Form.Label>Country</Form.Label>
-              <Form.Control
-                as="select"
-                {...register("country", { required: true })}
-                onChange={(e) => setSelectedCountry(e.target.value)}
-              >
-                <option value="">Select Country</option>
-                {countries.map((country) => (
-                  <option key={country.id} value={country.id}>
-                    {country?.name?.en}
-                  </option>
-                ))}
-              </Form.Control>
-              {errors.country && (
-                <Form.Text className="text-danger">
-                  This field is required
-                </Form.Text>
-              )}
-            </Form.Group>
-            <Form.Group controlId="city">
-              <Form.Label>City</Form.Label>
-              <Form.Control
-                as="select"
-                {...register("city", { required: true })}
-                onChange={(e) => setSelectedCity(e.target.value)}
-              >
-                <option value="">Select City</option>
-                {cities.map((city) => (
-                  <option key={city.id} value={city.id}>
-                    {city?.name?.en}
-                  </option>
-                ))}
-              </Form.Control>
-              {errors.city && (
-                <Form.Text className="text-danger">
-                  This field is required
-                </Form.Text>
-              )}
-            </Form.Group>
-            <Form.Group controlId="area">
-              <Form.Label>Area</Form.Label>
-              <Form.Control
-                as="select"
-                {...register("area", { required: true })}
-              >
-                <option value="">Select Area</option>
-                {areas.map((area) => (
-                  <option key={area.id} value={area.id}>
-                    {area?.name?.en}
-                  </option>
-                ))}
-              </Form.Control>
-              {errors.area && (
-                <Form.Text className="text-danger">
-                  This field is required
-                </Form.Text>
-              )}
-            </Form.Group>
-            <Form.Group controlId="postalCode">
-              <Form.Label>Postal Code</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter postal code"
-                {...register("postalCode", { required: true })}
-              />
-              {errors.postalCode && (
-                <Form.Text className="text-danger">
-                  This field is required
-                </Form.Text>
-              )}
-            </Form.Group>
-<div className="my-3">
-            <GoogleMapComponent onLocationUpdate={handleLocationUpdate} />
-
-</div>
-<div className="flex justify-center my-2">
-
-            <button className="w-1/2 md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white" type="submit">
-              Add Address
-            </button>
-</div>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </>
-  );
-}
-
-export default MainAccountSitting;
-
-
-
-
-
-
-
-{/* <Tab eventKey="savedCards" title="Saved Cards">
+            {/* <Tab eventKey="savedCards" title="Saved Cards">
               <Container>
                 <Row className="mt-5">
                   <div className="flex flex-col px-5">
@@ -613,3 +489,119 @@ export default MainAccountSitting;
                 </Row>
               </Container>
             </Tab> */}
+          </Tabs>
+        </div>
+        <Footer />
+      </Container>
+
+      {/* Add Address Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Address</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit(handleAddAddress)}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                {...register("name", { required: true })}
+              />
+              {errors.name && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="country">
+              <Form.Label>Country</Form.Label>
+              <Form.Control
+                as="select"
+                {...register("country", { required: true })}
+                onChange={(e) => setSelectedCountry(e.target.value)}
+              >
+                <option value="">Select Country</option>
+                {countries.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country?.name?.en}
+                  </option>
+                ))}
+              </Form.Control>
+              {errors.country && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="city">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                as="select"
+                {...register("city", { required: true })}
+                onChange={(e) => setSelectedCity(e.target.value)}
+              >
+                <option value="">Select City</option>
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city?.name?.en}
+                  </option>
+                ))}
+              </Form.Control>
+              {errors.city && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="area">
+              <Form.Label>Area</Form.Label>
+              <Form.Control
+                as="select"
+                {...register("area", { required: true })}
+              >
+                <option value="">Select Area</option>
+                {areas.map((area) => (
+                  <option key={area.id} value={area.id}>
+                    {area?.name?.en}
+                  </option>
+                ))}
+              </Form.Control>
+              {errors.area && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group controlId="postalCode">
+              <Form.Label>Postal Code</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter postal code"
+                {...register("postalCode", { required: true })}
+              />
+              {errors.postalCode && (
+                <Form.Text className="text-danger">
+                  This field is required
+                </Form.Text>
+              )}
+            </Form.Group>
+            <div className="my-3">
+              <GoogleMapComponent onLocationUpdate={handleLocationUpdate} />
+            </div>
+            <div className="flex justify-center my-2">
+              <button
+                className="w-1/2 md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
+                type="submit"
+              >
+                Add Address
+              </button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
+export default MainAccountSitting;
