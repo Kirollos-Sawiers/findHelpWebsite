@@ -166,13 +166,14 @@ function MainNavbar() {
                   <div>({cartItems.length})</div>
                 </div>
               </Nav.Link>
+              {token? <>
               <Nav.Link
                 className="ml-2 leading-none pl-0"
                 onClick={handleNotificationsClick}
               >
                 <div className="relative">
                   <FaBell />
-                  {notifications.length > 0 && (
+                  {notifications?.length > 0 && (
                     <div className="absolute top-0 right-0 bg-[#f00] text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
                       {notifications.length}
                     </div>
@@ -191,6 +192,8 @@ function MainNavbar() {
                   </div>
                 </div>
               )}
+              </>:null}
+              
             </Nav>
           </Navbar.Collapse>
         </Container>
