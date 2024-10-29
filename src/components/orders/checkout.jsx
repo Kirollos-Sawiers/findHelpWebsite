@@ -22,6 +22,7 @@ const Checkout = () => {
   const [notes, setNotes] = useState("");
   const [showMapModal, setShowMapModal] = useState(false); // To control modal visibility
   const [errorMessage, setErrorMessage] = useState(""); // To show error messages
+  const [errorLocationMessage, setErrorLocationMessage] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false); // To track order placement status
 
   const dispatch = useDispatch();
@@ -41,13 +42,18 @@ const Checkout = () => {
     }
   }, [location]);
 
-  const handleMapModalClose = () => setShowMapModal(false);
+  const handleMapModalClose = () => {
+    setShowMapModal(false);
+    window.location.reload(); // Reload the page when the modal is closed
+  };
   const handleMapModalShow = () => setShowMapModal(true);
 
   const handleLocationUpdate = (newLocation) => {
     localStorage.setItem('location', JSON.stringify(newLocation));
     setLocation(newLocation); // Update state after picking location
+    calculateCartPrice(); // Recalculate cart price with new location
   };
+  
 
   const calculateCartPrice = () => {
     if (cartItems) {
@@ -60,11 +66,24 @@ const Checkout = () => {
         options: item.userOptionId,
       }));
 
-      if (newProducts.length > 0) {
-        dispatch(calculateOrderPrice({ products: newProducts })).then((res) => {
-          console.log(res.payload);
-          setOrderPriceData(res.payload);
-        });
+      if (newProducts.length > 0 && location) {
+        const orderData = {
+          type: "order",
+          address: {
+            lat: location?.lat,
+            lng: location?.lng, // Use current location or default
+            details: location?.address, // Use current location or default
+          },
+          payment_method_id: paymentMethod || "", // Use current payment method or default
+          notes: notes || "", // Use current notes or default
+          coupon_code: discountCode || "yitmgfjcndntndzuuabobnojuoqigyuwbrufpdrsyosaqedohezowikvkesbdnzqxotcyxtrdqgqn", // Use current discount code or default
+          products: newProducts,
+        };
+
+        dispatch(calculateOrderPrice(orderData)).then((res) => {
+            setOrderPriceData(res.payload);
+            setErrorLocationMessage(res.payload.message);
+        })
       }
     }
   };
@@ -104,7 +123,7 @@ const Checkout = () => {
 
       dispatch(placeOrder(orderData))
         .then((res) => {
-          console.log("Order placed:", res);
+          // console.log("Order placed:", res);
           setErrorMessage("");
           setOrderPlaced(true);
           setCartItems([]);
@@ -115,11 +134,11 @@ const Checkout = () => {
           localStorage.removeItem("cart");
         })
         .catch((err) => {
-          console.error("Error placing order:", err);
+          // console.error("Error placing order:", err);
           setErrorMessage("Error placing order. Please try again.");
         });
     } else {
-      console.log("Location or cart items missing.");
+      // console.log("Location or cart items missing.");
       setErrorMessage("Location or cart items missing.");
     }
   };
@@ -221,6 +240,7 @@ const Checkout = () => {
                       <h3>Location</h3>
                       <button className="w-[30%] h-10 bg-[#f0a835] text-white font-semibold rounded-lg  my-3" onClick={handleMapModalShow}>Set Location</button>
                     </div>
+                    {errorLocationMessage? <small className="text-rose-800">{errorLocationMessage}</small>: null}
                     <div>
                     <hr />
                       <Modal show={showMapModal} onHide={handleMapModalClose}>
@@ -295,6 +315,18 @@ const Checkout = () => {
                         <p className="font-bold text-2xl">Service Fee</p>
                         <p className="font-bold text-xl">
                           {orderPriceData[0]?.taxes} {orderPriceData[0]?.currency}
+                        </p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p className="font-bold text-2xl">Delivery Fee</p>
+                        <p className="font-bold text-xl">
+                          {orderPriceData[0]?.shipping} {orderPriceData[0]?.currency}
+                        </p>
+                      </div>
+                      <div className="flex justify-between">
+                        <p className="font-bold text-2xl text-[#f0a835]">Earned points</p>
+                        <p className="font-bold text-xl text-[#f0a835]">
+                          {orderPriceData[0]?.earn_points} Points
                         </p>
                       </div>
                       <hr />

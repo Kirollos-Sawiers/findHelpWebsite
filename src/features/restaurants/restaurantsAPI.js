@@ -8,13 +8,52 @@ export const getAllRestaurants = createAsyncThunk(
       const response = await instance.get(`api/v1/users/shops?page=${page}`, {
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
           "Accept-Language": "ar",
           "Country-Id": 65,
         },
       });
-console.log(response.data.data)
-      return response.data.data;
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+export const searchRestaurants = createAsyncThunk(
+  "restaurants/searchData",
+  async (searchValue, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`api/v1/users/shops?search=${searchValue}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Accept-Language": "ar",
+          "Country-Id": 65,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+export const filterRestaurantsByLocation = createAsyncThunk(
+  "restaurants/filterRestaurants",
+  async ({ page, cityID, countryID }, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(
+        `api/v1/users/shops?page=${page}&city_id=${cityID}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Accept-Language": "ar",
+            "Country-Id": countryID,
+          }
+        }
+      );
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -36,7 +75,7 @@ export const getRestaurantsByCategoryID = createAsyncThunk(
         }
       );
 
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -58,7 +97,7 @@ export const getShopsByCategoryID = createAsyncThunk(
         }
       );
 
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -80,7 +119,7 @@ export const getAllShops = createAsyncThunk(
         }
       );
 
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }

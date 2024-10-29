@@ -22,7 +22,6 @@ export const loginWeb = createAsyncThunk(
       const response = await instance.post("api/v1/users/auth/login", credentials);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -49,7 +48,6 @@ export const updateUserData = createAsyncThunk(
 export const addUserAddress = createAsyncThunk(
   'users/addUserAddress',
   async (addressData, { rejectWithValue }) => {
-    console.log(addressData)
     try {
       const token = localStorage.getItem('token');
       const response = await instance.post("api/v1/users/addresses",addressData, {
@@ -115,7 +113,6 @@ export const resetPassword = createAsyncThunk(
   'users/resetPassword',
   async (credentials, { rejectWithValue }) => {
     try {
-      console.log(credentials);
       const response = await instance.post("api/v1/users/auth/reset-password", credentials);
       return response.data;
     } catch (error) {
@@ -181,7 +178,6 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.status = 'failed';
@@ -202,7 +198,6 @@ const authSlice = createSlice({
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
       })
       .addCase(updateUserData.rejected, (state, action) => {
         state.status = 'failed';

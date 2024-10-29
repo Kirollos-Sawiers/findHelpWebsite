@@ -3,9 +3,9 @@ import { Col, Row } from "react-bootstrap";
 import navbar_logo from "../../assets/navbar_logo.png";
 import apple_store_icon from "../../assets/apple_store_icon.png";
 import google_store_icon from "../../assets/google_store_icon.png";
-import facebook from "../../assets/bwfb.png";
-import instagram from "../../assets/bwinsta.png";
-import snapchat from "../../assets/bwsc.png";
+import facebook from "../../assets/facebook.png";
+import instagram from "../../assets/instagram.png";
+import snapchat from "../../assets/snapchat.png";
 // import tiktok from "../../assets/tiktok.png";
 import { Link } from "react-router-dom";
 

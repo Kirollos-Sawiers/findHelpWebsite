@@ -68,6 +68,11 @@ function MainProducts() {
   // console.log("allRestaurantProducts:", allRestaurantProducts);
   // console.log("productDetailsData:", productDetailsData);
 
+  const openShopOnGoogleMap = (mapData) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${mapData?.lat},${mapData?.lng}`;
+    window.open(url, "_blank");
+  };
+
   const confirm = () => {
     confirmDialog({
       group: "headless",
@@ -83,7 +88,6 @@ function MainProducts() {
     setShow(false);
     setQuantity(1);
     setSizePrice(0);
-
   };
   const handleShow = () => setShow(true);
   const handleTabClick = (tab) => {
@@ -100,7 +104,7 @@ function MainProducts() {
   };
 
   const addToCart = (sealedProduct) => {
-    const product = { ...sealedProduct }
+    const product = { ...sealedProduct };
     product.userQuantity = quantity;
     product.userOption = optionName;
     product.userOptionId = optionId;
@@ -111,12 +115,12 @@ function MainProducts() {
     // Check if the cart exists and is not null
     if (savedCart) {
       // Check if the shop_id matches
-      console.log( product.shop_id)
-      console.log( savedCart[0].shop_id)
+      console.log(product.shop_id);
+      console.log(savedCart[0].shop_id);
 
       if (product.shop_id === savedCart[0].shop_id) {
         const existingProduct = cart.find((item) => item.id === product.id);
-        console.log( existingProduct)
+        console.log(existingProduct);
         let updatedCart;
         if (existingProduct) {
           updatedCart = cart.map((item) =>
@@ -169,54 +173,54 @@ function MainProducts() {
           </div>
         ) : (
           <>
-          <div className="flex flex-wrap w-[95%] h-fit">
-            {allRestaurantProducts?.data?.map((product, index) => {
-              return (
-                <div
-                  key={index}
-                  id={product.id}
-                  className="bg-white rounded-lg shadow-xl p-4 flex items-center m-3 w-96 cursor-pointer"
-                  onClick={() => {
-                    handleShow();
-                    dispatch(
-                      getProductDetails({
-                        shop_id: product.shop_id,
-                        category_id: product.category_id,
-                        product_id: product.id,
-                      })
-                    );
-                  }}
-                >
-                  <img
-                    src={product?.image?.url}
-                    alt="product_image"
-                    className="rounded-full w-20 h-20 object-cover"
-                  />
-                  <div className="ml-4 flex-grow">
-                    <h3 className="text-lg font-semibold">
-                      {product?.name?.en}
-                    </h3>
-                    <p className="text-zinc-500 text-sm font-medium">
-                      {product?.category?.name.en}
-                    </p>
-                    {product?.selling_price === 0 ? (
-                      <span className="text-[#f0a835] font-semibold mt-3 text-lg ">
-                        Price on selection
-                      </span>
-                    ) : (
-                      <div>
+            <div className="flex flex-wrap w-[95%] h-fit">
+              {allRestaurantProducts?.data?.map((product, index) => {
+                return (
+                  <div
+                    key={index}
+                    id={product.id}
+                    className="bg-white rounded-lg shadow-xl p-4 flex items-center m-3 w-96 cursor-pointer"
+                    onClick={() => {
+                      handleShow();
+                      dispatch(
+                        getProductDetails({
+                          shop_id: product.shop_id,
+                          category_id: product.category_id,
+                          product_id: product.id,
+                        })
+                      );
+                    }}
+                  >
+                    <img
+                      src={product?.image?.url}
+                      alt="product_image"
+                      className="rounded-full w-20 h-20 object-cover"
+                    />
+                    <div className="ml-4 flex-grow">
+                      <h3 className="text-lg font-semibold">
+                        {product?.name?.en}
+                      </h3>
+                      <p className="text-zinc-500 text-sm font-medium">
+                        {product?.category?.name.en}
+                      </p>
+                      {product?.selling_price === 0 ? (
                         <span className="text-[#f0a835] font-semibold mt-3 text-lg ">
-                          {product.currency}
+                          Price on selection
                         </span>
-                        <span className="text-[#f0a835] font-bold mt-3 text-xl">
-                          {product?.selling_price}.00
-                        </span>
-                      </div>
-                    )}
+                      ) : (
+                        <div>
+                          <span className="text-[#f0a835] font-semibold mt-3 text-lg ">
+                            {product.currency}
+                          </span>
+                          <span className="text-[#f0a835] font-bold mt-3 text-xl">
+                            {product?.selling_price}.00
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
             </div>
           </>
         )}
@@ -284,10 +288,10 @@ function MainProducts() {
       </>
     );
   };
-  const handleCheckboxChange = (event, id,option) => {
-    setOptionName(option)
+  const handleCheckboxChange = (event, id, option) => {
+    setOptionName(option);
     optionId.push(id);
-    setOptionPrice()
+    setOptionPrice();
     console.log(id);
     const { value, checked } = event.target;
     setSizePrice(checked ? value : null);
@@ -346,7 +350,11 @@ function MainProducts() {
                                       addition.price === Number(sizePrice)
                                     }
                                     onChange={(e) => {
-                                      handleCheckboxChange(e, addition.id, addition.name.en);
+                                      handleCheckboxChange(
+                                        e,
+                                        addition.id,
+                                        addition.name.en
+                                      );
                                     }}
                                   />
                                   <span>{addition.name.en}</span>
@@ -412,9 +420,7 @@ function MainProducts() {
                         to="/checkout"
                         style={{ textDecoration: "none", color: "blue" }}
                       >
-                        <button
-                          className="bg-[#f0a835] text-white rounded-lg px-4 py-2 ml-2 mt-3"
-                        >
+                        <button className="bg-[#f0a835] text-white rounded-lg px-4 py-2 ml-2 mt-3">
                           Checkout |{" "}
                           {JSON.parse(localStorage.getItem("cart")).length}
                         </button>
@@ -513,6 +519,16 @@ function MainProducts() {
                 <p className="small text-zinc-500 ">
                   {allRestaurantProducts?.data[0]?.shop?.address?.details}
                 </p>
+                <button
+                  className="w-[70%] bg-[#f0a835] text-white rounded-lg p-2"
+                  onClick={() =>
+                    openShopOnGoogleMap(
+                      shopData?.nearest_address?.location_google_maps
+                    )
+                  }
+                >
+                  Open Location
+                </button>
               </div>
             </div>
             <div className="my-5">
@@ -637,14 +653,12 @@ function MainProducts() {
                                 }}
                               />
                               <p className="m-0 p-0">
-                                From {shopData.work_times.saturday}{" "}
+                                From {shopData?.work_times?.saturday}{" "}
                               </p>
                             </div>
                           </div>
                           <div className="mt-5">
-                            <p className="font-bold text-xl">
-                              Service fee
-                            </p>
+                            <p className="font-bold text-xl">Service fee</p>
                             <div className="flex flex-row items-center">
                               <FontAwesomeIcon
                                 className="mr-2"
@@ -690,10 +704,11 @@ function MainProducts() {
                           <div className="mt-5">
                             <p className="font-bold text-xl">Payment options</p>
                             <div className="flex flex-row justify-between w-1/3">
-                            <p className="leading-0 mt-3 px-2 py-1  font-bold border border-black rounded-md">Cash</p>
+                              <p className="leading-0 mt-3 px-2 py-1  font-bold border border-black rounded-md">
+                                Cash
+                              </p>
                               <Image src={visa} />
                               <Image src={master_card} />
-
                             </div>
                           </div>
                         </div>

@@ -54,28 +54,6 @@ function MainAccountSitting() {
     watch,
   } = useForm();
 
-  const onSubmit = (data) => {
-    setLoading(true); // Set loading state to true
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("email", userData.email);
-    formData.append("phoneNumber", userData.phone || "");
-    formData.append("phone_country", userData.phone_country);
-    if (profileImage) {
-      const imageFile = document.getElementById("profileImageInput").files[0];
-      formData.append("image", imageFile);
-    }
-
-    dispatch(updateUserData(formData)).then((res) => {
-      setLoading(false); // Set loading state to false
-      if (res.payload) {
-        localStorage.setItem("user", JSON.stringify(res.payload.user));
-        window.location.reload(); // Reload the page after successful update
-      } else {
-      }
-    });
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -99,12 +77,11 @@ function MainAccountSitting() {
 
   const handleLocationUpdate = (newLocation) => {
     localStorage.setItem("location", JSON.stringify(newLocation));
-    setLocation(newLocation); // Update state after picking location
+    setLocation(newLocation);
   };
 
   const handleDeleteAddress = (addressId) => {
     dispatch(deleteUserAddress(addressId)).then(() => {
-      // Refresh the addresses list after deletion
       dispatch(getUserSavedAddresses()).then((res) => {
         setSavedAddresses(res.payload);
       });
@@ -131,11 +108,10 @@ function MainAccountSitting() {
       console.log(addressData);
 
       dispatch(addUserAddress(addressData)).then(() => {
-        // Refresh the addresses list after adding a new address
         dispatch(getUserSavedAddresses()).then((res) => {
           setSavedAddresses(res.payload);
         });
-        setShowModal(false); // Close the modal
+        setShowModal(false);
       });
     }
   };
@@ -165,6 +141,28 @@ function MainAccountSitting() {
     }
   }, [selectedCity]);
 
+  const handleSaveChanges = () => {
+    const formData = new FormData();
+    formData.append("name", document.querySelector('input[name="name"]').value);
+    formData.append("email", userData.email);
+    formData.append("phoneNumber", userData.phone || "");
+    formData.append("phone_country", userData.phone_country);
+    if (profileImage) {
+      const imageFile = document.getElementById("profileImageInput").files[0];
+      formData.append("image", imageFile);
+    }
+    setLoading(true);
+    dispatch(updateUserData(formData)).then((res) => {
+      setLoading(false);
+      if (res.payload) {
+        localStorage.setItem("user", JSON.stringify(res.payload.user));
+        // window.location.reload();
+      } else {
+        // Handle error case
+      }
+    });
+  };
+
   return (
     <>
       <Container fluid className="p-0">
@@ -175,15 +173,11 @@ function MainAccountSitting() {
             id="justify-tab-example"
             className="mb-3"
             justify
-            onSelect={(k) => setActiveTab(k)} // Update active tab state
+            onSelect={(k) => setActiveTab(k)}
           >
             <Tab className="mt-20" eventKey="accountInfo" title="Account Info">
               <Row className="mx-5">
-                <form
-                  className="w-full h-fit"
-                  onSubmit={handleSubmit(onSubmit)}
-                >
-                  {/* Email */}
+                <form className="w-full h-fit">
                   <p
                     className="w-full mt-1 mb-0 ml-3 font-semibold"
                     style={{ textAlign: "left" }}
@@ -209,8 +203,6 @@ function MainAccountSitting() {
                       Enter a valid email
                     </p>
                   )}
-
-                  {/* Phone Number */}
                   <p
                     className="w-full mt-1 mb-0 ml-3 font-semibold"
                     style={{ textAlign: "left" }}
@@ -235,8 +227,6 @@ function MainAccountSitting() {
                       Enter a valid phone number
                     </p>
                   )}
-
-                  {/* Full Name */}
                   <p
                     className="w-full mt-1 mb-0 ml-3 font-semibold"
                     style={{ textAlign: "left" }}
@@ -252,7 +242,6 @@ function MainAccountSitting() {
                       pattern: /^[a-zA-Z\s]+$/,
                     })}
                   />
-
                   {errors.name && (
                     <p
                       className="w-full mt-1 mb-0 ml-3 small"
@@ -261,7 +250,6 @@ function MainAccountSitting() {
                       Enter a full name
                     </p>
                   )}
-
                   <div className="flex items-center">
                     <img
                       className="w-[8%] h-[8%] rounded-full"
@@ -306,12 +294,13 @@ function MainAccountSitting() {
                     </div>
                   </Link>
                   <button
-                    type="submit"
+                    type="button"
                     className="w-full md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
-                    disabled={loading} // Disable the button when loading
+                    onClick={handleSaveChanges}
+                    disabled={loading}
                   >
                     {loading ? (
-                      <Spinner animation="border" size="sm" /> // Show spinner when loading
+                      <Spinner animation="border" size="sm" />
                     ) : (
                       "Save Changes"
                     )}
