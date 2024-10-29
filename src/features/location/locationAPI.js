@@ -13,7 +13,6 @@ export const getAllCountries = createAsyncThunk(
           },
         });
         const { headers,config, ...countries } = response;
-        console.log(countries)
         return countries;
       } catch (error) {
         return rejectWithValue(error.response?.data?.message || error.message);

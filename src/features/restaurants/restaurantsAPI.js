@@ -21,9 +21,9 @@ export const getAllRestaurants = createAsyncThunk(
 );
 export const searchRestaurants = createAsyncThunk(
   "restaurants/searchData",
-  async (searchValue, { rejectWithValue }) => {
+  async ({type,searchValue}, { rejectWithValue }) => {
     try {
-      const response = await instance.get(`api/v1/users/shops?search=${searchValue}`, {
+      const response = await instance.get(`api/v1/users/shops?type=${type}&search=${searchValue}`, {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
@@ -222,7 +222,6 @@ export const getAllRestaurantProductsData = createAsyncThunk(
 export const getProductDetails = createAsyncThunk(
   "Product/fetchProductDetails",
   async (params, { rejectWithValue }) => {
-    console.log(params);
     try {
       const response = await instance.get(
         `api/v1/users/products?shop_id=${params.shop_id}&category_id=${params?.category_id}&ids=${params?.product_id}`,

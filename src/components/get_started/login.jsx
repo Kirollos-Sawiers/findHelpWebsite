@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import login_img from "../../assets/login_img.png";
+import loginIMG from "../../assets/loginIMG.png";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -154,7 +155,7 @@ function Login() {
             <div className="flex justify-end">
               <Image
                 className="rounded-tr-2xl rounded-br-2xl "
-                src={login_img}
+                src={loginIMG}
               />
             </div>
           </Col>

@@ -12,6 +12,7 @@ import {
   getRestaurantsByCategoryID,
   getShopsByCategoryID,
   filterRestaurantsByLocation,
+  searchRestaurants, // Import the searchRestaurants action
 } from "./../../features/restaurants/restaurantsAPI";
 import {
   getAllCountries,
@@ -21,7 +22,8 @@ import RestaurantCard from "./restaurantCard";
 import CategoryHeader from "./categoryHeader";
 import LoadingSpinner from "./loadingSpinner";
 import ErrorDisplay from "./errorDisplay";
-import Button from "react-bootstrap/Button";
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 
 function RestaurantsList() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,6 +32,7 @@ function RestaurantsList() {
   const [cities, setCities] = useState([]);
   const [selectedCountryId, setSelectedCountryId] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [searchValue, setSearchValue] = useState(""); // State to hold the search value
   const location = useLocation();
   const dispatch = useDispatch();
   const allRestaurantsData = useSelector(
@@ -99,6 +102,11 @@ function RestaurantsList() {
     setSelectedCity(e.target.value);
   };
 
+  const handleSearch = () => {
+    const type = location.pathname === "/restaurants" ? "restaurant" : "shop";
+    dispatch(searchRestaurants({ type, searchValue }));
+  };
+
   const countryCityDropdown = () => {
     return (
       <div className="pt-1">
@@ -149,23 +157,21 @@ function RestaurantsList() {
             )}
             {selectedCity ? (
               <div className="flex justify-center py-4">
-                <Button
-                  variant="warning"
-                  href="/login"
-                  style={{
-                    margin: 0,
-                    color: "black",
-                    fontWeight: "bold",
-                    fontSize: "14px",
-                    width: "7rem",
-                    height: "2rem",
-                  }}
+                <button
+                  className="w-[70%] h-10 text-white font-semibold bg-[#f0a835] rounded-lg" 
                   onClick={(e) => {
                     e.preventDefault();
-                    dispatch(filterRestaurantsByLocation({"page":currentPage,"cityID":selectedCity, "countryID":selectedCountryId}))}}
+                    dispatch(
+                      filterRestaurantsByLocation({
+                        page: currentPage,
+                        cityID: selectedCity,
+                        countryID: selectedCountryId,
+                      })
+                    );
+                  }}
                 >
                   Search
-                </Button>
+                </button>
               </div>
             ) : (
               <></>
@@ -186,11 +192,25 @@ function RestaurantsList() {
     return <ErrorDisplay error={error} />;
   }
 
-
   return (
     <Container fluid className="p-0">
       <Navbar />
       <Container>
+        <div className="w-full h-12 flex justify-center ">
+          <div className="p-inputgroup w-[30%] h-8 rounded-full border-1">
+            <InputText 
+              className="pl-2" 
+              placeholder="Search" 
+              value={searchValue} 
+              onChange={(e) => setSearchValue(e.target.value)} 
+            />
+            <Button 
+              icon="pi pi-search" 
+              className="bg-[#f0a835] rounded-r-lg w-3" 
+              onClick={handleSearch} 
+            />
+          </div>
+        </div>
         <Row>
           <Col xs={12} md={2} lg={2}>
             {countryCityDropdown()}

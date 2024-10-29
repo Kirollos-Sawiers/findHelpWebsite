@@ -10,6 +10,7 @@ import {
   getRestaurantsByCategoryID,
   getShopsByCategoryID,
   filterRestaurantsByLocation,
+  searchRestaurants,
 } from "./restaurantsAPI";
 
 const initialState = {
@@ -49,6 +50,18 @@ const restaurantsSlice = createSlice({
         state.restaurants = action.payload;
       })
       .addCase(filterRestaurantsByLocation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(searchRestaurants.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(searchRestaurants.fulfilled, (state, action) => {
+        state.loading = false;
+        state.restaurants = action.payload;
+      })
+      .addCase(searchRestaurants.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
