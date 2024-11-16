@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Navbar from "../Navbar";
 import Container from "react-bootstrap/Container";
 import partner_cover from "../../assets/partner_cover.png";
+import partnerWithUs from "../../assets/partnerWithUs.jpeg";
 import partner_1 from "../../assets/partner_1.jpeg";
 import partner_2 from "../../assets/partner_2.jpeg";
 import partner_3 from "../../assets/partner_3.jpeg";
@@ -100,8 +101,8 @@ function PartnerWithUs() {
       <Container fluid className="p-0 mb-5">
         <div>
           <Image
-            className="w-full h-auto"
-            src={partner_cover}
+            className="w-[100%] h-fit shadow-lg"
+            src={partnerWithUs}
             alt="partner with us cover"
             onClick={scrollToGetInTouch} // Add onClick to scroll to "Get in touch"
             style={{ cursor: "pointer" }} // Add pointer cursor to indicate clickability

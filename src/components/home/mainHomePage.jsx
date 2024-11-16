@@ -4,16 +4,21 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../footer/footer";
 import homepageBanner from "../../assets/homepage_banner.png";
+import home_cover from "../../assets/home_cover.jpeg";
 import homepageBannerTablet from "../../assets/homepage_banner_tablet.png";
 import partnerWithUs from "../../assets/Parnter_with_us.png";
 import rideWithUs from "../../assets/ride_with_us.png";
 import serviceCards from "../../assets/services_cards.png";
 import serviceCards1 from "../../assets/services_cards_1.png";
 import serviceCards2 from "../../assets/services_cards_2.png";
+import service1 from "../../assets/service1.jpeg";
+import service2 from "../../assets/service2.jpeg";
+import service3 from "../../assets/service3.jpeg";
 import serviceCards3 from "../../assets/services_cards_2.png";
 import serviceCards4 from "../../assets/services_cards_1.png";
 import serviceCards5 from "../../assets/services_cards.png";
 import section4Img from "../../assets/section_4_img.png";
+import section4 from "../../assets/section4.jpeg";
 import appleStoreIcon from "../../assets/apple_store_icon.png";
 import googleStoreIcon from "../../assets/google_store_icon.png";
 import partner1 from "../../assets/partner1.jpeg";
@@ -54,8 +59,8 @@ function MainHomePage() {
   return (
     <Container fluid className="p-0">
       <Navbar />
-      <Container fluid className="flex justify-center bg-[#F0A8350D] pb-10">
-        <Image className="px-10" src={isLaptop ? homepageBanner : homepageBannerTablet} />
+      <Container fluid className="flex justify-center w-full bg-[#F0A8350D] pb-10 px-0">
+        <Image className="w-full bg-cover bg-center" src={isLaptop ? home_cover : home_cover} />
       </Container>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
       <Link to="/partnerwithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
@@ -90,9 +95,9 @@ function MainHomePage() {
       <div className="flex flex-wrap justify-evenly my-10">
         {activeSection === 'start' ? (
           <>
-            <Image src={serviceCards} />
-            <Image src={serviceCards1} />
-            <Image src={serviceCards2} />
+            <Image className="w-[15%] h-fit" src={service1} />
+            <Image className="w-[15%] h-fit" src={service2} />
+            <Image className="w-[15%] h-fit" src={service3} />
           </>
         ) : (
           <>
@@ -117,7 +122,7 @@ function MainHomePage() {
           </div>
         </div>
         <div className="ml-2">
-          <Image src={section4Img} />
+          <Image className="w-[75%] h-fit bg-center" src={section4} />
         </div>
       </div>
       <div className="flex justify-center text-4xl mt-16 mb-10">
