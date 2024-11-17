@@ -57,7 +57,7 @@ function Footer() {
           <Col md={2}>
             <p className="text-white font-bold">Services</p>
             <Link to="/restaurants" className="no-underline">
-              <p className="text-white">Resturants</p>
+              <p className="text-white">Restaurants</p>
             </Link>
             <Link to="/shops" className="no-underline">
               <p className="text-white">Shops</p>

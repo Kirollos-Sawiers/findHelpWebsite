@@ -31,8 +31,10 @@ import partner6 from "../../assets/partner6.jpeg";
 const LAPTOP_BREAKPOINT = 992;
 
 function MainHomePage() {
-  const [isLaptop, setIsLaptop] = useState(window.innerWidth >= LAPTOP_BREAKPOINT);
-  const [activeSection, setActiveSection] = useState('start');
+  const [isLaptop, setIsLaptop] = useState(
+    window.innerWidth >= LAPTOP_BREAKPOINT
+  );
+  const [activeSection, setActiveSection] = useState("start");
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,12 +47,12 @@ function MainHomePage() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-   // State to track which button is active
+  // State to track which button is active
 
-   // Function to handle button click and set the active one
-   const handleButtonClick = (button) => {
+  // Function to handle button click and set the active one
+  const handleButtonClick = (button) => {
     setActiveSection(button);
-   };
+  };
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -59,64 +61,145 @@ function MainHomePage() {
   return (
     <Container fluid className="p-0">
       <Navbar />
-      <Container fluid className="flex justify-center w-full bg-[#F0A8350D] pb-10 px-0">
-        <Image className="w-full bg-cover bg-center" src={isLaptop ? home_cover : home_cover} />
+      <Container
+        fluid
+        className="flex justify-center w-full bg-[#F0A8350D] pb-10 px-0"
+      >
+        <Image
+          className="w-full bg-cover bg-center"
+          src={isLaptop ? home_cover : home_cover}
+        />
       </Container>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
-      <Link to="/partnerwithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
-        <Image
-          className="rounded-xl"
-          src={partnerWithUs}
-        />
-       </Link>
-      <Link to="/ridewithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
-        <Image
-          className="rounded-xl"
-          src={rideWithUs}
-        />
-       </Link>
+        <Link
+          to="/partnerwithus"
+          className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
+        >
+          <Image className="rounded-xl" src={partnerWithUs} />
+        </Link>
+        <Link
+          to="/ridewithus"
+          className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
+        >
+          <Image className="rounded-xl" src={rideWithUs} />
+        </Link>
       </div>
       <div className="flex justify-center mt-5">
-      <button
-        className={`px-4 py-2 mr-20 rounded-full text-black font-semibold transition-colors duration-300
-          ${activeSection === 'start' ? 'bg-[#F0A835] text-white' : 'bg-transparent'}`}
-        onClick={() => handleSectionClick('start')}
-      >
-        Get Started
-      </button>
-      <button
-        className={`px-4 py-2 rounded-full text-black font-semibold transition-colors duration-300
-          ${activeSection === 'offer' ? 'bg-[#F0A835] text-white' : 'bg-transparent'}`}
-        onClick={() => handleSectionClick('offer')}
-      >
-        What we offer
-      </button>
-    </div>
+        <button
+          className={`px-4 py-2 mr-20 rounded-full text-black font-semibold transition-colors duration-300
+          ${
+            activeSection === "start"
+              ? "bg-[#F0A835] text-white"
+              : "bg-transparent"
+          }`}
+          onClick={() => handleSectionClick("start")}
+        >
+          Get Started
+        </button>
+        <button
+          className={`px-4 py-2 rounded-full text-black font-semibold transition-colors duration-300
+          ${
+            activeSection === "offer"
+              ? "bg-[#F0A835] text-white"
+              : "bg-transparent"
+          }`}
+          onClick={() => handleSectionClick("offer")}
+        >
+          What we offer
+        </button>
+      </div>
       <div className="flex flex-wrap justify-evenly my-10">
-        {activeSection === 'start' ? (
+        {activeSection === "start" ? (
           <>
-            <Image className="w-[20rem] h-fit" src={service1} />
-            <Image className="w-[20rem] h-fit" src={service2} />
-            <Image className="w-[20rem] h-fit" src={service3} />
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Track Order</p>
+              <Image className="w-[20rem] h-fit" src={service2} />
+              <p className="font-bold mb-0">
+                You can track your order 
+              </p>
+              <p className="font-bold">
+                status with delivery time
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Place an order!</p>
+              <Image className="w-[20rem] h-fit" src={service1} />
+              <p className="font-bold mb-0">
+                Place order through our
+              </p>
+              <p className="font-bold">
+                website or mobile app
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Receive oreder!</p>
+              <Image className="w-[20rem] h-fit" src={service3} />
+              <p className="font-bold mb-0">
+               Receive your order at
+              </p>
+              <p className="font-bold">
+               a lighting fast speed
+              </p>
+            </div>
           </>
         ) : (
           <>
-            <Image src={serviceCards4} />
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Track Order</p>
+              <Image className="w-[20rem] h-fit" src={service2} />
+              <p className="font-bold mb-0">
+                You can track your order 
+              </p>
+              <p className="font-bold">
+                status with delivery time
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Place an order!</p>
+              <Image className="w-[20rem] h-fit" src={service1} />
+              <p className="font-bold mb-0">
+                Place order through our
+              </p>
+              <p className="font-bold">
+                website or mobile app
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Receive oreder!</p>
+              <Image className="w-[20rem] h-fit" src={service3} />
+              <p className="font-bold mb-0">
+               Receive your order at
+              </p>
+              <p className="font-bold">
+               a lighting fast speed
+              </p>
+            </div>
+            {/* <Image src={serviceCards4} />
             <Image src={serviceCards3} />
-            <Image src={serviceCards5} />
+            <Image src={serviceCards5} /> */}
           </>
         )}
       </div>
       <div className="w-full flex flex-wrap justify-center">
         <div className="mx-5">
           <p className="text-7xl font-semibold mb-4">Feast Your Senses,</p>
-          <p className="text-7xl font-semibold text-[#F0A835] mb-4">Fast and Fresh</p>
-          <p className="font-semibold mb-4">Order Restaurant food, takeaway and groceries</p>
+          <p className="text-7xl font-semibold text-[#F0A835] mb-4">
+            Fast and Fresh
+          </p>
+          <p className="font-semibold mb-4">
+            Order Restaurant food, takeaway and groceries
+          </p>
           <div className="flex mb-5">
-            <Link to="https://apps.apple.com/eg/app/findhelpapp/id1450736684" target="_blank">
+            <Link
+              to="https://apps.apple.com/eg/app/findhelpapp/id1450736684"
+              target="_blank"
+            >
               <Image className="pr-2" src={appleStoreIcon} />
             </Link>
-            <Link to="https://play.google.com/store/apps/details?id=com.extreme.help" target="_blank">
+            <Link
+              to="https://play.google.com/store/apps/details?id=com.extreme.help"
+              target="_blank"
+            >
               <Image src={googleStoreIcon} />
             </Link>
           </div>
