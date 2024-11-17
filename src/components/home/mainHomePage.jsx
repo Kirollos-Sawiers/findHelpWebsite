@@ -6,8 +6,8 @@ import Footer from "../footer/footer";
 import homepageBanner from "../../assets/homepage_banner.png";
 import home_cover from "../../assets/home_cover.jpeg";
 import homepageBannerTablet from "../../assets/homepage_banner_tablet.png";
-import partnerWithUs from "../../assets/Parnter_with_us.png";
-import rideWithUs from "../../assets/ride_with_us.png";
+import partnerWithUs from "../../assets/partnerWithUs.jpeg";
+import rideWithUs from "../../assets/rideWithUs.jpeg";
 import serviceCards from "../../assets/services_cards.png";
 import serviceCards1 from "../../assets/services_cards_1.png";
 import serviceCards2 from "../../assets/services_cards_2.png";
@@ -65,13 +65,13 @@ function MainHomePage() {
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
       <Link to="/partnerwithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
         <Image
-          className=""
+          className="rounded-xl"
           src={partnerWithUs}
         />
        </Link>
       <Link to="/ridewithus" className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5">
         <Image
-          className=""
+          className="rounded-xl"
           src={rideWithUs}
         />
        </Link>
@@ -95,9 +95,9 @@ function MainHomePage() {
       <div className="flex flex-wrap justify-evenly my-10">
         {activeSection === 'start' ? (
           <>
-            <Image className="w-[15%] h-fit" src={service1} />
-            <Image className="w-[15%] h-fit" src={service2} />
-            <Image className="w-[15%] h-fit" src={service3} />
+            <Image className="w-[20rem] h-fit" src={service1} />
+            <Image className="w-[20rem] h-fit" src={service2} />
+            <Image className="w-[20rem] h-fit" src={service3} />
           </>
         ) : (
           <>
