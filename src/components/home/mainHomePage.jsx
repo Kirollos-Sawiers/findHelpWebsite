@@ -8,16 +8,12 @@ import home_cover from "../../assets/home_cover.jpeg";
 import homepageBannerTablet from "../../assets/homepage_banner_tablet.png";
 import partnerWithUs from "../../assets/partnerWithUs.jpeg";
 import rideWithUs from "../../assets/rideWithUs.jpeg";
-import serviceCards from "../../assets/services_cards.png";
-import serviceCards1 from "../../assets/services_cards_1.png";
-import serviceCards2 from "../../assets/services_cards_2.png";
 import service1 from "../../assets/service1.jpeg";
 import service2 from "../../assets/service2.jpeg";
 import service3 from "../../assets/service3.jpeg";
-import serviceCards3 from "../../assets/services_cards_2.png";
-import serviceCards4 from "../../assets/services_cards_1.png";
-import serviceCards5 from "../../assets/services_cards.png";
-import section4Img from "../../assets/section_4_img.png";
+import service4 from "../../assets/service4.png";
+import service5 from "../../assets/service5.png";
+import service6 from "../../assets/service6.png";
 import section4 from "../../assets/section4.jpeg";
 import appleStoreIcon from "../../assets/apple_store_icon.png";
 import googleStoreIcon from "../../assets/google_store_icon.png";
@@ -84,7 +80,7 @@ function MainHomePage() {
           <Image className="rounded-xl" src={rideWithUs} />
         </Link>
       </div>
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-around mt-5">
         <button
           className={`px-4 py-2 mr-20 rounded-full text-black font-semibold transition-colors duration-300
           ${
@@ -112,71 +108,41 @@ function MainHomePage() {
         {activeSection === "start" ? (
           <>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Track Order</p>
-              <Image className="w-[20rem] h-fit" src={service2} />
-              <p className="font-bold mb-0">
-                You can track your order 
-              </p>
-              <p className="font-bold">
-                status with delivery time
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">Place an order!</p>
               <Image className="w-[20rem] h-fit" src={service1} />
-              <p className="font-bold mb-0">
-                Place order through our
-              </p>
-              <p className="font-bold">
-                website or mobile app
-              </p>
+              <p className="font-bold mb-0">Place order through our</p>
+              <p className="font-bold">website or mobile app</p>
+            </div>
+            <div className="flex flex-col items-center justify-center ">
+              <p className="font-bold">Track Order</p>
+              <Image className="w-[20rem] h-fit" src={service2} />
+              <p className="font-bold mb-0">You can track your order</p>
+              <p className="font-bold">status with delivery time</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">Receive oreder!</p>
               <Image className="w-[20rem] h-fit" src={service3} />
-              <p className="font-bold mb-0">
-               Receive your order at
-              </p>
-              <p className="font-bold">
-               a lighting fast speed
-              </p>
+              <p className="font-bold mb-0">Receive your order at</p>
+              <p className="font-bold">a lighting fast speed</p>
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Track Order</p>
-              <Image className="w-[20rem] h-fit" src={service2} />
-              <p className="font-bold mb-0">
-                You can track your order 
-              </p>
-              <p className="font-bold">
-                status with delivery time
-              </p>
+              <Image className="w-[18rem] h-fit" src={service4} />
+              <p className="font-bold mb-0">Place order through our</p>
+              <p className="font-bold">website or mobile app</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Place an order!</p>
-              <Image className="w-[20rem] h-fit" src={service1} />
-              <p className="font-bold mb-0">
-                Place order through our
-              </p>
-              <p className="font-bold">
-                website or mobile app
-              </p>
+              <Image className="w-[18rem] h-fit" src={service6} />
+              <p className="font-bold mb-0">You can track your order</p>
+              <p className="font-bold">status with delivery time</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Receive oreder!</p>
-              <Image className="w-[20rem] h-fit" src={service3} />
-              <p className="font-bold mb-0">
-               Receive your order at
-              </p>
-              <p className="font-bold">
-               a lighting fast speed
-              </p>
+              <Image className="w-[18rem] h-fit" src={service5} />
+              <p className="font-bold mb-0">Receive your order at</p>
+              <p className="font-bold">a lighting fast speed</p>
             </div>
-            {/* <Image src={serviceCards4} />
-            <Image src={serviceCards3} />
-            <Image src={serviceCards5} /> */}
           </>
         )}
       </div>

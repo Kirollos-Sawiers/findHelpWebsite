@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import navbar_logo from "../assets/navbar_logo.png";
 import profile_pic from "../assets/profile_pic.png";
@@ -15,15 +16,18 @@ import { FaShoppingCart, FaBell } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import i18n from "i18next";
+import cookies from "js-cookie";
 
 function MainNavbar() {
   const [cartItems, setCartItems] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [language, setLanguage] = useState("en");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-
+  const lng = cookies.get("i18next") || "en"
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(items);
@@ -31,7 +35,8 @@ function MainNavbar() {
       setNotifications(res.payload.data);
       console.log(res.payload.data);
     });
-  }, []);
+    setLanguage(lng);
+  }, [lng]);
 
   const toggleLoginButton = () => {
     if (token) {
@@ -144,18 +149,25 @@ function MainNavbar() {
               <Nav.Link className="mr-3 leading-none" href="/services">
                 Services
               </Nav.Link>
-              <Nav.Link
-                className="text-nowrap mr-3 leading-none"
-                href="partnerwithus"
-              >
-                Partner with us
-              </Nav.Link>
-              <Nav.Link
-                className="text-nowrap mr-3 leading-none"
-                href="ridewithus"
-              >
-                Ride With us
-              </Nav.Link>
+              <NavDropdown title="Join Us" id="basic-nav-dropdown">
+                <NavDropdown.Item href="partnerwithus">
+                  Partner with us
+                </NavDropdown.Item>
+                <NavDropdown.Item href="ridewithus">
+                  Ride With us
+                </NavDropdown.Item>
+              </NavDropdown>
+              {/* <Button variant="outline-secondary" onClick={() => {
+                if(language==="en"){
+                  i18n.changeLanguage("ar");
+                  cookies.set("i18next", "ar");
+                }else{
+                  i18n.changeLanguage("en");
+                  cookies.set("i18next", "en");
+                }
+              }}>
+                {language === "en" ? "العربية" : "English"}
+              </Button> */}
               {toggleLoginButton()}
               <Nav.Link
                 className="ml-2 leading-none pl-0"
@@ -166,34 +178,37 @@ function MainNavbar() {
                   <div>({cartItems.length})</div>
                 </div>
               </Nav.Link>
-              {token? <>
-              <Nav.Link
-                className="ml-2 leading-none pl-0"
-                onClick={handleNotificationsClick}
-              >
-                <div className="relative">
-                  <FaBell />
-                  {notifications?.length > 0 && (
-                    <div className="absolute top-0 right-0 bg-[#f00] text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                      {notifications.length}
+              {token ? (
+                <>
+                  <Nav.Link
+                    className="ml-2 leading-none pl-0"
+                    onClick={handleNotificationsClick}
+                  >
+                    <div className="relative">
+                      <FaBell />
+                      {notifications?.length > 0 && (
+                        <div className="absolute top-0 right-0 bg-[#f00] text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                          {notifications.length}
+                        </div>
+                      )}
+                    </div>
+                  </Nav.Link>
+                  {showNotifications && (
+                    <div className="absolute right-0 mt-10 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
+                      <div className="p-4">
+                        {notifications.map((notification, index) => (
+                          <div key={index} className="mb-2">
+                            <div className="font-bold">
+                              {notification?.data?.title}
+                            </div>
+                            <div>{notification?.data?.body}</div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
-                </div>
-              </Nav.Link>
-              {showNotifications && (
-                <div className="absolute right-0 mt-10 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
-                  <div className="p-4">
-                    {notifications.map((notification, index) => (
-                      <div key={index} className="mb-2">
-                        <div className="font-bold">{notification?.data?.title}</div>
-                        <div>{notification?.data?.body}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              </>:null}
-              
+                </>
+              ) : null}
             </Nav>
           </Navbar.Collapse>
         </Container>

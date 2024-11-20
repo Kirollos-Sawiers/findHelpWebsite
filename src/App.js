@@ -18,10 +18,44 @@ import PartnerWithUs from "./components/partner_with_us/partnerWithUs";
 import RideWithUs from "./components/ride_with_us/rideWithUs";
 import MainAccountSitting from "./components/account/accountSetting";
 import ResetPassword from "./components/get_started/forgetPassword";
-import TermsAndConditions from './components/terms_conditions/terms';
-import PrivacyPolicy from './components/terms_conditions/policy';
-import ServiceDetails from './components/services/serviceDetails';
+import TermsAndConditions from "./components/terms_conditions/terms";
+import PrivacyPolicy from "./components/terms_conditions/policy";
+import ServiceDetails from "./components/services/serviceDetails";
+import i18n from "i18next";
+import { useTranslation, initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import HttpApi from "i18next-http-backend";
+import { useEffect } from "react";
+import cookies from "js-cookie";
+
+i18n
+  .use(initReactI18next)
+  .use(LanguageDetector)
+  .use(HttpApi)
+  .init({
+    fallbackLng: "en",
+    detection: {
+      order: [
+        "cookie",
+        "localStorage",
+        "htmlTag",
+        "sessionStorage",
+        "navigator",
+        "path",
+        "subdomain",
+      ],
+      caches: ["cookie"],
+    },
+    backend: {
+      loadPath: "/locale/{{lng}}/translation.json",
+    },
+  });
 function App() {
+  const { t } = useTranslation();
+  const lng = cookies.get("i18next") || "en"
+  useEffect(()=>{
+    window.document.dir = i18n.dir();
+  },[lng])
   const ProtectedRoute = ({ children }) => {
     const { token } = useSelector((state) => state.auth);
 
@@ -72,6 +106,7 @@ function App() {
 
   return (
     <div className="bg-[--main-green-background] min-h-screen">
+      {/* <div>{t("Welcome to React")} {lng}</div> */}
       <RouterProvider router={router} />
     </div>
   );
