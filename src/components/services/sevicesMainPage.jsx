@@ -13,8 +13,9 @@ import ServiceCard from "./serviceCard";
 import CategoryHeader from "../restaurants/categoryHeader";
 import LoadingSpinner from "../restaurants/loadingSpinner";
 import ErrorDisplay from "../restaurants/errorDisplay";
-
+import { useTranslation } from "react-i18next";
 function SevicesMainPage() {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [allServicesData, setAllServicesData] = useState(null);
@@ -97,19 +98,25 @@ function SevicesMainPage() {
               <LoadingSpinner />
             )}
 
-            <div className="flex justify-center mt-4">
+<div className="flex justify-evenly mt-4">
+              <div>
+
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                className="w-32 px-4 py-2 mr-5 bg-[#f0a835] rounded text-white font-bold"
+                className="w-32 px-4 py-2 mr-5 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
               >
-                Previous
+                {t("previous")}
               </button>
+              </div>
+              <div>
+
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
-                className="w-32 px-4 py-2 bg-[#f0a835] rounded text-white font-bold"
-              >
-                Next
+                className="w-32 px-4 py-2 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
+                >
+                {t("next")}
               </button>
+                </div>
             </div>
           </Col>
         </Row>

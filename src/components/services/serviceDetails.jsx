@@ -27,13 +27,18 @@ import {
 } from "./../../features/service/servicesAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";
+import { useTranslation } from "react-i18next";
+import cookies from "js-cookie";
+
 function ServiceDetails() {
+  const { t } = useTranslation();
   const [serviseDetailsData, setServiceDetailsData] = useState();
   const [paymentMethod, setPaymentMethod] = useState();
   const params = useParams();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.restaurantsData.loading);
   const error = useSelector((state) => state.restaurantsData.error);
+  const lng = cookies.get("i18next") || "en";
 
   useEffect(() => {
     dispatch(getServiceById({ selectedServiceId: params.id })).then((res) => {
@@ -41,6 +46,7 @@ function ServiceDetails() {
       setServiceDetailsData(res.payload);
     });
   }, [params.id, dispatch]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const serviceData = {
@@ -67,6 +73,11 @@ function ServiceDetails() {
     return <div>Error: {error}</div>;
   }
 
+  // Helper function to get the correct language property
+  const getLangProperty = (obj, property) => {
+    return obj?.[property]?.[lng] || obj?.[property]?.en || "";
+  };
+
   return (
     <>
       {serviseDetailsData ? (
@@ -75,7 +86,7 @@ function ServiceDetails() {
             <Navbar />
             <div className="m-5">
               <div>
-                <p className="text-3xl font-bold">Provider Information</p>
+                <p className="text-3xl font-bold">{t("provider_information")}</p>
                 <div className="flex justify-start items-center">
                   <Image
                     className="w-20 h-20 rounded-full"
@@ -83,24 +94,24 @@ function ServiceDetails() {
                     alt="provider logo"
                   />
                   <div>
-                    <p className="text-xl font-medium ml-3 leading-0 mb-0">
+                    <p className="text-xl font-medium mx-3 leading-0 mb-0">
                       {serviseDetailsData?.user?.name}
                     </p>
-                    <p className="ml-3">
-                      {serviseDetailsData?.description?.en}
+                    <p className="mx-3">
+                      {getLangProperty(serviseDetailsData, "description")}
                     </p>
                   </div>
                 </div>
               </div>
               <div>
-                <p className="text-3xl font-bold">Service Details</p>
+                <p className="text-3xl font-bold my-3">{t("service_details")}</p>
                 <div className="">
                   <div className="flex">
-                    <p className="text-xl ml-3 leading-0 mb-0">
-                      {serviseDetailsData?.category?.name.en}-
+                    <p className="text-xl mx-3 leading-0 mb-0">
+                      {getLangProperty(serviseDetailsData?.category, "name")}-
                     </p>
                     <p className="text-xl">
-                      {serviseDetailsData?.sub_category?.name.en}
+                      {getLangProperty(serviseDetailsData?.sub_category, "name")}
                     </p>
                   </div>
                   {serviseDetailsData?.user?.image?.url ? (
@@ -125,8 +136,8 @@ function ServiceDetails() {
                       icon={faLocationDot}
                       style={{ color: "#f0a835", marginTop: "3px" }}
                     />
-                    <p className="font-medium ml-2">
-                      {serviseDetailsData?.address_text?.en}
+                    <p className="font-medium mx-2">
+                      {getLangProperty(serviseDetailsData, "address_text")}
                     </p>
                   </div>
                   <div className="flex ">
@@ -134,8 +145,8 @@ function ServiceDetails() {
                       icon={faMoneyCheckDollar}
                       style={{ color: "#f0a835", marginTop: "5px" }}
                     />
-                    <p className="font-medium ml-2">
-                      {serviseDetailsData?.price} {serviseDetailsData?.currency}
+                    <p className="font-medium mx-2">
+                      {serviseDetailsData?.price} {t("egp")}
                     </p>
                   </div>
                   <div className="flex ">
@@ -143,7 +154,7 @@ function ServiceDetails() {
                       icon={faClock}
                       style={{ color: "#f0a835", marginTop: "5px" }}
                     />
-                    <p className="font-bold ml-2">Working Hours</p>
+                    <p className="font-bold mx-2">{t("working_hours")}</p>
                   </div>
                   <div className="ml-5">
                     {serviseDetailsData?.work_times?.holidays ? (
@@ -159,7 +170,7 @@ function ServiceDetails() {
                             </p>
                           ) : (
                             <p className="font-semibold">
-                              - {day.toUpperCase()}: Closed
+                              - {day.toUpperCase()}: {t("closed")}
                             </p>
                           )}
                         </div>
@@ -172,7 +183,7 @@ function ServiceDetails() {
               </div>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <p className="font-semibold text-xl">Payment Method</p>
+                  <p className="font-semibold text-xl">{t("payment_method")}</p>
                 </div>
                 <div>
                   <input
@@ -181,7 +192,7 @@ function ServiceDetails() {
                     checked={paymentMethod === "4"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                   />
-                  <label className="ml-2 font-medium">Cash</label>
+                  <label className="mx-2 font-medium">{t("cash")}</label>
                 </div>
                 <div>
                   <input
@@ -190,14 +201,14 @@ function ServiceDetails() {
                     checked={paymentMethod === "10"}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                   />
-                  <label className="ml-2 font-medium">Visa</label>
+                  <label className="mx-2 font-medium">Visa</label>
                 </div>
                 <div className="flex justify-center">
                   <button
                     className="w-[20%] h-8 bg-[#f0a835] text-white font-bold rounded-md"
                     type="submit"
                   >
-                    Book Service
+                    {t("book_service")}
                   </button>
                 </div>
               </form>

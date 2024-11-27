@@ -238,21 +238,27 @@ function RestaurantsList() {
                 <RestaurantCard key={rest.id} restaurant={rest} />
               ))}
             </div>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-evenly mt-4">
+              <div>
+
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={!allRestaurantsData?.prev_page_url}
                 className="w-32 px-4 py-2 mr-5 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
               >
-                Previous
+                {t("previous")}
               </button>
+              </div>
+              <div>
+
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
                 disabled={!allRestaurantsData?.next_page_url}
                 className="w-32 px-4 py-2 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
-              >
-                Next
+                >
+                {t("next")}
               </button>
+                </div>
             </div>
           </Col>
         </Row>
