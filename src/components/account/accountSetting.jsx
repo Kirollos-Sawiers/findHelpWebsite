@@ -31,8 +31,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import GoogleMapComponent from "../../features/googelMap/map";
+import cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 function MainAccountSitting() {
+  const { t } = useTranslation();
   const userData = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState(null);
@@ -46,6 +49,7 @@ function MainAccountSitting() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [location, setLocation] = useState(null);
+  const lng = cookies.get("i18next") || "en";
 
   const {
     register,
@@ -163,6 +167,11 @@ function MainAccountSitting() {
     });
   };
 
+  // Helper function to get the correct language property
+  const getLangProperty = (obj, property) => {
+    return obj?.[property]?.[lng] || obj?.[property]?.en || "";
+  };
+
   return (
     <>
       <Container fluid className="p-0">
@@ -175,17 +184,12 @@ function MainAccountSitting() {
             justify
             onSelect={(k) => setActiveTab(k)}
           >
-            <Tab className="mt-20" eventKey="accountInfo" title="Account Info">
+            <Tab className="mt-20" eventKey="accountInfo" title={t("account_info")}>
               <Row className="mx-5">
                 <form className="w-full h-fit">
-                  <p
-                    className="w-full mt-1 mb-0 ml-3 font-semibold"
-                    style={{ textAlign: "left" }}
-                  >
-                    Email
-                  </p>
+                  <p className="mt-1 mb-0 mx-3 font-semibold">{t("email")}</p>
                   <input
-                    className="w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
+                    className="w-full md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small mb-3"
                     placeholder="Enter your email address"
                     value={userData.email}
                     disabled
@@ -197,20 +201,19 @@ function MainAccountSitting() {
 
                   {errors.email && (
                     <p
-                      className="w-full mt-1 mb-0 ml-3 small"
+                      className="w-full mt-1 mb-0 mx-3 small"
                       style={{ textAlign: "left", color: "red" }}
                     >
-                      Enter a valid email
+                      {t("email_validation")}
                     </p>
                   )}
                   <p
-                    className="w-full mt-1 mb-0 ml-3 font-semibold"
-                    style={{ textAlign: "left" }}
+                    className="w-full mt-1 mb-0 mx-3 font-semibold"
                   >
-                    Phone Number
+                    {t("mobile")}
                   </p>
                   <input
-                    className="w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
+                    className="w-full md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small mb-3"
                     placeholder="Enter Phone Number"
                     disabled
                     defaultValue={userData.phone || ""}
@@ -221,20 +224,19 @@ function MainAccountSitting() {
 
                   {errors.phoneNumber && (
                     <p
-                      className="w-full mt-1 mb-0 ml-3 small"
+                      className="w-full mt-1 mb-0 mx-3 small"
                       style={{ textAlign: "left", color: "red" }}
                     >
-                      Enter a valid phone number
+                      {t("mobile_validation")}
                     </p>
                   )}
                   <p
-                    className="w-full mt-1 mb-0 ml-3 font-semibold"
-                    style={{ textAlign: "left" }}
+                    className="w-full mt-1 mb-0 mx-3 font-semibold"
                   >
-                    Full Name
+                  {t("full_name")}
                   </p>
                   <input
-                    className="w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small mb-3"
+                    className="w-full md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small mb-3"
                     placeholder="Enter Full Name"
                     defaultValue={userData.name}
                     {...register("name", {
@@ -244,10 +246,10 @@ function MainAccountSitting() {
                   />
                   {errors.name && (
                     <p
-                      className="w-full mt-1 mb-0 ml-3 small"
+                      className="w-full mt-1 mb-0 mx-3 small"
                       style={{ textAlign: "left", color: "red" }}
                     >
-                      Enter a full name
+                      {t("name_validation")}
                     </p>
                   )}
                   <div className="flex items-center">
@@ -257,10 +259,9 @@ function MainAccountSitting() {
                       alt="pp"
                     />
                     <p
-                      className="w-full mt-1 mb-0 ml-3 font-semibold"
-                      style={{ textAlign: "left" }}
+                      className="w-full mt-1 mb-0 mx-3 font-semibold"
                     >
-                      Profile Image
+                      {t("profile_image")}
                     </p>
                   </div>
                   <div className="w-full md:w-2/3 lg:w-2/3 mt-3 ">
@@ -275,7 +276,7 @@ function MainAccountSitting() {
                       htmlFor="profileImageInput"
                       className="cursor-pointer bg-[#f0a835] text-white px-4 py-2 rounded-lg"
                     >
-                      Upload Image
+                      {t("add_main_image")}
                     </label>
                     {profileImage && (
                       <img
@@ -288,8 +289,8 @@ function MainAccountSitting() {
 
                   <Link to="/reset-password" style={{ textDecoration: "none" }}>
                     <div className="w-full h-12 mt-4 shadow-lg rounded-lg flex items-center mb-5">
-                      <p className="m-0 pl-3 text-[#f0a835] font-semibold">
-                        Change Password
+                      <p className="m-0 px-3 text-[#f0a835] font-semibold">
+                       {t("change_password")}
                       </p>
                     </div>
                   </Link>
@@ -302,13 +303,15 @@ function MainAccountSitting() {
                     {loading ? (
                       <Spinner animation="border" size="sm" />
                     ) : (
-                      "Save Changes"
+                     <>
+                      {t("save")}
+                     </>
                     )}
                   </button>
                 </form>
               </Row>
             </Tab>
-            <Tab eventKey="savedAddresses" title="Saved Addresses">
+            <Tab eventKey="savedAddresses" title={t("saved_address")}>
               <Container>
                 <Row className="">
                   {savedAddresses ? (
@@ -350,7 +353,7 @@ function MainAccountSitting() {
                           className="w-1/2 md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
                           onClick={() => setShowModal(true)}
                         >
-                          Add New Address
+                          {t("add_new_address")}
                         </button>
                       </div>
                     </>
@@ -486,12 +489,12 @@ function MainAccountSitting() {
       {/* Add Address Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Address</Modal.Title>
+          <Modal.Title>{t("add_new_address")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit(handleAddAddress)}>
             <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>{t("name")}</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter name"
@@ -499,79 +502,79 @@ function MainAccountSitting() {
               />
               {errors.name && (
                 <Form.Text className="text-danger">
-                  This field is required
+                  {t("name_validation")}
                 </Form.Text>
               )}
             </Form.Group>
             <Form.Group controlId="country">
-              <Form.Label>Country</Form.Label>
+              <Form.Label>{t("country")}</Form.Label>
               <Form.Control
                 as="select"
                 {...register("country", { required: true })}
                 onChange={(e) => setSelectedCountry(e.target.value)}
               >
-                <option value="">Select Country</option>
+                <option value="">{t("select_country")}</option>
                 {countries.map((country) => (
                   <option key={country.id} value={country.id}>
-                    {country?.name?.en}
+                    {getLangProperty(country, "name")}
                   </option>
                 ))}
               </Form.Control>
               {errors.country && (
                 <Form.Text className="text-danger">
-                  This field is required
+                  {t("field_required")}
                 </Form.Text>
               )}
             </Form.Group>
             <Form.Group controlId="city">
-              <Form.Label>City</Form.Label>
+              <Form.Label>{t("city")}</Form.Label>
               <Form.Control
                 as="select"
                 {...register("city", { required: true })}
                 onChange={(e) => setSelectedCity(e.target.value)}
               >
-                <option value="">Select City</option>
+                <option value="">{t("select_city")}</option>
                 {cities.map((city) => (
                   <option key={city.id} value={city.id}>
-                    {city?.name?.en}
+                    {getLangProperty(city, "name")}
                   </option>
                 ))}
               </Form.Control>
               {errors.city && (
                 <Form.Text className="text-danger">
-                  This field is required
+                  {t("field_required")}
                 </Form.Text>
               )}
             </Form.Group>
             <Form.Group controlId="area">
-              <Form.Label>Area</Form.Label>
+              <Form.Label>{t("area")}</Form.Label>
               <Form.Control
                 as="select"
                 {...register("area", { required: true })}
               >
-                <option value="">Select Area</option>
+                <option value="">{t("select_area")}</option>
                 {areas.map((area) => (
                   <option key={area.id} value={area.id}>
-                    {area?.name?.en}
+                    {getLangProperty(area, "name")}
                   </option>
                 ))}
               </Form.Control>
               {errors.area && (
                 <Form.Text className="text-danger">
-                  This field is required
+                  {t("field_required")}
                 </Form.Text>
               )}
             </Form.Group>
             <Form.Group controlId="postalCode">
-              <Form.Label>Postal Code</Form.Label>
+              <Form.Label>{t("postal_code")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter postal code"
+                placeholder={t("enter_postal_code")}
                 {...register("postalCode", { required: true })}
               />
               {errors.postalCode && (
                 <Form.Text className="text-danger">
-                  This field is required
+                  {t("field_required")}
                 </Form.Text>
               )}
             </Form.Group>
@@ -583,7 +586,7 @@ function MainAccountSitting() {
                 className="w-1/2 md:w-2/3 lg:w-2/3 h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3 text-white"
                 type="submit"
               >
-                Add Address
+                {t("add_address")}
               </button>
             </div>
           </Form>

@@ -20,7 +20,9 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { signUpWeb } from '../../features/auth/authSlice';
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 function Signup() {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,8 +57,6 @@ const cred = {
   phone_country: "EG",
 }
 dispatch(signUpWeb(cred));
-console.log(userData)
-console.log(token)
 }
 
   return (
@@ -65,14 +65,14 @@ console.log(token)
       <Container className="mb-5">
         <Row className="shadow-lg rounded-2xl">
           <Col className="flex flex-col items-center">
-            <h1 className="pt-3 mb-4 text-center">Welcome to Find Help</h1>
+            <h1 className="pt-3 mb-4 text-center">{t("welcome_sign_in")}</h1>
             <form
               className="flex flex-col items-center w-full "
               onSubmit={handleSubmit(onSubmit)}
             >
               <input
-                className="block w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Full Name"
+                className="block w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("full_name")}
                 {...register("fullName", { required: true })}
               />
               {errors.fullName && (
@@ -80,14 +80,14 @@ console.log(token)
                   className="w-2/3 mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  This field is required
+                  {t("field_required")}
                 </p>
               )}
 
               {/* email */}
               <input
-                className="block w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Email"
+                className="block w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("email")}
                 {...register("email", {
                   required: true,
                   pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -98,15 +98,15 @@ console.log(token)
                   className="w-2/3 mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  Enter a valid email
+                  {t("email_validation")}
                 </p>
               )}
 
               {/* phone */}
               <input
                 type="number"
-                className="block w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Phone Number"
+                className="block w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("mobile")}
                 {...register("phoneNumber", { required: true })}
               />
               {errors.phoneNumber && (
@@ -114,7 +114,7 @@ console.log(token)
                   className="w-2/3 mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  This field is required
+                  {t("mobile_validation")}
                 </p>
               )}
 
@@ -123,8 +123,8 @@ console.log(token)
         </div>
               <input
                 type={showPassword ? "text" : "password"}
-                className="block w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Password"
+                className="block w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("password")}
                 {...register("password", { required: true })}
               />
               {/* <FontAwesomeIcon
@@ -143,15 +143,15 @@ console.log(token)
                   className="w-2/3 mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  This field is required
+                  {t("password_validation")}
                 </p>
               )}
 
               {/* confirm password */}
               <input
                 type={showPassword ? "text" : "password"}
-                className="block w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Confirm Password"
+                className="block w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("confirm_password")}
                 {...register("confirmPassword", { required: true })}
               />
               {errors.confirmPassword && (
@@ -159,7 +159,7 @@ console.log(token)
                   className="w-2/3 mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  This field is required
+                  {t("field_required")}
                 </p>
               )}
 
@@ -174,79 +174,15 @@ console.log(token)
                 }}
                 type="submit"
               >
-                Sign Up
+                {t("signup")}
               </Button>
             </form>
             <div className="flex justify-center w-full my-2">
-              <h6 className="text-center small mr-2">Already have an account?</h6>
+              <h6 className="text-center small mr-2">{t("have_account")}</h6>
               <Link to="/login" style={{textDecoration:"none",}}>
-              <h6 className="font-bold small"> Login</h6>
+              <h6 className="font-bold small mx-1">{t("sign_in")}</h6>
               </Link>
             </div>
-            {/* <div className="flex items-center w-2/3 mb-5">
-              <div
-                className="w-1/2 h-1"
-                style={{ backgroundColor: "lightgray" }}
-              ></div>
-              <h6 className="mx-3 small" style={{ color: "lightgray" }}>
-                OR
-              </h6>
-              <div
-                className="w-1/2 h-1"
-                style={{ backgroundColor: "lightgray" }}
-              ></div>
-            </div>
-            <Button
-              className="w-2/3 h-12 my-3 text-center border-2 border-black"
-              variant="light"
-              href="#link"
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                fontSize: "16px",
-                borderRadius: "15px",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faGoogle}
-                style={{ color: "#000000", marginRight: "0.7rem" }}
-              />
-              Continue with Google
-            </Button>{" "}
-            <Button
-              className="w-2/3 h-12 my-3 text-center border-2 border-black"
-              variant="light"
-              href="#link"
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                fontSize: "16px",
-                borderRadius: "15px",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faFacebook}
-                style={{ color: "#000000", marginRight: "0.7rem" }}
-              />
-              Continue with Facebook
-            </Button>{" "}
-            <Button
-              className="w-2/3 h-12 my-3 text-center border-2 border-black"
-              variant="light"
-              href="#link"
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                fontSize: "16px",
-                borderRadius: "15px",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faApple}
-                style={{ color: "#000000", marginRight: "0.7rem" }}
-              />
-              Continue with Apple
-            </Button> */}
           </Col>
           <Col className="hidden p-0 md:block lg:block">
             <div className="flex justify-end">

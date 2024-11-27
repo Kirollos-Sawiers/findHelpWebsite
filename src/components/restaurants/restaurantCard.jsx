@@ -6,10 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as offStar } from "@fortawesome/free-regular-svg-icons";
 import { Chip } from "primereact/chip";
+import { useTranslation } from "react-i18next";
+import cookies from "js-cookie";
 
 function RestaurantCard({ restaurant }) {
-  console.log(restaurant);
+  const { t } = useTranslation();
+  const lng = cookies.get("i18next") || "en";
   const isOpen = restaurant?.work_times?.is_open;
+
+  // Helper function to get the correct language property
+  const getLangProperty = (obj, property) => {
+    return obj?.[property]?.[lng] || obj?.[property]?.en || "";
+  };
 
   return (
     <div
@@ -30,10 +38,10 @@ function RestaurantCard({ restaurant }) {
         <div className="w-full flex justify-between">
           <div className="w-full ml-2">
             <p className="font-semibold text-sm p-1 leading-none m-0">
-              {restaurant?.name?.en}
+              {getLangProperty(restaurant, "name")}
             </p>
             <p className="small mb-0 p-1">
-              {restaurant?.restaurant_categories[0]?.name?.en || "Food"}
+              {getLangProperty(restaurant?.restaurant_categories[0], "name") || "Food"}
             </p>
             <div className="w-full flex justify-end">
               {!isOpen ? (

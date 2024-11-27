@@ -1,6 +1,14 @@
 import React from "react";
+import cookies from "js-cookie";
 
 function CategoryHeader({ categories, onCategoryClick }) {
+  const lng = cookies.get("i18next") || "en";
+
+  // Helper function to get the correct language property
+  const getLangProperty = (obj, property) => {
+    return obj?.[property]?.[lng] || obj?.[property]?.en || "";
+  };
+
   return (
     <div className="overflow-x-auto flex space-x-4 p-4 bg-gray-50 mb-5">
       {categories.length > 0 ? (
@@ -12,10 +20,10 @@ function CategoryHeader({ categories, onCategoryClick }) {
           >
             <img
               src={item.image?.url}
-              alt={item.name?.en}
+              alt={getLangProperty(item, "name")}
               className="h-16 w-16 mx-auto mb-2"
             />
-            <p className="text-sm font-semibold">{item.name?.en}</p>
+            <p className="text-sm font-semibold">{getLangProperty(item, "name")}</p>
           </div>
         ))
       ) : (

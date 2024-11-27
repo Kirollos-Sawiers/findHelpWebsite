@@ -39,10 +39,10 @@ export const searchRestaurants = createAsyncThunk(
 );
 export const filterRestaurantsByLocation = createAsyncThunk(
   "restaurants/filterRestaurants",
-  async ({ page, cityID, countryID }, { rejectWithValue }) => {
+  async ({type, page, cityID, countryID }, { rejectWithValue }) => {
     try {
       const response = await instance.get(
-        `api/v1/users/shops?page=${page}&city_id=${cityID}`,
+        `api/v1/users/shops?type=${type}&page=${page}&city_id=${cityID}`,
         {
           headers: {
             "Content-Type": "application/json",

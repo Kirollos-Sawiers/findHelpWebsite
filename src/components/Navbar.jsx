@@ -18,8 +18,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import i18n from "i18next";
 import cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 function MainNavbar() {
+  const { t } = useTranslation();
   const [cartItems, setCartItems] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -42,12 +44,12 @@ function MainNavbar() {
     if (token) {
       return (
         <>
-          <Nav.Link className="ml-3 leading-none " href="/profile">
-            profile
+          <Nav.Link className="ml-3 leading-none text-black" href="/profile">
+            {t("profile")}
             {/* <img className="w-10 h-10 p-0 rounded-full" src={userData?.image?.url || profile_pic}  alt="pp"/> */}
           </Nav.Link>
-
           <Button
+          className="leading-none"
             variant="warning"
             href="/login"
             style={{
@@ -64,8 +66,8 @@ function MainNavbar() {
               localStorage.removeItem("user");
             }}
           >
-            <span className="leading-none">Logout</span>{" "}
-            <FontAwesomeIcon icon={faRightFromBracket} />
+            <span className="leading-none">{t("logout")}</span>{" "}
+            {/* <FontAwesomeIcon icon={faRightFromBracket} /> */}
           </Button>
         </>
       );
@@ -83,7 +85,8 @@ function MainNavbar() {
               width: "7rem",
             }}
           >
-            Login <FontAwesomeIcon icon={faUser} />
+            {t("sign_in")}
+             {/* <FontAwesomeIcon icon={faUser} /> */}
           </Button>
         </>
       );
@@ -137,27 +140,28 @@ function MainNavbar() {
               className="w-full flex justify-around"
               style={{ color: "black", fontWeight: "bolder", fontSize: "14px" }}
             >
-              <Nav.Link className="mr-3 leading-none" href="/">
-                Home
+              <Nav.Link className="mr-3 leading-none text-black" href="/">
+                {t("home")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none" href="/restaurants">
-                Restaurants
+              <Nav.Link className="mr-3 leading-none text-black" href="/restaurants">
+              {t("restaurants")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none" href="/shops">
-                Shops
+              <Nav.Link className="mr-3 leading-none text-black" href="/shops">
+              {t("shops")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none" href="/services">
-                Services
+              <Nav.Link className="mr-3 leading-none text-black" href="/services">
+              {t("services")}
               </Nav.Link>
-              <NavDropdown title="Join Us" id="basic-nav-dropdown">
-                <NavDropdown.Item href="partnerwithus">
-                  Partner with us
+              <NavDropdown className="leading-none text-black" title={t("join_us")} id="basic-nav-dropdown">
+                <NavDropdown.Item className="font-medium leading-none" href="partnerwithus">
+                  {t("partner_with_us")}
                 </NavDropdown.Item>
-                <NavDropdown.Item href="ridewithus">
-                  Ride With us
+                <hr/>
+                <NavDropdown.Item className="font-medium leading-none" href="ridewithus">
+                {t("ride_with_us")}
                 </NavDropdown.Item>
               </NavDropdown>
-              {/* <Button variant="outline-secondary" onClick={() => {
+              <Button className="leading-none font-bold" variant="" onClick={() => {
                 if(language==="en"){
                   i18n.changeLanguage("ar");
                   cookies.set("i18next", "ar");
@@ -167,7 +171,7 @@ function MainNavbar() {
                 }
               }}>
                 {language === "en" ? "العربية" : "English"}
-              </Button> */}
+              </Button>
               {toggleLoginButton()}
               <Nav.Link
                 className="ml-2 leading-none pl-0"

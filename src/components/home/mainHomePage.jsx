@@ -23,10 +23,12 @@ import partner3 from "../../assets/partner3.jpeg";
 import partner4 from "../../assets/partner4.jpeg";
 import partner5 from "../../assets/partner5.jpeg";
 import partner6 from "../../assets/partner6.jpeg";
+import { useTranslation } from "react-i18next";
 
 const LAPTOP_BREAKPOINT = 992;
 
 function MainHomePage() {
+  const { t } = useTranslation();
   const [isLaptop, setIsLaptop] = useState(
     window.innerWidth >= LAPTOP_BREAKPOINT
   );
@@ -80,7 +82,7 @@ function MainHomePage() {
           <Image className="rounded-xl" src={rideWithUs} />
         </Link>
       </div>
-      <div className="flex justify-around mt-5">
+      <div className="flex justify-evenly mt-5">
         <button
           className={`px-4 py-2 mr-20 rounded-full text-black font-semibold transition-colors duration-300
           ${
@@ -90,7 +92,7 @@ function MainHomePage() {
           }`}
           onClick={() => handleSectionClick("start")}
         >
-          Get Started
+        {t("get_started")}
         </button>
         <button
           className={`px-4 py-2 rounded-full text-black font-semibold transition-colors duration-300
@@ -101,61 +103,52 @@ function MainHomePage() {
           }`}
           onClick={() => handleSectionClick("offer")}
         >
-          What we offer
+          {t("what_we_offer")}
         </button>
       </div>
       <div className="flex flex-wrap justify-evenly my-10">
         {activeSection === "start" ? (
           <>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Place an order!</p>
+              <p className="font-bold">{t("place_an_order")}</p>
               <Image className="w-[20rem] h-fit" src={service1} />
-              <p className="font-bold mb-0">Place order through our</p>
-              <p className="font-bold">website or mobile app</p>
+              <p className="w-[25rem] text-center font-bold mb-0">{t("place_an_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Track Order</p>
+              <p className="font-bold">{t("track_order")}</p>
               <Image className="w-[20rem] h-fit" src={service2} />
-              <p className="font-bold mb-0">You can track your order</p>
-              <p className="font-bold">status with delivery time</p>
+              <p className="w-[25rem] text-center font-bold mb-0">{t("track_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">Receive oreder!</p>
+              <p className="font-bold">{t("receive_oreder")}</p>
               <Image className="w-[20rem] h-fit" src={service3} />
-              <p className="font-bold mb-0">Receive your order at</p>
-              <p className="font-bold">a lighting fast speed</p>
+              <p className="w-[25rem] text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center ">
               <Image className="w-[18rem] h-fit" src={service4} />
-              <p className="font-bold mb-0">Place order through our</p>
-              <p className="font-bold">website or mobile app</p>
+              <p className="w-[25rem] text-center font-bold mb-0">{t("place_an_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <Image className="w-[18rem] h-fit" src={service6} />
-              <p className="font-bold mb-0">You can track your order</p>
-              <p className="font-bold">status with delivery time</p>
+              <p className="w-[25rem] text-center font-bold mb-0">{t("track_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <Image className="w-[18rem] h-fit" src={service5} />
-              <p className="font-bold mb-0">Receive your order at</p>
-              <p className="font-bold">a lighting fast speed</p>
+              <p className="w-[25rem] text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
             </div>
           </>
         )}
       </div>
-      <div className="w-full flex flex-wrap justify-center">
+      <div className="w-full flex flex-wrap justify-center mt-24">
         <div className="mx-5">
-          <p className="text-7xl font-semibold mb-4">Feast Your Senses,</p>
+          <p className="text-7xl font-semibold mb-4">{t("feast_your_senses")}</p>
           <p className="text-7xl font-semibold text-[#F0A835] mb-4">
-            Fast and Fresh
+         {t("fast_and _fresh")}
           </p>
-          <p className="font-semibold mb-4">
-            Order Restaurant food, takeaway and groceries
-          </p>
-          <div className="flex mb-5">
+          <div className="w-[50%] flex justify-around mb-5">
             <Link
               to="https://apps.apple.com/eg/app/findhelpapp/id1450736684"
               target="_blank"
@@ -175,9 +168,9 @@ function MainHomePage() {
         </div>
       </div>
       <div className="flex justify-center text-4xl mt-16 mb-10">
-        <p className="font-bold">some of our partners</p>
+        <p className="font-bold">{t("some_of_our_partners")}</p>
       </div>
-      <div className="w-full flex flex-wrap justify-center">
+      <div className="w-full flex flex-wrap justify-center mb-20">
         <div className="flex">
           <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner1} />
           <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner6} />
@@ -194,25 +187,25 @@ function MainHomePage() {
       <div className="flex flex-wrap justify-evenly items-center h-fit mx-14 mb-5 py-3 rounded-lg bg-gradient-to-l from-[#F2B655] to-[#ffebc3]">
         <div className="flex flex-col items-center">
           <p className="text-4xl m-0">546+</p>
-          <p className="text-xl font-extrabold">Registered Riders</p>
+          <p className="text-xl font-extrabold">{t("registered_riders")}</p>
         </div>
         <div className="vr hidden md:block lg:block" />
         <hr className="w-52 block md:hidden lg:hidden" />
         <div className="flex flex-col items-center">
           <p className="text-4xl m-0">789,900+</p>
-          <p className="text-xl font-extrabold">Orders Delivered</p>
+          <p className="text-xl font-extrabold">{t("orders_delivered")}</p>
         </div>
         <div className="vr hidden md:block lg:block" />
         <hr className="w-52 block md:hidden lg:hidden" />
         <div className="flex flex-col items-center">
           <p className="text-4xl m-0">690+</p>
-          <p className="text-xl font-extrabold">Restaurants Partnered</p>
+          <p className="text-xl font-extrabold">{t("restaurants_partnered")}</p>
         </div>
         <div className="vr hidden md:block lg:block" />
         <hr className="w-52 block md:hidden lg:hidden" />
         <div className="flex flex-col items-center">
           <p className="text-4xl m-0">17,457+</p>
-          <p className="text-xl font-extrabold">Food items</p>
+          <p className="text-xl font-extrabold">{t("food_items")}</p>
         </div>
       </div>
       <Footer />

@@ -8,8 +8,10 @@ import instagram from "../../assets/instagram.png";
 import snapchat from "../../assets/snapchat.png";
 // import tiktok from "../../assets/tiktok.png";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Footer() {
+  const { t } = useTranslation();
   const handlePhoneNumberClick = (phoneNumber) => {
     window.location.href = `tel:${phoneNumber}`;
   };
@@ -28,7 +30,7 @@ function Footer() {
           </Col>
           <Col md={3}>
             <div>
-              <p className="text-white font-bold">Contact us</p>
+              <p className="text-white font-bold">{t("contact_us")}</p>
               <p
                 className="text-white cursor-pointer text-pretty w-10"
                 onClick={() => handleEmailClick("newfindhelpapp@gmail.com")}
@@ -39,31 +41,31 @@ function Footer() {
                 className="text-white cursor-pointer"
                 onClick={() => handlePhoneNumberClick("00201000067629")}
               >
-                +2-01000067629
+                {t("mobile_number")}
               </p>
             </div>
           </Col>
           <Col md={2}>
             <div>
-              <p className="text-white font-bold">Policy</p>
+              {/* <p className="text-white font-bold">Policy</p> */}
             <Link to="/TermsandConditions" className="no-underline">
-              <p className="text-white">Terms & Conditions</p>
+              <p className="text-white">{t("terms_cond")}</p>
             </Link>
             <Link to="/Privacy-policy" className="no-underline">
-              <p className="text-white">Privacy Policy</p>
+              <p className="text-white">{t("privacy_policy")}</p>
             </Link>
             </div>
           </Col>
           <Col md={2}>
-            <p className="text-white font-bold">Services</p>
+            {/* <p className="text-white font-bold">Services</p> */}
             <Link to="/restaurants" className="no-underline">
-              <p className="text-white">Restaurants</p>
+              <p className="text-white">{t("restaurants")}</p>
             </Link>
             <Link to="/shops" className="no-underline">
-              <p className="text-white">Shops</p>
+              <p className="text-white">{t("shops")}</p>
             </Link>
             <Link to="/services" className="no-underline">
-              <p className="text-white">Services</p>
+              <p className="text-white">{t("services")}</p>
             </Link>
           </Col>
           <Col md={2}>
@@ -95,7 +97,7 @@ function Footer() {
         <Row className="p-3">
           <div className="flex justify-between items-center">
             <p className="text-white font-bold w-2/3 m-0">
-              All rights reserved © Find Help
+             {t("all_rights_reserved")} © Find Help
             </p>
             <div className="flex flex-col justify-evenly w-14 mb-1 md:w-1/3 md:flex md:flex-row md:justify-evenly">
               <Link

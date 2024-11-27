@@ -12,8 +12,11 @@ import {
 } from "../../features/orders/orderSlice";
 import { useDispatch } from "react-redux";
 import GoogleMapComponent from "../../features/googelMap/map";
+import cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 const Checkout = () => {
+  const { t } = useTranslation();
   const [cartItems, setCartItems] = useState([]);
   const [orderPriceData, setOrderPriceData] = useState();
   const [paymentMethod, setPaymentMethod] = useState();
@@ -24,6 +27,7 @@ const Checkout = () => {
   const [errorMessage, setErrorMessage] = useState(""); // To show error messages
   const [errorLocationMessage, setErrorLocationMessage] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false); // To track order placement status
+  const lng = cookies.get("i18next") || "en";
 
   const dispatch = useDispatch();
 
@@ -83,6 +87,7 @@ const Checkout = () => {
         dispatch(calculateOrderPrice(orderData)).then((res) => {
             setOrderPriceData(res.payload);
             setErrorLocationMessage(res.payload.message);
+            console.log(res.payload)
         })
       }
     }
@@ -167,6 +172,11 @@ const Checkout = () => {
     }
   };
 
+  // Helper function to get the correct language property
+  const getLangProperty = (obj, property) => {
+    return obj?.[property]?.[lng] || obj?.[property]?.en || "";
+  };
+
   return (
     <Container className="p-0" fluid>
       <Navbar />
@@ -182,28 +192,28 @@ const Checkout = () => {
                     >
                       <img
                         src={cartItem.image.url}
-                        alt={cartItem.name.en}
+                        alt={getLangProperty(cartItem, "name")}
                         className="rounded-full w-32 h-32 mr-4 "
                       />
                       <div className="">
                         <h3 className="sm:text-base md:text-lg font-semibold">
-                          {cartItem.name.en}
+                          {getLangProperty(cartItem, "name")}
                         </h3>
                         <p className="text-zinc-500 text-sm">
-                          {cartItem.description.en}
+                          {getLangProperty(cartItem, "description")}
                         </p>
                         <div className="flex items-center mt-4 pr-2">
                           <span className="sm:text-base md:text-lg font-semibold text-[#f0a835]">
-                            EGP{" "}
                             {(
                               cartItem.userQuantity *
                               (cartItem?.selling_price === 0
                                 ? cartItem.userOptionPrice
                                 : cartItem?.selling_price)
                             ).toFixed(2)}
+                              {t("egp")}
                           </span>
-                          <span className="ml-3 sm:text-base md:text-lg font-semibold text-[#f0a835]">
-                            Quantity : {cartItem.userQuantity}
+                          <span className="mx-3 sm:text-base md:text-lg font-semibold text-[#f0a835]">
+                            {t("quantity")} : {cartItem.userQuantity}
                           </span>
                           <div className="flex items-center ml-auto">
                             <button
@@ -229,7 +239,7 @@ const Checkout = () => {
             {orderPlaced ? (
               <div className="flex justify-center mt-5 w-full h-screen">
                 <p className="font-bold text-2xl text-[#f0a835]">
-                  Your order will be delivered soon...
+                  {t("delivered_soon")}
                 </p>
               </div>
             ) : (
@@ -237,22 +247,22 @@ const Checkout = () => {
                 {cartItems.length > 0 && orderPriceData && (
                   <div className="">
                     <div className="mb-3">
-                      <h3>Location</h3>
-                      <button className="w-[30%] h-10 bg-[#f0a835] text-white font-semibold rounded-lg  my-3" onClick={handleMapModalShow}>Set Location</button>
+                      <h3>{t("location")}</h3>
+                      <button className="w-[30%] h-10 bg-[#f0a835] text-white font-semibold rounded-lg  my-3" onClick={handleMapModalShow}>{t("select_location")}</button>
                     </div>
                     {errorLocationMessage? <small className="text-rose-800">{errorLocationMessage}</small>: null}
                     <div>
                     <hr />
                       <Modal show={showMapModal} onHide={handleMapModalClose}>
                         <Modal.Header closeButton>
-                          <Modal.Title>Select Your Location</Modal.Title>
+                          <Modal.Title>{t("select_location_map")}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                           <GoogleMapComponent onLocationUpdate={handleLocationUpdate} />
                         </Modal.Body>
                         <Modal.Footer>
                           <Button variant="secondary" onClick={handleMapModalClose}>
-                            Close
+                            {t("close")}
                           </Button>
                         </Modal.Footer>
                       </Modal>
@@ -260,7 +270,7 @@ const Checkout = () => {
 
                     <form onSubmit={handleSubmit} className="my-3">
                       <div>
-                        <h3>Payment Method</h3>
+                        <h3>{t("payment_methods")}</h3>
                       </div>
                       <div>
                         <input
@@ -269,7 +279,7 @@ const Checkout = () => {
                           checked={paymentMethod === "4"}
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         />
-                        <label className="ml-2 font-medium">Cash</label>
+                        <label className="mx-2 font-medium">{t("cash")}</label>
                       </div>
                       <div>
                         <input
@@ -278,7 +288,7 @@ const Checkout = () => {
                           checked={paymentMethod === "10"}
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         />
-                        <label className="ml-2 font-medium">
+                        <label className="mx-2 font-medium">
                           Visa / Mastercard
                         </label>
                       </div>
@@ -286,7 +296,7 @@ const Checkout = () => {
                       <InputGroup className="mb-3">
                         <InputGroup.Text id="basic-addon1">%</InputGroup.Text>
                         <Form.Control
-                          placeholder="Apply discount code"
+                          placeholder={t("promo_code")}
                           aria-label="discount"
                           aria-describedby="basic-addon1"
                           value={discountCode}
@@ -294,46 +304,46 @@ const Checkout = () => {
                         />
                       </InputGroup>
                       <Form.Group className="mb-3">
-                        <Form.Label>Notes</Form.Label>
+                        <Form.Label>{t("notes")}</Form.Label>
                         <Form.Control
                           as="textarea"
                           rows={3}
-                          placeholder="Add any notes here"
+                          placeholder={t("write_something")}
                           value={notes}
                           onChange={(e) => setNotes(e.target.value)}
                         />
                       </Form.Group>
                       <hr />
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl">Subtotal</p>
+                        <p className="font-bold text-2xl">{t("subtotal")}</p>
                         <p className="font-bold text-xl">
                           {orderPriceData[0]?.sub_total}{" "}
-                          {orderPriceData[0]?.currency}
+                          {t("egp")}
                         </p>
                       </div>
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl">Service Fee</p>
+                        <p className="font-bold text-2xl">{t("service_fee")}</p>
                         <p className="font-bold text-xl">
-                          {orderPriceData[0]?.taxes} {orderPriceData[0]?.currency}
+                          {orderPriceData[0]?.taxes} {t("egp")}
                         </p>
                       </div>
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl">Delivery Fee</p>
+                        <p className="font-bold text-2xl">{t("delivery_fee")}</p>
                         <p className="font-bold text-xl">
-                          {orderPriceData[0]?.shipping} {orderPriceData[0]?.currency}
+                          {orderPriceData[0]?.shipping} {t("egp")}
                         </p>
                       </div>
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl text-[#f0a835]">Earned points</p>
+                        <p className="font-bold text-2xl text-[#f0a835]">{t("earned_points")}</p>
                         <p className="font-bold text-xl text-[#f0a835]">
-                          {orderPriceData[0]?.earn_points} Points
+                          {orderPriceData[0]?.earn_points} {t("points")}
                         </p>
                       </div>
                       <hr />
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl">Total price</p>
+                        <p className="font-bold text-2xl">{t("total")}</p>
                         <p className="font-bold text-xl">
-                          {orderPriceData[0]?.total} {orderPriceData[0]?.currency}
+                          {orderPriceData[0]?.total} {t("egp")}
                         </p>
                       </div>
                       {errorMessage && (
@@ -343,7 +353,7 @@ const Checkout = () => {
                         className="w-full h-12 bg-[#f0a835] rounded-lg font-bold text-xl my-3"
                         type="submit"
                       >
-                        Place order
+                        {t("place_order")}
                       </button>
                     </form>
                   </div>
@@ -357,7 +367,7 @@ const Checkout = () => {
             <Col xs={12}>
               <div className="flex justify-center mt-5 w-full h-screen">
                 <p className="font-bold text-2xl text-[#f0a835]">
-                  Card is empty..!
+                  {t("card_is_empty")}
                 </p>
               </div>
             </Col>

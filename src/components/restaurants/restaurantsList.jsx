@@ -24,8 +24,11 @@ import LoadingSpinner from "./loadingSpinner";
 import ErrorDisplay from "./errorDisplay";
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 function RestaurantsList() {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [countries, setCountries] = useState([]);
@@ -43,6 +46,12 @@ function RestaurantsList() {
   );
   const { loading } = useSelector((state) => state.restaurantsData);
   const error = useSelector((state) => state.restaurantsData.error);
+  const lng = cookies.get("i18next") || "en";
+
+  // Helper function to get the correct language property
+  const getLangProperty = (obj, property) => {
+    return obj?.[property]?.[lng] || obj?.[property]?.en || "";
+  };
 
   useEffect(() => {
     dispatch(getAllCountries()).then((res) => {
@@ -113,7 +122,7 @@ function RestaurantsList() {
         {countries ? (
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="country">
-              Country
+            {t("country")} 
             </label>
             <select
               className="block w-full bg-white border py-2 rounded shadow"
@@ -121,10 +130,10 @@ function RestaurantsList() {
               value={selectedCountryId}
               onChange={handleCountryChange}
             >
-              <option value="EG">Select a country</option>
+              <option value="">{t("select_country")}</option>
               {countries.map((country) => (
                 <option key={country.id} value={country.id}>
-                  {country.name.en}
+                  {getLangProperty(country, "name")}
                 </option>
               ))}
             </select>
@@ -138,7 +147,7 @@ function RestaurantsList() {
             {selectedCountryId && (
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2" htmlFor="city">
-                  City
+                {t("city")}
                 </label>
                 <select
                   className="block w-full bg-white border py-2 rounded shadow"
@@ -146,10 +155,10 @@ function RestaurantsList() {
                   value={selectedCity}
                   onChange={handleCityChange}
                 >
-                  <option value="">Select a city</option>
+                  <option value="">{t("select_city")}</option>
                   {cities.map((city) => (
                     <option key={city.id} value={city.id}>
-                      {city.name.en}
+                      {getLangProperty(city, "name")}
                     </option>
                   ))}
                 </select>
@@ -161,8 +170,10 @@ function RestaurantsList() {
                   className="w-[70%] h-10 text-white font-semibold bg-[#f0a835] rounded-lg" 
                   onClick={(e) => {
                     e.preventDefault();
+                    const type = location.pathname === "/restaurants" ? "restaurant" : "shop";
                     dispatch(
                       filterRestaurantsByLocation({
+                        type: type,
                         page: currentPage,
                         cityID: selectedCity,
                         countryID: selectedCountryId,
@@ -170,7 +181,7 @@ function RestaurantsList() {
                     );
                   }}
                 >
-                  Search
+                  {t("search")}
                 </button>
               </div>
             ) : (
@@ -197,16 +208,16 @@ function RestaurantsList() {
       <Navbar />
       <Container>
         <div className="w-full h-12 flex justify-center ">
-          <div className="p-inputgroup w-[30%] h-8 rounded-full border-1">
+          <div className="p-inputgroup w-[30%] h-8 border-1">
             <InputText 
-              className="pl-2" 
-              placeholder="Search" 
+              className="px-2" 
+              placeholder={t("search")}
               value={searchValue} 
               onChange={(e) => setSearchValue(e.target.value)} 
             />
             <Button 
               icon="pi pi-search" 
-              className="bg-[#f0a835] rounded-r-lg w-3" 
+              className="bg-[#f0a835] w-3" 
               onClick={handleSearch} 
             />
           </div>

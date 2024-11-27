@@ -6,7 +6,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { forgetPassword,resetPassword } from "../../features/auth/authSlice";
+import { useTranslation } from "react-i18next";
 function ResetPassword() {
+  const { t } = useTranslation();
   const { token } = useSelector((state) => state.auth);
   const userData = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -31,8 +33,8 @@ const resetPasswordData = {
 }
 // change it to function and dispatch function inside
 const forgetPasswordData = {
-  email: "kirollos.sawiers@gmail.com",
-    phone: "01272507535",
+  email: "test@example.com",
+    phone: "01201201236",
     phone_country: "EG"
 }
   const forgetPasswordView = () =>{
@@ -40,11 +42,11 @@ const forgetPasswordData = {
      <div>
           <div className="flex justify-center items-center w-full h-screen ">
             <div className="w-full shadow-lg p-10 m-20">
-              <h1 className="text-2xl font-bold mb-3 pl-2">Forget Password</h1>
+              <h1 className="text-2xl font-bold mb-3 pl-2">{t("forget_password")}</h1>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <input
-                  className="block w-full  md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                  placeholder="Enter Your Email Address..."
+                  className="block w-full  md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                  placeholder={t("type_email")}
                   {...register("email", {
                     required: true,
                     pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -55,7 +57,7 @@ const forgetPasswordData = {
                     className="w-full  md:w-2/3 lg:w-2/3 mt-1 mb-0 ml-3 small"
                     style={{ textAlign: "left", color: "red" }}
                   >
-                    Enter a valid email
+                    {t("email_validation")}
                   </p>
                 )}
                 <Button
@@ -70,7 +72,7 @@ const forgetPasswordData = {
                   type="submit"
                   onClick={(data)=>{ dispatch(forgetPassword(forgetPasswordData))}}
                 >
-                  Reset Password
+                 {t("send_email")}
                 </Button>
               </form>
             </div>
@@ -83,12 +85,12 @@ const forgetPasswordData = {
      <div>
           <div className="flex justify-center items-center w-full h-screen ">
             <div className="w-full shadow-lg p-10 m-20">
-              <h1 className="text-2xl font-bold mb-3 pl-2">Reset Password</h1>
+              <h1 className="text-2xl font-bold mb-3 pl-2">{t("reset_password")}</h1>
               <form onSubmit={handleSubmit(onSubmit)}>
               <input
                 type={"password"}
-                className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Password"
+                className=" w-full md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("password")}
                 {...register("password", { required: true })}
               />
               {/* <FontAwesomeIcon
@@ -107,7 +109,7 @@ const forgetPasswordData = {
                   className="w-full ml-3 mt-1 mb-0 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  password is required
+                  {t("password_validation")}
                 </p>
               )}
                 <Button
@@ -122,7 +124,7 @@ const forgetPasswordData = {
                   type="submit"
                   onClick={()=>{ dispatch(resetPassword(resetPasswordData))}}
                 >
-                  Reset Password
+                  {t("reset_password")}
                 </Button>
               </form>
             </div>

@@ -21,11 +21,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginWeb } from "../../features/auth/authSlice";
 import ErrorModal from './errorModal';
+import { useTranslation } from "react-i18next";
 
 function Login() {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState(false); // Added state
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.user);
@@ -39,13 +42,12 @@ function Login() {
   }, [token, navigate]);
 
   useEffect(() => {
-    if (error) {
+    if (error && formSubmitted) { // Check both error and formSubmitted
       setErrorMessage(error);
       setShowErrorModal(true);
-      console.log(error)
+      setFormSubmitted(false); // Reset after handling
     }
-
-  }, [error]);
+  }, [error, formSubmitted]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -59,6 +61,7 @@ function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
+    setFormSubmitted(true); // Set to true when form is submitted
     const cred = {
       email: data.email,
       password: data.password,
@@ -75,14 +78,14 @@ function Login() {
       <Container className="mb-5">
         <Row className="shadow-lg rounded-2xl">
           <Col className="flex flex-col items-center">
-            <h1 className="pt-5 mb-4 text-center">Welcome back to Find Help</h1>
+            <h1 className="pt-5 mb-4 text-center">{t("welcome_sign_in")}</h1>
             <form
               className="flex flex-col items-center w-full "
               onSubmit={handleSubmit(onSubmit)}
             >
               <input
-                className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Email"
+                className=" w-full md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("email")}
                 {...register("email", {
                   required: true,
                   pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -94,15 +97,15 @@ function Login() {
                   className="w-full mt-1 mb-0 ml-3 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  Enter a valid email
+                  {t("email_validation")}
                 </p>
               )}
 
               {/* password */}
               <input
                 type={showPassword ? "text" : "password"}
-                className=" w-full md:w-2/3 lg:w-2/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-                placeholder="Password"
+                className=" w-full md:w-2/3 lg:w-2/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+                placeholder={t("password")}
                 {...register("password", { required: true })}
               />
               {/* <FontAwesomeIcon
@@ -121,7 +124,7 @@ function Login() {
                   className="w-full ml-3 mt-1 mb-0 small"
                   style={{ textAlign: "left", color: "red" }}
                 >
-                  password is required
+                  {t("password_validation")}    
                 </p>
               )}
 
@@ -136,18 +139,19 @@ function Login() {
                 }}
                 type="submit"
               >
-                Sign in
+               {t("sign_in")}
+               
               </Button>
             </form>
             <div className="w-full ml-16 font-semibold">
               <Link to="/forget-password" style={{ textDecoration: "none" }}>
-                <h6 className="font-bold">Forget password?</h6>
+                <h6 className="font-bold pr-6">{t("forget_password?")}</h6>
               </Link>
             </div>
-            <div className="flex justify-start w-full my-4 ml-16">
-              <h6 className="text-start">Don't have an account? </h6>
+            <div className="flex justify-start w-full my-4 ml-16 pr-6">
+              <h6 className="text-start">{t("no_account")} </h6>
               <Link to="/signup" style={{ textDecoration: "none" }}>
-                <h6 className="font-bold">Create an account</h6>
+                <h6 className="font-bold px-1">{t("create_account")}</h6>
               </Link>
             </div>
           </Col>
