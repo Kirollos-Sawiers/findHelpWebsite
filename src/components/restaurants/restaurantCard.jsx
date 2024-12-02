@@ -21,7 +21,7 @@ function RestaurantCard({ restaurant }) {
 
   return (
     <div
-      className={`rounded-2xl mb-3 shadow-md mr-1 ${
+      className={`rounded-2xl mb-3 shadow-md w-44 ${
         !isOpen ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
@@ -32,12 +32,12 @@ function RestaurantCard({ restaurant }) {
         className={!isOpen ? "pointer-events-none" : ""}
       >
         <Image
-          className="w-52 h-36 rounded-t-lg"
+          className="w-44 h-36 rounded-t-lg"
           src={restaurant?.image?.url}
         />
         <div className="w-full flex justify-between">
-          <div className="w-full ml-2">
-            <p className="font-semibold text-sm p-1 leading-none m-0">
+          <div className="w-44 ml-2">
+            <p className="font-semibold text-sm p-1 leading-1 m-0">
               {getLangProperty(restaurant, "name")}
             </p>
             <p className="small mb-0 p-1">

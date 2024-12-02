@@ -233,7 +233,7 @@ function RestaurantsList() {
                 onCategoryClick={handleCategoryClick}
               />
             </div>
-            <div className="flex flex-wrap justify-around">
+            <div className="flex flex-wrap justify-evenly">
               {allRestaurantsData?.data?.map((rest) => (
                 <RestaurantCard key={rest.id} restaurant={rest} />
               ))}
