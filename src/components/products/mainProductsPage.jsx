@@ -567,7 +567,7 @@ function MainProducts() {
                     <Row className="mt-20">
                       <Col md={2}></Col>
                       <Col>
-                        {shopData?.orders_reviews?.map((review, index) => {
+                      {(shopData?.orders_reviews.length>0)? shopData?.orders_reviews?.map((review, index) => {
                           return (
                             <div key={index} className="m-5">
                               <p className="text-sm text-zinc-500">
@@ -607,7 +607,8 @@ function MainProducts() {
                               </div>
                             </div>
                           );
-                        })}
+                        }):<><p className="w-full h-screen font-bold text-3xl flex justify-center items-center text-[#f0a853]">No Reviews Available</p></>}
+                      
                       </Col>
                       <Col md={2}></Col>
                     </Row>
@@ -618,6 +619,7 @@ function MainProducts() {
                     <Row className="mt-5">
                       <Col md={2}></Col>
                       <Col>
+                      <div className="flex justify-between ">
                         <div className="flex justify-center w-1/2 h-auto">
                           <Image
                             className="rounded-lg"
@@ -688,6 +690,7 @@ function MainProducts() {
                             </div>
                           </div>
                         </div>
+                      </div>
                       </Col>
                       <Col md={2}></Col>
                     </Row>
