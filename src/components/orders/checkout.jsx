@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import GoogleMapComponent from "../../features/googelMap/map";
 import cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -27,13 +28,15 @@ const Checkout = () => {
   const [errorMessage, setErrorMessage] = useState(""); // To show error messages
   const [errorLocationMessage, setErrorLocationMessage] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false); // To track order placement status
+  const [placedOrderData, setPlacedOrderData] = useState();
   const lng = cookies.get("i18next") || "en";
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Get initial location from localStorage
   useEffect(() => {
-    const storedLocation = localStorage.getItem('location');
+    const storedLocation = localStorage.getItem("location");
     if (storedLocation) {
       setLocation(JSON.parse(storedLocation));
     }
@@ -53,11 +56,10 @@ const Checkout = () => {
   const handleMapModalShow = () => setShowMapModal(true);
 
   const handleLocationUpdate = (newLocation) => {
-    localStorage.setItem('location', JSON.stringify(newLocation));
+    localStorage.setItem("location", JSON.stringify(newLocation));
     setLocation(newLocation); // Update state after picking location
     calculateCartPrice(); // Recalculate cart price with new location
   };
-  
 
   const calculateCartPrice = () => {
     if (cartItems) {
@@ -80,21 +82,23 @@ const Checkout = () => {
           },
           payment_method_id: paymentMethod || "", // Use current payment method or default
           notes: notes || "", // Use current notes or default
-          coupon_code: discountCode || "yitmgfjcndntndzuuabobnojuoqigyuwbrufpdrsyosaqedohezowikvkesbdnzqxotcyxtrdqgqn", // Use current discount code or default
+          coupon_code:
+            discountCode ||
+            "yitmgfjcndntndzuuabobnojuoqigyuwbrufpdrsyosaqedohezowikvkesbdnzqxotcyxtrdqgqn", // Use current discount code or default
           products: newProducts,
         };
 
         dispatch(calculateOrderPrice(orderData)).then((res) => {
-            setOrderPriceData(res.payload);
-            setErrorLocationMessage(res.payload.message);
-            console.log(res.payload)
-        })
+          setOrderPriceData(res.payload);
+          setErrorLocationMessage(res.payload.message);
+          console.log(res.payload);
+        });
       }
     }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!paymentMethod) {
       setErrorMessage("Please select a payment method.");
       return;
@@ -128,7 +132,10 @@ const Checkout = () => {
 
       dispatch(placeOrder(orderData))
         .then((res) => {
-          // console.log("Order placed:", res);
+          console.log("Order placed:");
+          console.log("Order placed:", res.payload);
+          console.log("Order placed:", res.payload.payment.invoice_url);
+          setPlacedOrderData(res.payload);
           setErrorMessage("");
           setOrderPlaced(true);
           setCartItems([]);
@@ -210,7 +217,7 @@ const Checkout = () => {
                                 ? cartItem.userOptionPrice
                                 : cartItem?.selling_price)
                             ).toFixed(2)}
-                              {t("egp")}
+                            {t("egp")}
                           </span>
                           <span className="mx-3 sm:text-base md:text-lg font-semibold text-[#f0a835]">
                             {t("quantity")} : {cartItem.userQuantity}
@@ -235,33 +242,59 @@ const Checkout = () => {
                 : null}
             </div>
           </Col>
-          <Col xs={12} md={12} lg={6}>
-            {orderPlaced ? (
-              <div className="flex justify-center mt-5 w-full h-screen">
-                <p className="font-bold text-2xl text-[#f0a835]">
-                  {t("delivered_soon")}
-                </p>
-              </div>
-            ) : (
-              <>
+          {orderPlaced ? (
+            <>
+              {placedOrderData?.payment?.invoice_url ? (
+                <>
+                  {window.location.replace(
+                    placedOrderData?.payment?.invoice_url
+                  )}
+                </>
+              ) : (
+                <Col xs={12} md={12} lg={12}>
+                  <div className="flex justify-center mt-5 w-full h-screen">
+                    <p className="font-bold text-2xl text-[#f0a835]">
+                      {t("delivered_soon")}
+                    </p>
+                  </div>
+                </Col>
+              )}
+            </>
+          ) : (
+            <>
+              <Col xs={12} md={12} lg={6}>
                 {cartItems.length > 0 && orderPriceData && (
                   <div className="">
                     <div className="mb-3">
                       <h3>{t("location")}</h3>
-                      <button className="w-[30%] h-10 bg-[#f0a835] text-white font-semibold rounded-lg  my-3" onClick={handleMapModalShow}>{t("select_location")}</button>
+                      <button
+                        className="w-[30%] h-10 bg-[#f0a835] text-white font-semibold rounded-lg  my-3"
+                        onClick={handleMapModalShow}
+                      >
+                        {t("select_location")}
+                      </button>
                     </div>
-                    {errorLocationMessage? <small className="text-rose-800">{errorLocationMessage}</small>: null}
+                    {errorLocationMessage ? (
+                      <small className="text-rose-800">
+                        {errorLocationMessage}
+                      </small>
+                    ) : null}
                     <div>
-                    <hr />
+                      <hr />
                       <Modal show={showMapModal} onHide={handleMapModalClose}>
                         <Modal.Header closeButton>
                           <Modal.Title>{t("select_location_map")}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                          <GoogleMapComponent onLocationUpdate={handleLocationUpdate} />
+                          <GoogleMapComponent
+                            onLocationUpdate={handleLocationUpdate}
+                          />
                         </Modal.Body>
                         <Modal.Footer>
-                          <Button variant="secondary" onClick={handleMapModalClose}>
+                          <Button
+                            variant="secondary"
+                            onClick={handleMapModalClose}
+                          >
                             {t("close")}
                           </Button>
                         </Modal.Footer>
@@ -317,8 +350,7 @@ const Checkout = () => {
                       <div className="flex justify-between">
                         <p className="font-bold text-2xl">{t("subtotal")}</p>
                         <p className="font-bold text-xl">
-                          {orderPriceData[0]?.sub_total}{" "}
-                          {t("egp")}
+                          {orderPriceData[0]?.sub_total} {t("egp")}
                         </p>
                       </div>
                       <div className="flex justify-between">
@@ -328,13 +360,17 @@ const Checkout = () => {
                         </p>
                       </div>
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl">{t("delivery_fee")}</p>
+                        <p className="font-bold text-2xl">
+                          {t("delivery_fee")}
+                        </p>
                         <p className="font-bold text-xl">
                           {orderPriceData[0]?.shipping} {t("egp")}
                         </p>
                       </div>
                       <div className="flex justify-between">
-                        <p className="font-bold text-2xl text-[#f0a835]">{t("earned_points")}</p>
+                        <p className="font-bold text-2xl text-[#f0a835]">
+                          {t("earned_points")}
+                        </p>
                         <p className="font-bold text-xl text-[#f0a835]">
                           {orderPriceData[0]?.earn_points} {t("points")}
                         </p>
@@ -358,9 +394,9 @@ const Checkout = () => {
                     </form>
                   </div>
                 )}
-              </>
-            )}
-          </Col>
+              </Col>
+            </>
+          )}
         </Row>
         {cartItems.length === 0 && !orderPlaced && (
           <Row>

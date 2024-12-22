@@ -30,8 +30,6 @@ export const calculateOrderPrice = createAsyncThunk(
 export const placeOrder = createAsyncThunk(
   'order/createOrder',
   async (orderDetails, { rejectWithValue }) => {
-    console.log("mn create order")
-    console.log(orderDetails)
     try {
       const token = localStorage.getItem('token');
       const response = await instance.post(
@@ -46,6 +44,7 @@ export const placeOrder = createAsyncThunk(
 
         }, } 
       );
+      console.log(response)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
