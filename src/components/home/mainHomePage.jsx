@@ -5,8 +5,12 @@ import Navbar from "../Navbar";
 import Footer from "../footer/footer";
 import homepageBanner from "../../assets/homepage_banner.png";
 import home_cover from "../../assets/home_cover.jpeg";
+import homeCoverEn from "../../assets/homeCoverEn.jpeg";
+import homeCoverAr from "../../assets/homeCoverAr.jpeg";
 import homepageBannerTablet from "../../assets/homepage_banner_tablet.png";
 import partnerWithUs from "../../assets/partnerWithUs.jpeg";
+import ourPartnerAr from "../../assets/outPartnerAr.jpeg";
+import ourPartnerEn from "../../assets/ourPartnerEn.jpeg";
 import rideWithUs from "../../assets/rideWithUs.jpeg";
 import service1 from "../../assets/service1.jpeg";
 import service2 from "../../assets/service2.jpeg";
@@ -14,7 +18,8 @@ import service3 from "../../assets/service3.jpeg";
 import service4 from "../../assets/service4.png";
 import service5 from "../../assets/service5.png";
 import service6 from "../../assets/service6.png";
-import section4 from "../../assets/section4.jpeg";
+import section4En from "../../assets/section4En.jpeg";
+import section4Ar from "../../assets/section4Ar.jpeg";
 import appleStoreIcon from "../../assets/apple_store_icon.png";
 import googleStoreIcon from "../../assets/google_store_icon.png";
 import partner1 from "../../assets/partner1.jpeg";
@@ -24,11 +29,14 @@ import partner4 from "../../assets/partner4.jpeg";
 import partner5 from "../../assets/partner5.jpeg";
 import partner6 from "../../assets/partner6.jpeg";
 import { useTranslation } from "react-i18next";
+import cookies from "js-cookie";
+
 
 const LAPTOP_BREAKPOINT = 992;
 
 function MainHomePage() {
   const { t } = useTranslation();
+  const lng = cookies.get("i18next")|| "en"
   const [isLaptop, setIsLaptop] = useState(
     window.innerWidth >= LAPTOP_BREAKPOINT
   );
@@ -65,7 +73,7 @@ function MainHomePage() {
       >
         <Image
           className="w-full bg-cover bg-center"
-          src={isLaptop ? home_cover : home_cover}
+          src={lng === "en" ? homeCoverEn : homeCoverAr}
         />
       </Container>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
@@ -73,7 +81,7 @@ function MainHomePage() {
           to="/partnerwithus"
           className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
         >
-          <Image className="rounded-xl" src={partnerWithUs} />
+          <Image className="rounded-xl" src={lng === "en"? ourPartnerEn : ourPartnerAr} />
         </Link>
         <Link
           to="/ridewithus"
@@ -112,32 +120,32 @@ function MainHomePage() {
             <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">{t("place_an_order")}</p>
               <Image className="w-[20rem] h-fit" src={service1} />
-              <p className="w-[25rem] text-center font-bold mb-0">{t("place_an_order_desc")}</p>
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("place_an_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">{t("track_order")}</p>
               <Image className="w-[20rem] h-fit" src={service2} />
-              <p className="w-[25rem] text-center font-bold mb-0">{t("track_order_desc")}</p>
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("track_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">{t("receive_oreder")}</p>
               <Image className="w-[20rem] h-fit" src={service3} />
-              <p className="w-[25rem] text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center ">
               <Image className="w-[18rem] h-fit" src={service4} />
-              <p className="w-[25rem] text-center font-bold mb-0">{t("place_an_order_desc")}</p>
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("place_an_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <Image className="w-[18rem] h-fit" src={service6} />
-              <p className="w-[25rem] text-center font-bold mb-0">{t("track_order_desc")}</p>
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("track_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <Image className="w-[18rem] h-fit" src={service5} />
-              <p className="w-[25rem] text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
             </div>
           </>
         )}
@@ -164,7 +172,7 @@ function MainHomePage() {
           </div>
         </div>
         <div className="ml-2">
-          <Image className="w-[75%] h-fit bg-center" src={section4} />
+          <Image className="w-[75%] h-fit bg-center" src={lng === "en"?section4En : section4Ar} />
         </div>
       </div>
       <div className="flex justify-center text-4xl mt-16 mb-10">
