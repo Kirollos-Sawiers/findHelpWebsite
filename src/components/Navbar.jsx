@@ -44,7 +44,7 @@ function MainNavbar() {
     if (token) {
       return (
         <>
-          <Nav.Link className="ml-3 leading-none text-black" href="/profile">
+          <Nav.Link className="ml-3 leading-none text-black text-lg" href="/profile">
             {t("profile")}
             {/* <img className="w-10 h-10 p-0 rounded-full" src={userData?.image?.url || profile_pic}  alt="pp"/> */}
           </Nav.Link>
@@ -54,9 +54,11 @@ function MainNavbar() {
             href="/login"
             style={{
               margin: 0,
+              padding: 0,
               color: "black",
               fontWeight: "bold",
-              fontSize: "14px",
+              fontSize: "18px",
+              lineHeight: "28px",
               width: "7rem",
               height: "2rem",
             }}
@@ -81,7 +83,7 @@ function MainNavbar() {
             style={{
               color: "black",
               fontWeight: "bold",
-              fontSize: "14px",
+              fontSize: "18px",
               width: "7rem",
             }}
           >
@@ -128,9 +130,9 @@ function MainNavbar() {
         <Container>
           <Navbar.Brand href="/">
             <Image
-              className="mr-36"
+              className="mr-5"
               src={navbar_logo}
-              style={{ width: " 60px", height: "60px" }}
+              style={{ width: " 65px", height: "65px" }}
               roundedCircle
             />
           </Navbar.Brand>
@@ -140,19 +142,19 @@ function MainNavbar() {
               className="w-full flex justify-around"
               style={{ color: "black", fontWeight: "bolder", fontSize: "14px" }}
             >
-              <Nav.Link className="mr-3 leading-none text-black" href="/">
+              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/">
                 {t("home")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none text-black" href="/restaurants">
+              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/restaurants">
               {t("restaurants")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none text-black" href="/shops">
+              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/shops">
               {t("shops")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none text-black" href="/services">
+              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/services">
               {t("services")}
               </Nav.Link>
-              <NavDropdown className="leading-none text-black" title={t("join_us")} id="basic-nav-dropdown">
+              <NavDropdown className="leading-none text-black text-lg" title={t("join_us")} id="basic-nav-dropdown">
                 <NavDropdown.Item className="font-medium leading-none" href="partnerwithus">
                   {t("partner_with_us")}
                 </NavDropdown.Item>
@@ -161,7 +163,7 @@ function MainNavbar() {
                 {t("ride_with_us")}
                 </NavDropdown.Item>
               </NavDropdown>
-              <Button className="leading-none font-bold" variant="" onClick={() => {
+              <Button className="leading-none font-bold text-lg" variant="" onClick={() => {
                 if(language==="en"){
                   i18n.changeLanguage("ar");
                   cookies.set("i18next", "ar");

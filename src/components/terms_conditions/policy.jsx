@@ -11,6 +11,7 @@ const PrivacyPolicy = () => {
   const dispatch = useDispatch();
 useEffect(()=>{
     dispatch(getTermsData()).then((res) => {
+      console.log(res)
 setRules(res.payload[2].description.en)
     });
 },[])

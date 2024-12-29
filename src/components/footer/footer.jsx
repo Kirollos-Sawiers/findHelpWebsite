@@ -4,6 +4,7 @@ import navbar_logo from "../../assets/navbar_logo.png";
 import apple_store_icon from "../../assets/apple_store_icon.png";
 import google_store_icon from "../../assets/google_store_icon.png";
 import facebook from "../../assets/facebook.png";
+import reach from "../../assets/reach.png";
 import instagram from "../../assets/instagram.png";
 import snapchat from "../../assets/snapchat.png";
 import tiktok from "../../assets/tiktok.png";
@@ -97,24 +98,30 @@ function Footer() {
             <p className="text-white w-2/3 m-0">
              {t("all_rights_reserved")} © Find Help
             </p>
-            <div className="flex flex-col justify-evenly w-14 mb-1 md:w-1/3 md:flex md:flex-row md:justify-evenly">
+            <div className="flex flex-col justify-between w-14 mb-1 md:w-1/3 md:flex md:flex-row md:justify-between">
               <Link
                 to="https://www.facebook.com/profile.php?id=61559402712536"
                 target="_blank"
               >
-                <img className="w-11 h-11" src={facebook} alt="facebook" />
+                <img className="w-11 h-11 mb-1" src={facebook} alt="facebook" />
+              </Link>
+              <Link
+                to="https://reach.band/en/home"
+                target="_blank"
+              >
+                <img className="w-10 h-10 mb-1" src={reach} alt="reach" />
               </Link>
               <Link to="https://www.tiktok.com/@findhelp.eg" target="_blank">
-                <img className="w-10 h-10 rounded border-1" src={tiktok} alt="tiktok" />
+                <img className="w-10 h-10 mb-1 rounded border-1" src={tiktok} alt="tiktok" />
               </Link>
               <Link
                 to="https://www.instagram.com/find.helpapp/"
                 target="_blank"
               >
-                <img className="w-11 h-11" src={instagram} alt="instagram" />
+                <img className="w-11 h-11 mb-1" src={instagram} alt="instagram" />
               </Link>
               <Link to="https://snapchat.com/t/P8JaPyM0" target="_blank">
-                <img className="w-11 h-11" src={snapchat} alt="snapchat" />
+                <img className="w-11 h-11 mb-1" src={snapchat} alt="snapchat" />
               </Link>
             </div>
           </div>

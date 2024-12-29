@@ -15,9 +15,11 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import Footer from "./../footer/footer";
 import cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 
 function PartnerWithUs() {
+  const { t } = useTranslation();
   const lng = cookies.get("i18next")|| "en"
   const imgsArray = [
     partner_1,
@@ -78,16 +80,9 @@ function PartnerWithUs() {
             return (
               <div
                 key={index}
-                className="flex flex-col items-center m-3 w-[25rem] shadow-xl"
+                className="flex flex-col items-center m-3 w-[12rem] shadow-xl"
               >
-                <Image className="w-[25rem] h-auto rounded-lg" src={imageName} />
-                {/* <div className="flex flex-col items-center my-3 p-3">
-                  <p className="font-bold">Grow your business</p>
-                  <p>
-                    Reach new customers and increase your sales with no
-                    upfront fees.
-                  </p>
-                </div> */}
+                <Image className="w-[12rem] h-auto rounded-lg" src={imageName} />
               </div>
             );
           })}
@@ -100,21 +95,19 @@ function PartnerWithUs() {
     <Container fluid className="p-0">
       <Navbar />
       <Container fluid className="p-0 mb-5">
-        <div>
+        <div className="flex justify-center">
           <Image
-            className="w-[100%] h-fit shadow-lg"
+            className="w-[90%] h-fit rounded-xl shadow-lg"
             src={lng === "en"? ourPartnerEn : ourPartnerAr}
             alt="partner with us cover"
-            onClick={scrollToGetInTouch} // Add onClick to scroll to "Get in touch"
-            style={{ cursor: "pointer" }} // Add pointer cursor to indicate clickability
+            onClick={scrollToGetInTouch}
+            style={{ cursor: "pointer" }}
           />
         </div>
         <div className="flex flex-col justify-center items-center my-5">
-          <p className="text-3xl font-bold">Why partner with Find Help?</p>
+          <p className="text-3xl font-bold">{t("WHY_PARTNER_HEADING")}</p>
           <p className=" font-semibold">
-            We believe in the power of choice. That’s why we offer a range of
-            products, services, and delivery options to help you grow your
-            business on your terms.
+            {t("WHY_PARTNER_CONTENT")}
           </p>
         </div>
         <div>
@@ -123,7 +116,7 @@ function PartnerWithUs() {
         {/* The "Get in touch" section */}
         <div className="flex flex-col justify-center items-center my-5" ref={getInTouchRef}>
           <p className="text-7xl font-semibold">
-            Get in <span className="text-[#f0a835]">touch</span>
+            {t("get_in")} <span className="text-[#f0a835]">{t("touch")}</span>
           </p>
         </div>
         <div>
@@ -132,22 +125,22 @@ function PartnerWithUs() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <input
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Name"
+              className="block w-1/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+              placeholder={t("name")}
               {...register("name", { required: true })}
             />
             {errors.name && (
               <p
-                className="w-full mt-1 mb-0 ml-3 small"
+                className="mt-1 mb-0 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Name is required
+                {t("name_validation")}
               </p>
             )}
 
             <input
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Email"
+              className="block w-1/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+              placeholder={t("email")}
               {...register("email", {
                 required: true,
                 pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -155,40 +148,40 @@ function PartnerWithUs() {
             />
             {errors.email && (
               <p
-                className="w-full mt-1 mb-0 ml-3 small"
+                className="mt-1 mb-0  small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Valid email is required
+                {t("email_validation")}
               </p>
             )}
 
             <input
               type="number"
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Phone Number"
+              className="block w-1/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+              placeholder={t("mobile")}
               {...register("phoneNumber", { required: true })}
             />
             {errors.phoneNumber && (
               <p
-                className="w-full mt-1 mb-0 ml-3 small"
+                className="mt-1 mb-0 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Phone number is required
+                {t("mobile_validation")}
               </p>
             )}
 
             <input
               type="text"
-              className="block w-1/3 h-10 pl-2 mt-3 border-2 rounded-xl small"
-              placeholder="Message"
+              className="block w-1/3 h-10 px-2 mt-3 border-2 rounded-xl small"
+              placeholder={t("message")}
               {...register("message", { required: true })}
             />
             {errors.message && (
               <p
-                className="w-full ml-3 mt-1 mb-0 small"
+                className="mt-1 mb-0 small"
                 style={{ textAlign: "left", color: "red" }}
               >
-                Message is required
+                {t("message_validation")}
               </p>
             )}
 
@@ -203,43 +196,10 @@ function PartnerWithUs() {
               }}
               type="submit"
             >
-              SUBMIT
+              {t("submit")}
             </Button>
           </form>
         </div>
-        {/* <div className="flex flex-col justify-center items-center my-5">
-          <p className="text-7xl font-bold">FAQ</p>
-          <div className="w-2/3">
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Question #1</Accordion.Header>
-                <Accordion.Body>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="1">
-                <Accordion.Header>Question #2</Accordion.Header>
-                <Accordion.Body>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          </div>
-        </div> */}
       </Container>
       <Footer />
     </Container>

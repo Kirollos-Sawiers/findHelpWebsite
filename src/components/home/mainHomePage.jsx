@@ -1,24 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../footer/footer";
-import homepageBanner from "../../assets/homepage_banner.png";
-import home_cover from "../../assets/home_cover.jpeg";
+import homePageCoverXmas from "../../assets/homePageCoverXmas.jpeg";
 import homeCoverEn from "../../assets/homeCoverEn.jpeg";
 import homeCoverAr from "../../assets/homeCoverAr.jpeg";
-import homepageBannerTablet from "../../assets/homepage_banner_tablet.png";
-import partnerWithUs from "../../assets/partnerWithUs.jpeg";
 import ourPartnerAr from "../../assets/outPartnerAr.jpeg";
 import ourPartnerEn from "../../assets/ourPartnerEn.jpeg";
-import rideWithUs from "../../assets/rideWithUs.jpeg";
-import service1 from "../../assets/service1.jpeg";
-import service2 from "../../assets/service2.jpeg";
-import service3 from "../../assets/service3.jpeg";
-import service4 from "../../assets/service4.png";
-import service5 from "../../assets/service5.png";
-import service6 from "../../assets/service6.png";
-import section4En from "../../assets/section4En.jpeg";
+import rideWithUsEn from "../../assets/rideWithUsEn.jpeg";
+import rideWithUsAr from "../../assets/rideWithUsAr.jpeg";
+import service1En from "../../assets/service1En.jpeg";
+import service1Ar from "../../assets/service1Ar.jpeg";
+import service2En from "../../assets/service2En.jpeg";
+import service2Ar from "../../assets/service2Ar.jpeg";
+import service3En from "../../assets/service3En.jpeg";
+import service3Ar from "../../assets/service3Ar.jpeg";
+import service4En from "../../assets/service4En.jpeg";
+import service5En from "../../assets/service5En.jpeg";
+import service6En from "../../assets/service6En.jpeg";
+import service4Ar from "../../assets/service4Ar.jpeg";
+import service5Ar from "../../assets/service5Ar.jpeg";
+import service6Ar from "../../assets/service6Ar.jpeg";
+import section4En from "../../assets/section4En.png";
 import section4Ar from "../../assets/section4Ar.jpeg";
 import appleStoreIcon from "../../assets/apple_store_icon.png";
 import googleStoreIcon from "../../assets/google_store_icon.png";
@@ -31,34 +35,10 @@ import partner6 from "../../assets/partner6.jpeg";
 import { useTranslation } from "react-i18next";
 import cookies from "js-cookie";
 
-
-const LAPTOP_BREAKPOINT = 992;
-
 function MainHomePage() {
   const { t } = useTranslation();
   const lng = cookies.get("i18next")|| "en"
-  const [isLaptop, setIsLaptop] = useState(
-    window.innerWidth >= LAPTOP_BREAKPOINT
-  );
   const [activeSection, setActiveSection] = useState("start");
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsLaptop(window.innerWidth >= LAPTOP_BREAKPOINT);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  // State to track which button is active
-
-  // Function to handle button click and set the active one
-  const handleButtonClick = (button) => {
-    setActiveSection(button);
-  };
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
@@ -69,11 +49,12 @@ function MainHomePage() {
       <Navbar />
       <Container
         fluid
-        className="flex justify-center w-full bg-[#F0A8350D] pb-10 px-0"
+        className="flex justify-center w-full bg-[#F0A8350D]  px-0"
       >
         <Image
-          className="w-full bg-cover bg-center"
+          className="w-[95%] h-fit mt-2 rounded-lg bg-cover bg-center"
           src={lng === "en" ? homeCoverEn : homeCoverAr}
+          // src={lng === "en" ? homePageCoverXmas : homePageCoverXmas}
         />
       </Container>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">
@@ -87,7 +68,7 @@ function MainHomePage() {
           to="/ridewithus"
           className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
         >
-          <Image className="rounded-xl" src={rideWithUs} />
+          <Image className="rounded-xl" src={lng === "en"? rideWithUsEn : rideWithUsAr} />
         </Link>
       </div>
       <div className="flex justify-evenly mt-5">
@@ -118,34 +99,34 @@ function MainHomePage() {
         {activeSection === "start" ? (
           <>
             <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold">{t("place_an_order")}</p>
-              <Image className="w-[20rem] h-fit" src={service1} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("place_an_order_desc")}</p>
+              <p className="font-bold mt-4">{t("place_an_order")}</p>
+              <Image className="w-[20rem] h-fit" src={lng === "en"?service1En : service1Ar} />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("place_an_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">{t("track_order")}</p>
-              <Image className="w-[20rem] h-fit" src={service2} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("track_order_desc")}</p>
+              <Image className="w-[20rem] h-fit mb-3" src={lng === "en"?service2En : service2Ar} />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("track_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center ">
               <p className="font-bold">{t("receive_oreder")}</p>
-              <Image className="w-[20rem] h-fit" src={service3} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
+              <Image className="w-[20rem] h-fit" src={lng === "en"?service3En : service3Ar} />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("receive_oreder_desc")}</p>
             </div>
           </>
         ) : (
           <>
-            <div className="flex flex-col items-center justify-center ">
-              <Image className="w-[18rem] h-fit" src={service4} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("place_an_order_desc")}</p>
+            <div className="flex flex-col items-center justify-center">
+              <Image className="w-[18rem] h-fit mt-4" src={lng === "en"?service4En : service4Ar} />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("place_an_order_desc")}</p>
             </div>
-            <div className="flex flex-col items-center justify-center ">
-              <Image className="w-[18rem] h-fit" src={service6} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("track_order_desc")}</p>
+            <div className="flex flex-col items-center justify-center">
+              <Image className="w-[18rem] h-fit" src={lng === "en"?service6En : service6Ar} />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("track_order_desc")}</p>
             </div>
-            <div className="flex flex-col items-center justify-center ">
-              <Image className="w-[18rem] h-fit" src={service5} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0">{t("receive_oreder_desc")}</p>
+            <div className="flex flex-col items-center justify-center">
+              <Image className="w-[18rem] h-fit" src={lng === "en"?service5En : service5Ar} />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("receive_oreder_desc")}</p>
             </div>
           </>
         )}
