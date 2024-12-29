@@ -161,16 +161,16 @@ function MainHomePage() {
       </div>
       <div className="w-full flex flex-wrap justify-center mb-20">
         <div className="flex">
-          <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner1} />
-          <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner6} />
+          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner1} />
+          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner6} />
         </div>
         <div className="flex">
-          <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner3} />
-          <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner4} />
+          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner3} />
+          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner4} />
         </div>
         <div className="flex">
-          <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner5} />
-          <Image className="w-[150px] h-[128px] mx-2 mb-10" src={partner2} />
+          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner5} />
+          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner2} />
         </div>
       </div>
       <div className="flex flex-wrap justify-evenly items-center h-fit mx-14 mb-5 py-3 rounded-lg bg-gradient-to-l from-[#F2B655] to-[#ffebc3]">
