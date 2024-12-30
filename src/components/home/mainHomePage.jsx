@@ -3,7 +3,6 @@ import { Container, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../footer/footer";
-import homePageCoverXmas from "../../assets/homePageCoverXmas.jpeg";
 import homeCoverEn from "../../assets/homeCoverEn.jpeg";
 import homeCoverAr from "../../assets/homeCoverAr.jpeg";
 import ourPartnerAr from "../../assets/outPartnerAr.jpeg";
@@ -54,7 +53,6 @@ function MainHomePage() {
         <Image
           className="w-[95%] h-fit mt-2 rounded-lg bg-cover bg-center"
           src={lng === "en" ? homeCoverEn : homeCoverAr}
-          // src={lng === "en" ? homePageCoverXmas : homePageCoverXmas}
         />
       </Container>
       <div className="flex flex-col items-center md:flex-row md:justify-evenly lg:flex-row lg:justify-evenly">

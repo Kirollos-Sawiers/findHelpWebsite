@@ -67,14 +67,14 @@ function Footer() {
               <p className="text-white">{t("services")}</p>
             </Link>
           </Col>
-          <Col md={2}>
-            <div className="flex flex-col">
+          <Col md={3}>
+            <div className="flex flex-row">
               <Link
                 to="https://apps.apple.com/eg/app/findhelpapp/id1450736684"
                 target="_blank"
               >
                 <img
-                  className="w-40 mb-4"
+                  className="w-32 p-1"
                   src={apple_store_icon}
                   alt="apple-store"
                 />
@@ -84,14 +84,14 @@ function Footer() {
                 target="_blank"
               >
                 <img
-                  className="w-40"
+                  className="w-32 p-1"
                   src={google_store_icon}
                   alt="google-store"
                 />
               </Link>
             </div>
           </Col>
-          <Col md={1}></Col>
+          {/* <Col md={1}></Col> */}
         </Row>
         <Row className="px-3 py-2">
           <div className="flex justify-between items-center">

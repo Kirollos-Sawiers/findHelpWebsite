@@ -512,7 +512,7 @@
   "provider_information": "Provider Information",
   "service_details": "Service Details",
   "wedding_makeup": "Wedding MakeUp",
-  "terms_conditions": "terms $ Conditions",
+  "terms_conditions": "Terms & Conditions",
   "donate_our_app": "Donate for our app",
   "donate": "Donate",
   "required": "Required",
@@ -608,5 +608,73 @@
   "recommended": "Recommended",
   "login_details": "Please enter your mobile number to continue the process",
   "Price_on_Size": "Price on Size",
-  "My_Shop": "My Shop"
+  "My_Shop": "My Shop",
+  "privacyPolicy":"Privacy Policy",
+  "privacyPolicyData": {
+    "introduction": "We take very seriously the privacy of our visitors and the security of any information that our visitors may provide, and we believe in your right to know the type of information the application collects, how it is protected and used, and under what circumstances it is disclosed. That is why we have prepared this privacy policy and published it on our application in order to help you understand the nature of the data that we collect about you when you visit our application and how we deal with this data.",
+    "browsing": "This application does not aim to collect your personal data during your visit to the application, but only the data provided by you will be used with your knowledge and of your own free will.",
+    "personalInformation": {
+      "whatWeCollect": "What personal information do we collect:",
+      "list": [
+        "the name",
+        "user name",
+        "E-mail address",
+        "phone number",
+        "Country of Residence",
+        "Account number on social media",
+        "Information about the device",
+        "Information collected through cookies, additional pixel data, and other technologies."
+      ]
+    },
+    "collectedInformation": "Once you download the application, you allow the application to contact you using your email address, phone numbers, etc …… of similar personal data. Only employees and individuals authorized to process your information are allowed to use the data that you previously authorized us to use. By downloading the application - or logging in to the site - this means that you accept this policy.",
+    "howWeCollect": {
+      "title": "How do we collect personal information?",
+      "description": "We and our service providers may collect personal information in various ways, including the following:",
+      "methods": [
+        "Operational Information: When you use our Services, we collect information about when and where transactions occurred, descriptions of transactions, and amounts, billing information, and information about devices and payment methods used to complete transactions.",
+        "Device information: When our App is open on your mobile device, we periodically receive information about your device location. We may also collect location information about your device if you have location services enabled.",
+        "Device Information: We collect device-specific information when you access our Services, including your hardware model and operating system Operation, version, unique device identifiers, mobile network information, and information about device interaction with our Services.",
+        "Use of Information: We collect information about how you use our Services, including access times and types Browser, language, and Internet Protocol (\"IP\") addresses."
+      ]
+    },
+    "cookiesAndWebBeacons": "We use various technologies to collect information, and this may include sending cookies to your computer your mobile device. Cookies are small data files that are stored on your hard drive or in the device's memory by a website. Among other things, cookies support the integrity of our registration process, maintain your preferences and account settings, and help evaluate and compile aggregate statistics about user activity.",
+    "howWeUseInformation": "Our app may use information as described below that it collects from you for any lawful purpose, including, for example including but not limited to, to provide products and services, identification and authentication, service operation, analytics and improvements, support, and communication (for example, sending notifications relevant to your use of the Service). We may use the information we collect to send you news and information about our services and to communicate with you about the services we provide We deliver. We may also use information about you to track and analyze trends and usage in connection with our Services to protect our rights or property; to verify your identity; to investigate and prevent fraud or other illegal activities; and for any other purpose disclosed to you in connection with related to our services.",
+    "privacyRights": "We will provide you with information about whether we hold or process your personal information. You can access your account information and modify them in our application at any time by logging into your account.",
+    "dataProtection": "Data protection is our top priority, so we take all precautionary steps to protect your data and privacy, as it takes place Protect your information and potential payments with the highest possible level of online security, and we always strive to use The best methods and methods to ensure comprehensive and complete security of all your sensitive details and data. So, we do it constantly Develops and activates our firewalls and detection systems to monitor and identify potential security breaches and malfunctions.",
+    "dataDisposalRights": "At any time, you can opt-out from the website and application. In addition to the possibility of obtaining information about any of the following by leaving a message on our email address:",
+    "dataDisposalOptions": [
+      "What data we have about you.",
+      "Modify any data we have about you.",
+      "Request deletion of any data we have about you.",
+      "Inform us of any concerns or suggestions you have about the content of the site."
+    ],
+    "profiles": "Cookies are a piece of information that is obtained through your browsing whenever you visit our application. help you This feature saves your data and preferences. We use this technology to better understand your preferences, so that we can diagnose and improve your experience the next time you visit our site or log in to the application. We collect and analyze application and social media data to provide you with better experiences and tools Advanced interaction. And you can accept or reject a profile each time you visit the site or application, knowing that in the case of your rejection for this feature, you may not be able to take advantage of all the features and advantages"
+  },
+  "termsOfUse": {
+    "introduction": "The following terms and conditions apply to the application, and you must agree to the provisions of that agreement after reading its terms carefully and before creating any new account or using the application services and its content, as soon as you fill out the login form for the first time; This means that you agree to all the following terms and conditions and undertake to abide by them without restrictions.",
+    "applicationServices": {
+      "description": "The application seeks to provide unique services by connecting service providers with service seekers, and thus it is a service platform that aims to link service seekers with service providers for a quick, easy, and productive service process, through which service seekers can know the service they want and communicate with the providers of this service.",
+      "disclaimer": "The application is not responsible or obligated for any services that may be harmful to the customer or may cause any kind of injury or damage, or that may impress users with the service provided by it.",
+      "providerObligation": "The service provider is obligated to perform the service in an equal, correct, and fast manner."
+    },
+    "userBehavior": {
+      "description": "When you enter any data or content into the application, you agree to abide by the general and accepted rules of decency in society, and in the event that you violate these rules, the site management has the right to take all necessary measures and procedures to prevent you from using the site or logging you in again or questioning you legally in the event of causing material or moral harm.",
+      "userResponsibility": "Users are fully responsible for the validity of personal data and posts, including the validity of addresses and phone numbers.",
+      "applicationRights": "The application has the right to edit and reformulate any of the personal data and posts, reclassify, restructure or change its location, as well as the full right to pre-screen and delete any of that information that may seem inappropriate or inconsistent with the terms of use."
+    },
+    "copyright": {
+      "description": "The application grants users the full copyright right to the application, which is a permanent, non-negotiable or revocable license, and is not subject to copying, rephrasing, translation, full or partial quotation, or distribution by users or visitors for any purpose without written permission from the application.",
+      "applicationRights": "The application has the right to use all data or the content of the posts for the purpose of advertising, commercial advertising or promotion, including products, texts, photographs, visual materials, videos, links and others."
+    },
+    "payment": "Accepted payment can be made when ordering the service.",
+    "complaintsAndSuggestions": {
+      "description": "It is recommended to direct the main problem to the service provider for a quick and implicit correction of the problem. Since most of the solutions can be put forward for immediate processing during the request.",
+      "contact": "However, to ensure complete user satisfaction, in the event of any complaints or suggestions related to our services, please contact us via the aforementioned means of communication."
+    },
+    "cancellationOrModification": "The service may be canceled or modified at a specific time, which is a day at most, and the customer must confirm the cancellation or modification of the application and the service provider.",
+    "updatingTerms": {
+      "description": "Only those responsible for managing the application are allowed to add or remove the above-mentioned items and information or change, update and waive them at any time.",
+      "advice": "As we update the terms and conditions from time to time, it is advised to review all details before and during the use of our services, and the updated terms will be considered valid as soon as they are published on the application."
+    }
+  }
 }

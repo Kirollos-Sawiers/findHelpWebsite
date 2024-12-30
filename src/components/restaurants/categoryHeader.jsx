@@ -10,20 +10,20 @@ function CategoryHeader({ categories, onCategoryClick }) {
   };
 
   return (
-    <div className="overflow-x-auto flex space-x-4 p-4 bg-gray-50 mb-5">
+    <div className="overflow-x-auto flex space-x-4 p-4 bg-gray-50 mb-3">
       {categories.length > 0 ? (
         categories.map((item) => (
           <div
             key={item.id}
-            className="min-w-[100px] flex-shrink-0 p-2 bg-white rounded-lg shadow-md text-center cursor-pointer"
+            className="w-[100px] flex-shrink-0 bg-white rounded-lg shadow-md text-center cursor-pointer ml-3"
             onClick={() => onCategoryClick(item.id)}
           >
             <img
               src={item.image?.url}
               alt={getLangProperty(item, "name")}
-              className="h-16 w-16 mx-auto mb-2"
+              className="h-20 w-full mx-auto rounded-t-lg mb-1"
             />
-            <p className="text-sm font-semibold">{getLangProperty(item, "name")}</p>
+            <p className="text-sm font-semibold mb-2">{getLangProperty(item, "name")}</p>
           </div>
         ))
       ) : (
