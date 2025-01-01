@@ -12,7 +12,8 @@ import {
   getRestaurantsByCategoryID,
   getShopsByCategoryID,
   filterRestaurantsByLocation,
-  searchRestaurants, // Import the searchRestaurants action
+  searchRestaurants,
+  getBanners,
 } from "./../../features/restaurants/restaurantsAPI";
 import {
   getAllCountries,
@@ -22,10 +23,11 @@ import RestaurantCard from "./restaurantCard";
 import CategoryHeader from "./categoryHeader";
 import LoadingSpinner from "./loadingSpinner";
 import ErrorDisplay from "./errorDisplay";
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 import cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
+import ImageSlider from "./slider";
 
 function RestaurantsList() {
   const { t } = useTranslation();
@@ -36,6 +38,7 @@ function RestaurantsList() {
   const [selectedCountryId, setSelectedCountryId] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [searchValue, setSearchValue] = useState(""); // State to hold the search value
+  const [banners, setBanners] = useState();
   const location = useLocation();
   const dispatch = useDispatch();
   const allRestaurantsData = useSelector(
@@ -59,6 +62,10 @@ function RestaurantsList() {
     });
     if (location.pathname === "/restaurants") {
       dispatch(getRestaurantCategoryData());
+      dispatch(getBanners()).then((res) => {
+        console.log(res.payload);
+        setBanners(res.payload)
+      });
     } else if (location.pathname === "/shops") {
       dispatch(getShopsCategoryData());
     }
@@ -116,13 +123,14 @@ function RestaurantsList() {
     dispatch(searchRestaurants({ type, searchValue }));
   };
 
+
   const countryCityDropdown = () => {
     return (
       <div className="pt-1">
         {countries ? (
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="country">
-            {t("country")} 
+              {t("country")}
             </label>
             <select
               className="block w-full bg-white border py-2 rounded shadow"
@@ -147,7 +155,7 @@ function RestaurantsList() {
             {selectedCountryId && (
               <div className="mb-4">
                 <label className="block text-sm font-bold mb-2" htmlFor="city">
-                {t("city")}
+                  {t("city")}
                 </label>
                 <select
                   className="block w-full bg-white border py-2 rounded shadow"
@@ -167,10 +175,13 @@ function RestaurantsList() {
             {selectedCity ? (
               <div className="flex justify-center py-4">
                 <button
-                  className="w-[70%] h-10 text-white font-semibold bg-[#f0a835] rounded-lg" 
+                  className="w-[70%] h-10 text-white font-semibold bg-[#f0a835] rounded-lg"
                   onClick={(e) => {
                     e.preventDefault();
-                    const type = location.pathname === "/restaurants" ? "restaurant" : "shop";
+                    const type =
+                      location.pathname === "/restaurants"
+                        ? "restaurant"
+                        : "shop";
                     dispatch(
                       filterRestaurantsByLocation({
                         type: type,
@@ -206,25 +217,28 @@ function RestaurantsList() {
   return (
     <Container fluid className="p-0">
       <Navbar />
-      <Container>
+      <Container fluid className="px-5">
         <div className="w-full h-12 flex justify-center ">
           <div className="p-inputgroup w-[30%] h-8 border-1">
-            <InputText 
-              className="px-2" 
+            <InputText
+              className="px-2"
               placeholder={t("search")}
-              value={searchValue} 
-              onChange={(e) => setSearchValue(e.target.value)} 
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
             />
-            <Button 
-              icon="pi pi-search" 
-              className="bg-[#f0a835] w-3" 
-              onClick={handleSearch} 
+            <Button
+              icon="pi pi-search"
+              className="bg-[#f0a835] w-3"
+              onClick={handleSearch}
             />
           </div>
         </div>
         <Row>
           <Col xs={12} md={2} lg={2}>
             {countryCityDropdown()}
+            {banners? <><div className="flex justify-center h-fit bg-gray-100 mt-3">
+          <ImageSlider images={banners} interval={3000} />
+        </div></>:<></>}
           </Col>
           <Col xs={12} md={10} lg={10}>
             <div>
@@ -240,25 +254,25 @@ function RestaurantsList() {
             </div>
             <div className="flex justify-evenly mt-4">
               <div>
-
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={!allRestaurantsData?.prev_page_url}
-                className="w-32 px-4 py-2 mr-5 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
-              >
-                {t("previous")}
-              </button>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={!allRestaurantsData?.prev_page_url}
+                  className="w-32 px-4 py-2 mr-5 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
+                >
+                  {t("previous")}
+                </button>
               </div>
               <div>
-
-              <button
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-                disabled={!allRestaurantsData?.next_page_url}
-                className="w-32 px-4 py-2 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
+                <button
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  disabled={!allRestaurantsData?.next_page_url}
+                  className="w-32 px-4 py-2 bg-[#f0a835] rounded text-white font-bold disabled:bg-gray-300"
                 >
-                {t("next")}
-              </button>
-                </div>
+                  {t("next")}
+                </button>
+              </div>
             </div>
           </Col>
         </Row>

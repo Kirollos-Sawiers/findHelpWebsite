@@ -11,6 +11,7 @@ import {
   getShopsByCategoryID,
   filterRestaurantsByLocation,
   searchRestaurants,
+  getBanners,
 } from "./restaurantsAPI";
 
 const initialState = {
@@ -158,6 +159,17 @@ const restaurantsSlice = createSlice({
         state.productDetails = action.payload;
       })
       .addCase(getProductDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getBanners.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getBanners.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getBanners.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

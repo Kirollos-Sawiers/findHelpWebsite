@@ -84,22 +84,21 @@ export const getServiceCategoryData = createAsyncThunk(
   export const placeService = createAsyncThunk(
     "service/createService",
     async ({ serviceData }, { rejectWithValue }) => {
-      console.log(serviceData)
-      // try {
-      //   const response = await instance.post(
-      //     `api/v1/users/orders`,
-      //     serviceData,
-      //     {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         "Accept": "application/json",
-      //         "Accept-Language": "ar",
-      //       },
-      //     }
-      //   );
-      //   return response.data;
-      // } catch (error) {
-      //   return rejectWithValue(error.response?.data?.message || error.message);
-      // }
+      try {
+        const response = await instance.post(
+          `api/v1/users/orders`,
+          serviceData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "Accept-Language": "ar",
+            },
+          }
+        );
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response?.data?.message || error.message);
+      }
     }
   );

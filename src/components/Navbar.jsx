@@ -11,7 +11,7 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutWeb, getNotifications } from "../features/auth/authSlice";
+import { logoutWeb, getNotifications, markNotificationsAsRead } from "../features/auth/authSlice";
 import { FaShoppingCart, FaBell } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,13 +29,12 @@ function MainNavbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-  const lng = cookies.get("i18next") || "en"
+  const lng = cookies.get("i18next") || "en";
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(items);
     dispatch(getNotifications()).then((res) => {
       setNotifications(res.payload.data);
-      console.log(res.payload.data);
     });
     setLanguage(lng);
   }, [lng]);
@@ -44,12 +43,15 @@ function MainNavbar() {
     if (token) {
       return (
         <>
-          <Nav.Link className="ml-3 leading-none text-black text-lg" href="/profile">
+          <Nav.Link
+            className="ml-3 leading-none text-black text-lg"
+            href="/profile"
+          >
             {t("profile")}
             {/* <img className="w-10 h-10 p-0 rounded-full" src={userData?.image?.url || profile_pic}  alt="pp"/> */}
           </Nav.Link>
           <Button
-          className="leading-none"
+            className="leading-none"
             variant="warning"
             href="/login"
             style={{
@@ -88,7 +90,6 @@ function MainNavbar() {
             }}
           >
             {t("sign_in")}
-             {/* <FontAwesomeIcon icon={faUser} /> */}
           </Button>
         </>
       );
@@ -122,6 +123,9 @@ function MainNavbar() {
 
   const handleNotificationsClick = () => {
     setShowNotifications(!showNotifications);
+    dispatch(markNotificationsAsRead()).then((res)=>{
+    console.log(res);
+    })
   };
 
   return (
@@ -142,36 +146,62 @@ function MainNavbar() {
               className="w-full flex justify-around"
               style={{ color: "black", fontWeight: "bolder", fontSize: "14px" }}
             >
-              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/">
+              <Nav.Link
+                className="mr-3 leading-none text-black text-lg"
+                href="/"
+              >
                 {t("home")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/restaurants">
-              {t("restaurants")}
+              <Nav.Link
+                className="mr-3 leading-none text-black text-lg"
+                href="/restaurants"
+              >
+                {t("restaurants")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/shops">
-              {t("shops")}
+              <Nav.Link
+                className="mr-3 leading-none text-black text-lg"
+                href="/shops"
+              >
+                {t("shops")}
               </Nav.Link>
-              <Nav.Link className="mr-3 leading-none text-black text-lg" href="/services">
-              {t("services")}
+              <Nav.Link
+                className="mr-3 leading-none text-black text-lg"
+                href="/services"
+              >
+                {t("services")}
               </Nav.Link>
-              <NavDropdown className="leading-none text-black text-lg" title={t("join_us")} id="basic-nav-dropdown">
-                <NavDropdown.Item className="font-medium leading-none" href="partnerwithus">
+              <NavDropdown
+                className="leading-none text-black text-lg"
+                title={t("join_us")}
+                id="basic-nav-dropdown"
+              >
+                <NavDropdown.Item
+                  className="font-medium leading-none"
+                  href="partnerwithus"
+                >
                   {t("partner_with_us")}
                 </NavDropdown.Item>
-                <hr/>
-                <NavDropdown.Item className="font-medium leading-none" href="ridewithus">
-                {t("ride_with_us")}
+                <hr />
+                <NavDropdown.Item
+                  className="font-medium leading-none"
+                  href="ridewithus"
+                >
+                  {t("ride_with_us")}
                 </NavDropdown.Item>
               </NavDropdown>
-              <Button className="leading-none font-bold text-lg" variant="" onClick={() => {
-                if(language==="en"){
-                  i18n.changeLanguage("ar");
-                  cookies.set("i18next", "ar");
-                }else{
-                  i18n.changeLanguage("en");
-                  cookies.set("i18next", "en");
-                }
-              }}>
+              <Button
+                className="leading-none font-bold text-lg"
+                variant=""
+                onClick={() => {
+                  if (language === "en") {
+                    i18n.changeLanguage("ar");
+                    cookies.set("i18next", "ar");
+                  } else {
+                    i18n.changeLanguage("en");
+                    cookies.set("i18next", "en");
+                  }
+                }}
+              >
                 {language === "en" ? "العربية" : "English"}
               </Button>
               {toggleLoginButton()}
@@ -187,29 +217,35 @@ function MainNavbar() {
               {token ? (
                 <>
                   <Nav.Link
-                    className="ml-2 leading-none pl-0"
+                    className="px-0"
                     onClick={handleNotificationsClick}
                   >
                     <div className="relative">
                       <FaBell />
                       {notifications?.length > 0 && (
-                        <div className="absolute top-0 right-0 bg-[#f00] text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
-                          {notifications.length}
+                        <div className="absolute top-0 right-0 bg-[#f00] text-white rounded-full w-4 h-4">
+                          
                         </div>
                       )}
                     </div>
                   </Nav.Link>
                   {showNotifications && (
-                    <div className="absolute right-0 mt-10 w-64 bg-white border border-gray-200 rounded-lg shadow-lg">
+                    <div
+                      className={`absolute mt-10 w-64 bg-white border border-gray-200 rounded-lg shadow-lg ${
+                        lng === "en" ? "right-0" : "left-0"
+                      }`}
+                    >
                       <div className="p-4">
-                        {notifications.map((notification, index) => (
-                          <div key={index} className="mb-2">
-                            <div className="font-bold">
-                              {notification?.data?.title}
+                        {notifications.map((notification, index) => {
+                          return (
+                            <div key={index} className="mb-2">
+                              <div className="font-bold">
+                                {notification?.data?.title}
+                              </div>
+                              <div>{notification?.data?.body}</div>
                             </div>
-                            <div>{notification?.data?.body}</div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   )}

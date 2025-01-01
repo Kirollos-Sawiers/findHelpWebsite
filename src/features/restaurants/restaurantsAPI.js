@@ -240,3 +240,21 @@ export const getProductDetails = createAsyncThunk(
     }
   }
 );
+export const getBanners = createAsyncThunk(
+  "restaurants/fetchOffersBanners",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await instance.get("api/v1/meta/banners", {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Accept-Language": "ar",
+        },
+      });
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

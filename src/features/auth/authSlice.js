@@ -109,6 +109,23 @@ export const getNotifications = createAsyncThunk(
     }
   }
 );
+export const markNotificationsAsRead = createAsyncThunk(
+  'users/markNotifications',
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      console.log(token)
+      const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+      const response = await instance.post("api/v1/users/notifications/read",headers);
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const resetPassword = createAsyncThunk(
   'users/resetPassword',
   async (credentials, { rejectWithValue }) => {
@@ -243,6 +260,16 @@ const authSlice = createSlice({
         state.notificationsData = action.payload;
       })
       .addCase(getNotifications.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(markNotificationsAsRead.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(markNotificationsAsRead.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(markNotificationsAsRead.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
