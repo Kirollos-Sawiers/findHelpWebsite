@@ -30,73 +30,54 @@
 //   );
 // };
 
-// export default ImageSlider;
-import { useState, useEffect } from 'react'
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
-export default function ImageSlider({ images, interval = 3000 }) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  // Function to go to the next slide
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    )
-  }
-
-  // Function to go to a specific slide
-  const goToSlide = (index) => {
-    setCurrentIndex(index)
-  }
-
-  // Auto-slide effect
-  useEffect(() => {
-    const timer = setInterval(goToNext, interval)
-    return () => clearInterval(timer)
-  }, [currentIndex, interval])
-
+const ImageSlider = ({ images, interval = 3000 }) => {
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4">
-      {/* Slider container */}
-      <div className="overflow-hidden rounded-2xl">
-        <div 
-          className="flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="w-full flex-shrink-0"
-            >
-              <div className="aspect-[16/9] relative">
-                <img
-                  src={image.image.url}
-                  alt={`Slide ${index + 1}`}
-                  className="w-full h-full object-cover bg-[#EEF1FF] transition-transform duration-500 hover:scale-105"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-indigo-600 text-2xl font-medium">
-                    Slide {index + 1}
-                  </span>
-                </div>
-              </div>
+    <div className="w-full relative">
+      <Swiper
+        centeredSlides={true}
+        loop={true}
+        spaceBetween={30}
+        slideToClickedSlide={true}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        breakpoints={{
+          1920: {
+            slidesPerView: 4,
+            spaceBetween: 30,
+          },
+          1020: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+          },
+          900: {
+            slidesPerView: 1,
+            spaceBetween: 0,
+          },
+        }}
+        className=""
+        style={{
+          '--swiper-pagination-color': '#4F46E5',
+          '--swiper-pagination-bullet-inactive-color': '#4F46E5',
+        }}
+      >
+        {images.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            <div className="bg-indigo-50 rounded-2xl h-96 flex justify-center items-center">
+              <img className="w-[100%] h-[80%] " src={slide?.image?.url} alt="slides"/>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Navigation dots */}
-      <div className="flex justify-center gap-2 mt-4">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${
-              currentIndex === index ? 'bg-indigo-600' : 'bg-indigo-200'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
   )
 }
+
+export default ImageSlider;

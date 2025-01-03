@@ -93,36 +93,36 @@ function MainHomePage() {
           {t("what_we_offer")}
         </button>
       </div>
-      <div className="flex flex-wrap justify-evenly my-10">
+      <div className="flex flex-wrap justify-around my-10">
         {activeSection === "start" ? (
           <>
-            <div className="flex flex-col items-center justify-center ">
-              <p className="font-bold mt-4">{t("place_an_order")}</p>
-              <Image className="w-[20rem] h-fit" src={lng === "en"?service1En : service1Ar} />
+            <div className="flex flex-col items-center justify-center">
+              <p className="font-bold">{t("place_an_order")}</p>
+              <Image className="w-[20rem] h-auto" src={lng === "en"?service1En : service1Ar} />
               <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("place_an_order_desc")}</p>
             </div>
-            <div className="flex flex-col items-center justify-center ">
+            <div className="flex flex-col items-center justify-center">
               <p className="font-bold">{t("track_order")}</p>
-              <Image className="w-[20rem] h-fit mb-3" src={lng === "en"?service2En : service2Ar} />
+              <Image className="w-[20rem] h-auto" src={lng === "en"?service2En : service2Ar} />
               <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("track_order_desc")}</p>
             </div>
-            <div className="flex flex-col items-center justify-center ">
+            <div className="flex flex-col items-center justify-center mb-4">
               <p className="font-bold">{t("receive_oreder")}</p>
-              <Image className="w-[20rem] h-fit" src={lng === "en"?service3En : service3Ar} />
+              <Image className="w-[20rem] h-auto" src={lng === "en"?service3En : service3Ar} />
               <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("receive_oreder_desc")}</p>
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center">
-              <Image className="w-[18rem] h-fit mt-4" src={lng === "en"?service4En : service4Ar} />
+              <Image className="w-[18rem] h-fit" src={lng === "en"?service4En : service4Ar} />
               <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("place_an_order_desc")}</p>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <Image className="w-[18rem] h-fit" src={lng === "en"?service6En : service6Ar} />
+              <Image className="w-[18rem] h-fit mb-0" src={lng === "en"?service6En : service6Ar} />
               <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("track_order_desc")}</p>
             </div>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
               <Image className="w-[18rem] h-fit" src={lng === "en"?service5En : service5Ar} />
               <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("receive_oreder_desc")}</p>
             </div>
@@ -151,7 +151,7 @@ function MainHomePage() {
           </div>
         </div>
         <div className="ml-2">
-          <Image className="w-[75%] h-fit bg-center" src={lng === "en"?section4En : section4Ar} />
+          <Image className="w-[60%] h-auto bg-center" src={lng === "en"?section4En : section4Ar} />
         </div>
       </div>
       <div className="flex justify-center text-4xl mt-16 mb-10">
