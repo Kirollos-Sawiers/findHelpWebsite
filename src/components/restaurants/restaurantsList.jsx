@@ -236,9 +236,6 @@ function RestaurantsList() {
         <Row>
           <Col xs={12} md={2} lg={2}>
             {countryCityDropdown()}
-            {banners? <><div className="flex justify-center h-fit bg-gray-100 mt-3">
-          <ImageSlider images={banners} interval={3000} />
-        </div></>:<></>}
           </Col>
           <Col xs={12} md={10} lg={10}>
             <div>
@@ -246,6 +243,11 @@ function RestaurantsList() {
                 categories={restaurantCategoryData}
                 onCategoryClick={handleCategoryClick}
               />
+            </div>
+            <div>
+            {banners? <><div className="flex justify-center h-fit bg-gray-100 mt-3">
+          <ImageSlider images={banners} interval={3000} />
+        </div></>:<></>}
             </div>
             <div className="flex flex-wrap justify-evenly">
               {allRestaurantsData?.data?.map((rest) => (

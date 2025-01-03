@@ -51,7 +51,7 @@ function MainHomePage() {
         className="flex justify-center w-full bg-[#F0A8350D]  px-0"
       >
         <Image
-          className="w-[95%] h-fit mt-2 rounded-lg bg-cover bg-center"
+          className="w-[95%] h-auto mt-2 rounded-lg bg-cover bg-center"
           src={lng === "en" ? homeCoverEn : homeCoverAr}
         />
       </Container>
