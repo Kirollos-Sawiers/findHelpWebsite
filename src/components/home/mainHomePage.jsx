@@ -33,15 +33,24 @@ import partner5 from "../../assets/partner5.jpeg";
 import partner6 from "../../assets/partner6.jpeg";
 import { useTranslation } from "react-i18next";
 import cookies from "js-cookie";
+import ImageSlider from "./../restaurants/slider";
 
 function MainHomePage() {
   const { t } = useTranslation();
-  const lng = cookies.get("i18next")|| "en"
+  const lng = cookies.get("i18next") || "en";
   const [activeSection, setActiveSection] = useState("start");
 
   const handleSectionClick = (section) => {
     setActiveSection(section);
   };
+  const partnersArray = [
+    { image: { url: partner1 } },
+    { image: { url: partner2 } },
+    { image: { url: partner3 } },
+    { image: { url: partner4 } },
+    { image: { url: partner5 } },
+    { image: { url: partner6 } },
+  ];
 
   return (
     <Container fluid className="p-0">
@@ -60,13 +69,19 @@ function MainHomePage() {
           to="/partnerwithus"
           className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
         >
-          <Image className="rounded-xl" src={lng === "en"? ourPartnerEn : ourPartnerAr} />
+          <Image
+            className="rounded-xl"
+            src={lng === "en" ? ourPartnerEn : ourPartnerAr}
+          />
         </Link>
         <Link
           to="/ridewithus"
           className="no-underline w-2/3 h-fit md:w-80 lg:w-1/3 mx-0 mt-5"
         >
-          <Image className="rounded-xl" src={lng === "en"? rideWithUsEn : rideWithUsAr} />
+          <Image
+            className="rounded-xl"
+            src={lng === "en" ? rideWithUsEn : rideWithUsAr}
+          />
         </Link>
       </div>
       <div className="flex justify-evenly mt-5">
@@ -79,7 +94,7 @@ function MainHomePage() {
           }`}
           onClick={() => handleSectionClick("start")}
         >
-        {t("get_started")}
+          {t("get_started")}
         </button>
         <button
           className={`px-4 py-2 rounded-full text-black font-semibold transition-colors duration-300
@@ -98,42 +113,74 @@ function MainHomePage() {
           <>
             <div className="flex flex-col items-center justify-center">
               <p className="font-bold">{t("place_an_order")}</p>
-              <Image className="w-[20rem] h-auto" src={lng === "en"?service1En : service1Ar} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("place_an_order_desc")}</p>
+              <Image
+                className="w-[20rem] h-auto"
+                src={lng === "en" ? service1En : service1Ar}
+              />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">
+                {t("place_an_order_desc")}
+              </p>
             </div>
             <div className="flex flex-col items-center justify-center">
               <p className="font-bold">{t("track_order")}</p>
-              <Image className="w-[20rem] h-auto" src={lng === "en"?service2En : service2Ar} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("track_order_desc")}</p>
+              <Image
+                className="w-[20rem] h-auto"
+                src={lng === "en" ? service2En : service2Ar}
+              />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">
+                {t("track_order_desc")}
+              </p>
             </div>
             <div className="flex flex-col items-center justify-center mb-4">
               <p className="font-bold">{t("receive_oreder")}</p>
-              <Image className="w-[20rem] h-auto" src={lng === "en"?service3En : service3Ar} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("receive_oreder_desc")}</p>
+              <Image
+                className="w-[20rem] h-auto"
+                src={lng === "en" ? service3En : service3Ar}
+              />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">
+                {t("receive_oreder_desc")}
+              </p>
             </div>
           </>
         ) : (
           <>
             <div className="flex flex-col items-center justify-center">
-              <Image className="w-[18rem] h-fit" src={lng === "en"?service4En : service4Ar} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("place_an_order_desc")}</p>
+              <Image
+                className="w-[18rem] h-fit"
+                src={lng === "en" ? service4En : service4Ar}
+              />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">
+                {t("place_an_order_desc")}
+              </p>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <Image className="w-[18rem] h-fit mb-0" src={lng === "en"?service6En : service6Ar} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("track_order_desc")}</p>
+              <Image
+                className="w-[18rem] h-fit mb-0"
+                src={lng === "en" ? service6En : service6Ar}
+              />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">
+                {t("track_order_desc")}
+              </p>
             </div>
             <div className="flex flex-col items-center justify-center mb-4">
-              <Image className="w-[18rem] h-fit" src={lng === "en"?service5En : service5Ar} />
-              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">{t("receive_oreder_desc")}</p>
+              <Image
+                className="w-[18rem] h-fit"
+                src={lng === "en" ? service5En : service5Ar}
+              />
+              <p className="w-[20rem] pb-5 text-center font-bold mb-0 pt-3">
+                {t("receive_oreder_desc")}
+              </p>
             </div>
           </>
         )}
       </div>
       <div className="w-full flex flex-wrap justify-center mt-24">
         <div className="mx-5">
-          <p className="text-7xl font-semibold mb-4">{t("feast_your_senses")}</p>
+          <p className="text-7xl font-semibold mb-4">
+            {t("feast_your_senses")}
+          </p>
           <p className="text-7xl font-semibold text-[#F0A835] mb-4">
-         {t("fast_and _fresh")}
+            {t("fast_and _fresh")}
           </p>
           <div className="w-[50%] flex justify-around mb-5">
             <Link
@@ -151,25 +198,25 @@ function MainHomePage() {
           </div>
         </div>
         <div className="ml-2">
-          <Image className="w-[60%] h-auto bg-center" src={lng === "en"?section4En : section4Ar} />
+          <Image
+            className="w-[60%] h-auto bg-center"
+            src={lng === "en" ? section4En : section4Ar}
+          />
         </div>
       </div>
       <div className="flex justify-center text-4xl mt-16 mb-10">
         <p className="font-bold">{t("some_of_our_partners")}</p>
       </div>
-      <div className="w-full flex flex-wrap justify-center mb-20">
-        <div className="flex">
-          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner1} />
-          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner6} />
-        </div>
-        <div className="flex">
-          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner3} />
-          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner4} />
-        </div>
-        <div className="flex">
-          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner5} />
-          <Image className="w-[150px] h-[128px] mx-2 mb-10 shadow-lg" src={partner2} />
-        </div>
+      <div className="">
+        {partnersArray ? (
+          <>
+            <div className="flex justify-center h-fit bg-gray-100 mt-3">
+              <ImageSlider images={partnersArray} interval={3000} />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="flex flex-wrap justify-evenly items-center h-fit mx-14 mb-5 py-3 rounded-lg bg-gradient-to-l from-[#F2B655] to-[#ffebc3]">
         <div className="flex flex-col items-center">

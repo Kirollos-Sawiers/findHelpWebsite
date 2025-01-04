@@ -676,5 +676,11 @@
       "description": "Only those responsible for managing the application are allowed to add or remove the above-mentioned items and information or change, update and waive them at any time.",
       "advice": "As we update the terms and conditions from time to time, it is advised to review all details before and during the use of our services, and the updated terms will be considered valid as soon as they are published on the application."
     }
+  },
+  "confirmDialog": {
+    "message": "Your cart contains items from another restaurant. Would you like to clear your cart and add items from this restaurant instead?",
+    "header": "Confirmation",
+    "accept": "Accept",
+    "reject": "Reject"
   }
 }

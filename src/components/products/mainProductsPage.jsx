@@ -68,11 +68,12 @@ function MainProducts() {
   const confirm = () => {
     confirmDialog({
       group: "headless",
-      message:
-        "Your cart contains items from another restaurant. Would you like to clear your cart and add items from this restaurant instead?",
-      header: "Confirmation",
+      message: t('confirmDialog.message'), // Translation for message
+      header: t('confirmDialog.header'), // Translation for header
       icon: "pi pi-exclamation-triangle",
       defaultFocus: "accept",
+      acceptLabel: t('confirmDialog.accept'), // Translation for accept button
+      rejectLabel: t('confirmDialog.reject'), // Translation for reject button
     });
   };
 
@@ -472,7 +473,7 @@ function MainProducts() {
               ref={footerRef}
             >
               <Button
-                label="Clear Cart"
+                label={t('confirmDialog.accept')}
                 onClick={(event) => {
                   hide(event);
                   localStorage.removeItem("cart");
@@ -481,7 +482,7 @@ function MainProducts() {
                 className="w-[20%] bg-[#f0a835] text-white rounded-lg p-2"
               ></Button>
               <Button
-                label="Cancel"
+                label={t('confirmDialog.reject')}
                 onClick={(event) => {
                   hide(event);
                 }}

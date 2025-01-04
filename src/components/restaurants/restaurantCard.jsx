@@ -13,8 +13,6 @@ function RestaurantCard({ restaurant }) {
   const { t } = useTranslation();
   const lng = cookies.get("i18next") || "en";
   const isOpen = restaurant?.work_times?.is_open;
-  console.log(restaurant?.work_times)
-
   // Helper function to get the correct language property
   const getLangProperty = (obj, property) => {
     return obj?.[property]?.[lng] || obj?.[property]?.en || "";

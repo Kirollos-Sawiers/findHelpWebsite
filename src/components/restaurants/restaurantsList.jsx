@@ -63,7 +63,6 @@ function RestaurantsList() {
     if (location.pathname === "/restaurants") {
       dispatch(getRestaurantCategoryData());
       dispatch(getBanners()).then((res) => {
-        console.log(res.payload);
         setBanners(res.payload)
       });
     } else if (location.pathname === "/shops") {
@@ -217,7 +216,7 @@ function RestaurantsList() {
   return (
     <Container fluid className="p-0">
       <Navbar />
-      <Container fluid className="px-1 md:px-5">
+      <Container fluid className="px-3">
         <div className="w-full h-12 flex justify-center ">
           <div className="p-inputgroup w-[30%] h-8 border-1">
             <InputText
@@ -246,9 +245,6 @@ function RestaurantsList() {
             </div>
             <div>
             {banners? <><div className="flex justify-center h-fit bg-gray-100 mt-3">
-              {/* <div>
-                <p>Recommended</p>
-              </div> */}
           <ImageSlider images={banners} interval={3000} />
         </div></>:<></>}
             </div>
