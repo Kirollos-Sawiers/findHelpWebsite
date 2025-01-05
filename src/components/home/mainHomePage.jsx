@@ -131,7 +131,7 @@ function MainHomePage() {
                 {t("track_order_desc")}
               </p>
             </div>
-            <div className="flex flex-col items-center justify-center mb-4">
+            <div className="flex flex-col items-center justify-center">
               <p className="font-bold">{t("receive_oreder")}</p>
               <Image
                 className="w-[20rem] h-auto"
@@ -162,7 +162,7 @@ function MainHomePage() {
                 {t("track_order_desc")}
               </p>
             </div>
-            <div className="flex flex-col items-center justify-center mb-4">
+            <div className="flex flex-col items-center justify-center">
               <Image
                 className="w-[18rem] h-fit"
                 src={lng === "en" ? service5En : service5Ar}
