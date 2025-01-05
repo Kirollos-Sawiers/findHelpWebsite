@@ -210,8 +210,8 @@ function MainHomePage() {
       <div className="">
         {partnersArray ? (
           <>
-            <div className="flex justify-center h-fit bg-gray-100 mt-3">
-              <ImageSlider images={partnersArray} interval={3000} />
+            <div className="flex justify-center items-center h-auto bg-gray-100 mt-3">
+            <ImageSlider images={partnersArray} interval={3000} isRTL={lng === 'Ar'} />
             </div>
           </>
         ) : (

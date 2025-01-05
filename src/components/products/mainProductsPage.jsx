@@ -148,7 +148,7 @@ function MainProducts() {
           </div>
         ) : (
           <>
-            <div className="flex flex-wrap w-[95%] h-fit">
+            <div className="flex flex-wrap w-[95%] h-auto py-0 px-2">
               {allRestaurantProducts?.data?.map((product, index) => {
                 return (
                   <div
@@ -225,7 +225,12 @@ function MainProducts() {
           </div>
         ) : (
           <>
-            <div className="bg-white rounded-lg shadow-lg p-4 w-48 flex flex-col items-center mt-5">
+          <div className={`w-[90%] md:w-full flex justify-center`}>
+            <div
+              className={`bg-white rounded-lg shadow-lg py-3 mt-5 h-fit
+              flex flex-wrap items-center justify-center
+              md:flex-col md:w-56 md:justify-start`}
+            >
               <button
                 onClick={() => {
                   handleTabClick("All");
@@ -245,7 +250,7 @@ function MainProducts() {
                 return (
                   <div
                     key={index}
-                    className="flex flex-col items-center justify-center "
+                    className="flex items-center justify-center" // Adjusted to fit horizontal layout
                   >
                     <button
                       key={getLangProperty(cate, "name")}
@@ -270,11 +275,13 @@ function MainProducts() {
                 );
               })}
             </div>
+            </div>
           </>
         )}
       </>
     );
   };
+  
 
   const handleCheckboxChange = (event, id, option) => {
     setOptionName(option);
@@ -289,7 +296,7 @@ function MainProducts() {
       <>
         {productDetailsData && productDetailsData.data ? (
           <>
-            {productDetailsData.data.map((product, index) => {
+            {productDetailsData?.data?.map((product, index) => {
               return (
                 <>
                   <div key={index} className="bg-white rounded-lg pl-3 w-80">
@@ -298,7 +305,7 @@ function MainProducts() {
                       <img
                         src={product.images[0].url}
                         alt="product_image"
-                        className="rounded-xl w-20 h-20 object-cover"
+                        className="rounded-xl w-20 h-20 object-contain"
                       />
                       <div>
                         <h3 className="text-lg font-bold">
@@ -318,7 +325,7 @@ function MainProducts() {
                     </div>
 
                     {/* Additional Options */}
-                    {product.options.length > 0
+                    {product?.options?.length > 0
                       ? product.options.map((option, optionIndex) => (
                           <div key={optionIndex} className="mb-4">
                             <div className="font-semibold mb-2 font-xl">
@@ -496,10 +503,7 @@ function MainProducts() {
         <>
           <Container fluid className="p-0">
             <Navbar />
-            <Container fluid className="flex justify-center pb-10">
-              {/* <div>
-              <Image className="" src={products_banner} />
-            </div> */}
+            <Container fluid className="flex justify-center px-5 pb-10">
             </Container>
             <div className="flex">
               <div>
@@ -541,12 +545,12 @@ function MainProducts() {
                 justify
               >
                 <Tab className="" eventKey="menu" title={t("menu")}>
-                  <Row>
-                    <Col md={3} className="flex justify-center">
+                  <Row className="m-0 p-0">
+                    <Col md={3} className="flex justify-center p-0">
                       {sideBar()}
                     </Col>
-                    <Col md={9}>
-                      <div className="">{menuCard()}</div>
+                    <Col className="p-0" md={9}>
+                      <div className="p-0">{menuCard()}</div>
                       <Offcanvas
                         show={show}
                         onHide={handleClose}
@@ -568,7 +572,7 @@ function MainProducts() {
                     <Row className="mt-20">
                       <Col md={2}></Col>
                       <Col>
-                      {(shopData?.orders_reviews.length>0)? shopData?.orders_reviews?.map((review, index) => {
+                      {(shopData?.orders_reviews?.length>0)? shopData?.orders_reviews?.map((review, index) => {
                           return (
                             <div key={index} className="m-5">
                               <p className="text-sm text-zinc-500">
