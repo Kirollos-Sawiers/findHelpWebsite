@@ -224,36 +224,34 @@ function MainProducts() {
             <Spinner animation="border" variant="warning" />
           </div>
         ) : (
-          <>
           <div className={`w-[90%] md:w-full flex justify-center`}>
             <div
               className={`bg-white rounded-lg shadow-lg py-3 mt-5 h-fit
-              flex flex-wrap items-center justify-center
-              md:flex-col md:w-56 md:justify-start`}
+                flex flex-col md:w-56`}
             >
-              <button
-                onClick={() => {
-                  handleTabClick("All");
-                  dispatch(
-                    getAllRestaurantProductsData({
-                      shop_id: params.id,
-                    })
-                  );
-                }}
-                className={`text-lg font-medium py-2 rounded-lg w-40 m-1 ${
-                  activeTab === "All" ? "bg-[#f0a835] text-white" : "text-black"
-                }`}
-              >
-                {t("all")}
-              </button>
-              {shopData?.categories?.map((cate, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center justify-center" // Adjusted to fit horizontal layout
+              {/* Mobile View (Horizontal Scroll) */}
+              <div className="flex md:hidden overflow-x-auto w-96 items-center px-2 scrollbar-hidden">
+                <div className="flex space-x-2 w-max">
+                  <button
+                    onClick={() => {
+                      handleTabClick("All");
+                      dispatch(
+                        getAllRestaurantProductsData({
+                          shop_id: params.id,
+                        })
+                      );
+                    }}
+                    className={`text-lg font-medium py-2 rounded-lg w-auto px-4 ${
+                      activeTab === "All"
+                        ? "bg-[#f0a835] text-white"
+                        : "text-black"
+                    }`}
                   >
+                    {t("all")}
+                  </button>
+                  {shopData?.categories?.map((cate, index) => (
                     <button
-                      key={getLangProperty(cate, "name")}
+                      key={index}
                       onClick={() => {
                         handleTabClick(getLangProperty(cate, "name"));
                         dispatch(
@@ -263,7 +261,7 @@ function MainProducts() {
                           })
                         );
                       }}
-                      className={`text-lg font-medium py-2 rounded-lg w-40 m-1 ${
+                      className={`text-lg font-medium py-2 rounded-lg w-auto px-4 ${
                         activeTab === getLangProperty(cate, "name")
                           ? "bg-[#f0a835] text-white"
                           : "text-black"
@@ -271,16 +269,59 @@ function MainProducts() {
                     >
                       {getLangProperty(cate, "name")}
                     </button>
-                  </div>
-                );
-              })}
+                  ))}
+                </div>
+              </div>
+  
+              {/* Tablet and Laptop View */}
+              <div className="hidden md:flex flex-col items-center w-full">
+                <button
+                  onClick={() => {
+                    handleTabClick("All");
+                    dispatch(
+                      getAllRestaurantProductsData({
+                        shop_id: params.id,
+                      })
+                    );
+                  }}
+                  className={`text-lg font-medium py-2 rounded-lg w-[90%] my-1 ${
+                    activeTab === "All"
+                      ? "bg-[#f0a835] text-white"
+                      : "text-black"
+                  }`}
+                >
+                  {t("all")}
+                </button>
+                {shopData?.categories?.map((cate, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleTabClick(getLangProperty(cate, "name"));
+                      dispatch(
+                        getAllRestaurantProductsData({
+                          shop_id: params.id,
+                          category_id: cate.id,
+                        })
+                      );
+                    }}
+                    className={`text-lg font-medium py-2 rounded-lg w-[90%] my-1 ${
+                      activeTab === getLangProperty(cate, "name")
+                        ? "bg-[#f0a835] text-white"
+                        : "text-black"
+                    }`}
+                  >
+                    {getLangProperty(cate, "name")}
+                  </button>
+                ))}
+              </div>
             </div>
-            </div>
-          </>
+          </div>
         )}
       </>
     );
   };
+  
+  
   
 
   const handleCheckboxChange = (event, id, option) => {
