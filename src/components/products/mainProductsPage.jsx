@@ -224,13 +224,13 @@ function MainProducts() {
             <Spinner animation="border" variant="warning" />
           </div>
         ) : (
-          <div className={`w-[90%] md:w-full flex justify-center`}>
+          <div className={`w-[100%] px-3 md:px-0 md:w-full flex justify-center`}>
             <div
-              className={`bg-white rounded-lg shadow-lg py-3 mt-5 h-fit
+              className={`bg-white rounded-lg shadow-lg mt-2
                 flex flex-col md:w-56`}
             >
               {/* Mobile View (Horizontal Scroll) */}
-              <div className="flex md:hidden overflow-x-auto w-96 items-center px-2 scrollbar-hidden">
+              <div className="flex md:hidden overflow-x-auto w-80 items-center py-1 scrollbar-hidden">
                 <div className="flex space-x-2 w-max">
                   <button
                     onClick={() => {
@@ -241,7 +241,7 @@ function MainProducts() {
                         })
                       );
                     }}
-                    className={`text-lg font-medium py-2 rounded-lg w-auto px-4 ${
+                    className={`text-base font-medium rounded-lg w-auto px-3 ${
                       activeTab === "All"
                         ? "bg-[#f0a835] text-white"
                         : "text-black"
@@ -261,7 +261,7 @@ function MainProducts() {
                           })
                         );
                       }}
-                      className={`text-lg font-medium py-2 rounded-lg w-auto px-4 ${
+                      className={`text-base font-medium rounded-lg w-auto px-3 ${
                         activeTab === getLangProperty(cate, "name")
                           ? "bg-[#f0a835] text-white"
                           : "text-black"
@@ -274,7 +274,7 @@ function MainProducts() {
               </div>
   
               {/* Tablet and Laptop View */}
-              <div className="hidden md:flex flex-col items-center w-full">
+              <div className="hidden md:flex flex-col items-center w-full ">
                 <button
                   onClick={() => {
                     handleTabClick("All");

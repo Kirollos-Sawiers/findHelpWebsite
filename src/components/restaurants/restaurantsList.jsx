@@ -63,10 +63,15 @@ function RestaurantsList() {
     if (location.pathname === "/restaurants") {
       dispatch(getRestaurantCategoryData());
       dispatch(getBanners()).then((res) => {
-        setBanners(res.payload)
+        const filteredRestaurants = res.payload.filter(item => item.type === "restaurant");
+        setBanners(filteredRestaurants);
       });
     } else if (location.pathname === "/shops") {
       dispatch(getShopsCategoryData());
+      dispatch(getBanners()).then((res) => {
+        const filteredRestaurants = res.payload.filter(item => item.type === "shop");
+        setBanners(filteredRestaurants);
+      });
     }
   }, [location.pathname, dispatch]);
 
@@ -121,7 +126,6 @@ function RestaurantsList() {
     const type = location.pathname === "/restaurants" ? "restaurant" : "shop";
     dispatch(searchRestaurants({ type, searchValue }));
   };
-
 
   const countryCityDropdown = () => {
     return (
@@ -244,9 +248,21 @@ function RestaurantsList() {
               />
             </div>
             <div>
-            {banners? <><div className="flex justify-center h-fit bg-gray-100 mt-3">
-          <ImageSlider images={banners} interval={3000} />
-        </div></>:<></>}
+              {banners ? (
+                <>
+                  <div className="flex justify-center bg-gray-100 mt-3">
+                    <ImageSlider
+                      images={banners}
+                      interval={3000}
+                      width="[100%]"
+                      height="[50%]"
+                      isRTL={lng === "ar"}
+                    />
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
             <div className="flex flex-wrap justify-evenly">
               {allRestaurantsData?.data?.map((rest) => (

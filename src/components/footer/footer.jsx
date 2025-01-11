@@ -98,7 +98,7 @@ function Footer() {
             <p className="text-white w-2/3 m-0">
              {t("all_rights_reserved")} © Find Help
             </p>
-            <div className="flex flex-col justify-between w-14 mb-1 md:w-1/3 md:flex md:flex-row md:justify-between">
+            <div className="flex flex-col justify-between mb-1 w-14 md:w-[20%] md:flex md:flex-row md:justify-evenly">
               <Link
                 to="https://www.facebook.com/profile.php?id=61559402712536"
                 target="_blank"

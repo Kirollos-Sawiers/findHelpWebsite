@@ -57,7 +57,7 @@ function MainHomePage() {
       <Navbar />
       <Container
         fluid
-        className="flex justify-center w-full bg-[#F0A8350D]  px-0"
+        className="flex justify-center w-full bg-[#F0A8350D] px-0"
       >
         <Image
           className="w-[95%] h-auto mt-2 rounded-lg bg-cover bg-center"
@@ -207,11 +207,11 @@ function MainHomePage() {
       <div className="flex justify-center text-4xl mt-16 mb-10">
         <p className="font-bold">{t("some_of_our_partners")}</p>
       </div>
-      <div className="">
+      <div className="h-auto">
         {partnersArray ? (
           <>
-            <div className="flex justify-center items-center h-auto bg-gray-100 mt-3">
-            <ImageSlider images={partnersArray} interval={3000} isRTL={lng === 'Ar'} />
+            <div className="flex justify-center items-center h-auto bg-gray-100 my-3">
+            <ImageSlider images={partnersArray} interval={3000} width="[70%]" height="80" isRTL={lng === 'ar'} />
             </div>
           </>
         ) : (
