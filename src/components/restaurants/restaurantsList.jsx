@@ -28,6 +28,10 @@ import { Button } from "primereact/button";
 import cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import ImageSlider from "./slider";
+import {
+  sortRestaurantsByDistance,
+  getUserLocation,
+} from "../../utils/locationService";
 
 function RestaurantsList() {
   const { t } = useTranslation();
@@ -37,7 +41,9 @@ function RestaurantsList() {
   const [cities, setCities] = useState([]);
   const [selectedCountryId, setSelectedCountryId] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [searchValue, setSearchValue] = useState(""); // State to hold the search value
+  const [searchValue, setSearchValue] = useState("");
+  const [userLocation, setUserLocation] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
   const [banners, setBanners] = useState();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -63,32 +69,81 @@ function RestaurantsList() {
     if (location.pathname === "/restaurants") {
       dispatch(getRestaurantCategoryData());
       dispatch(getBanners()).then((res) => {
-        const filteredRestaurants = res.payload.filter(item => item.type === "restaurant");
+        const filteredRestaurants = res.payload.filter(
+          (item) => item.type === "restaurant"
+        );
         setBanners(filteredRestaurants);
       });
     } else if (location.pathname === "/shops") {
       dispatch(getShopsCategoryData());
       dispatch(getBanners()).then((res) => {
-        const filteredRestaurants = res.payload.filter(item => item.type === "shop");
+        const filteredRestaurants = res.payload.filter(
+          (item) => item.type === "shop"
+        );
         setBanners(filteredRestaurants);
       });
     }
   }, [location.pathname, dispatch]);
 
-  useEffect(() => {
-    if (location.pathname === "/restaurants") {
-      if (selectedCategoryId) {
-        dispatch(getRestaurantsByCategoryID(currentPage, selectedCategoryId));
-      } else {
-        dispatch(getAllRestaurants(currentPage));
-      }
-    } else if (location.pathname === "/shops") {
-      if (selectedCategoryId) {
-        dispatch(getShopsByCategoryID(currentPage, selectedCategoryId));
-      } else {
-        dispatch(getAllShops(currentPage));
-      }
+  // Get the user's location
+  const getLocation = async () => {
+    try {
+      const location = await getUserLocation(); // Assuming getUserLocation returns the location
+      setUserLocation(location); // Update state (optional, if you need to store it globally)
+      return location; // Return the location data
+    } catch (error) {
+      console.error("Error getting user location:", error);
+      throw error; // Re-throw the error if needed
     }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (location.pathname === "/restaurants") {
+          if (selectedCategoryId) {
+            dispatch(
+              getRestaurantsByCategoryID(currentPage, selectedCategoryId)
+            );
+          } else {
+            // Await the user location
+            const userLocation = await getLocation();
+            console.log("User Location:", userLocation); // Debugging
+
+            if (!userLocation) {
+              console.error("User location is undefined or null.");
+              return; // Exit if location is not available
+            }
+
+            // Fetch restaurants
+            const result = await dispatch(getAllRestaurants(currentPage));
+            console.log("Restaurants Data:", result?.payload?.data); // Debugging
+
+            if (result?.payload?.data?.length > 0) {
+              // Sort restaurants by distance
+              const sortedRestaurants = sortRestaurantsByDistance(
+                result.payload.data,
+                userLocation
+              );
+              setRestaurants(sortedRestaurants);
+              console.log("Sorted Restaurants:", sortedRestaurants); // Debugging
+            }
+          }
+        } else if (location.pathname === "/shops") {
+          if (selectedCategoryId) {
+            dispatch(getShopsByCategoryID(currentPage, selectedCategoryId));
+          } else {
+            dispatch(getAllShops(currentPage)).then((res)=>{
+              setRestaurants(res.payload.data);
+            })
+          }
+        }
+      } catch (error) {
+        console.error("Error in fetchData:", error);
+      }
+    };
+
+    fetchData();
   }, [location.pathname, currentPage, dispatch, selectedCategoryId]);
 
   const handleCategoryClick = (categoryId) => {
@@ -265,9 +320,22 @@ function RestaurantsList() {
               )}
             </div>
             <div className="flex flex-wrap justify-evenly">
-              {allRestaurantsData?.data?.map((rest) => (
-                <RestaurantCard key={rest.id} restaurant={rest} />
-              ))}
+              {restaurants && !selectedCategoryId ? (
+                <>
+                  {restaurants.map((rest) => (
+                    <RestaurantCard key={rest.id} restaurant={rest} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {allRestaurantsData?.data?.map((rest) => (
+                    <RestaurantCard key={rest.id} restaurant={rest} />
+                  ))}
+                </>
+              )}
+               {/* {allRestaurantsData?.data?.map((rest) => (
+                    <RestaurantCard key={rest.id} restaurant={rest} />
+                  ))} */}
             </div>
             <div className="flex justify-evenly mt-4">
               <div>
