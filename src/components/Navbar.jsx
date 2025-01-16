@@ -189,8 +189,11 @@ function MainNavbar() {
                   {t("ride_with_us")}
                 </NavDropdown.Item>
               </NavDropdown>
-              <Button
-                className="leading-none font-bold text-lg"
+              <Nav.Link
+                className="mr-3 leading-none text-black text-lg p-0"
+              >
+                <Button
+                className="leading-none font-bold text-lg p-0"
                 variant=""
                 onClick={() => {
                   if (language === "en") {
@@ -204,7 +207,9 @@ function MainNavbar() {
               >
                 {language === "en" ? "العربية" : "English"}
               </Button>
+              </Nav.Link>
               {toggleLoginButton()}
+              
               <Nav.Link
                 className="ml-2 leading-none pl-0"
                 onClick={handleCartClick}
