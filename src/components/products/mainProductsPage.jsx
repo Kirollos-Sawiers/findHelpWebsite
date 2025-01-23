@@ -169,9 +169,9 @@ function MainProducts() {
                     <img
                       src={product?.image?.url}
                       alt="product_image"
-                      className="rounded-full w-20 h-20 object-cover"
+                      className="rounded-md w-20 h-20 object-cover"
                     />
-                    <div className="ml-4 flex-grow">
+                    <div className="mx-4 flex-grow">
                       <h3 className="text-lg font-semibold">
                         {getLangProperty(product, "name")}
                       </h3>

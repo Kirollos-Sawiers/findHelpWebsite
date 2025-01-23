@@ -32,6 +32,7 @@ import {
   sortRestaurantsByDistance,
   getUserLocation,
 } from "../../utils/locationService";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function RestaurantsList() {
   const { t } = useTranslation();
@@ -45,6 +46,8 @@ function RestaurantsList() {
   const [userLocation, setUserLocation] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [banners, setBanners] = useState();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const dispatch = useDispatch();
   const allRestaurantsData = useSelector(
@@ -133,9 +136,9 @@ function RestaurantsList() {
           if (selectedCategoryId) {
             dispatch(getShopsByCategoryID(currentPage, selectedCategoryId));
           } else {
-            dispatch(getAllShops(currentPage)).then((res)=>{
+            dispatch(getAllShops(currentPage)).then((res) => {
               setRestaurants(res.payload.data);
-            })
+            });
           }
         }
       } catch (error) {
@@ -172,6 +175,7 @@ function RestaurantsList() {
       setCities(res.payload.data);
     });
   };
+  
 
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
@@ -333,7 +337,7 @@ function RestaurantsList() {
                   ))}
                 </>
               )}
-               {/* {allRestaurantsData?.data?.map((rest) => (
+              {/* {allRestaurantsData?.data?.map((rest) => (
                     <RestaurantCard key={rest.id} restaurant={rest} />
                   ))} */}
             </div>

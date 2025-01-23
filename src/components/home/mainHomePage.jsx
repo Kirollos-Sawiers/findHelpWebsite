@@ -34,6 +34,7 @@ import partner6 from "../../assets/partner6.jpeg";
 import { useTranslation } from "react-i18next";
 import cookies from "js-cookie";
 import ImageSlider from "./../restaurants/slider";
+import CountUpAnimation from './countUpAnimation';
 
 function MainHomePage() {
   const { t } = useTranslation();
@@ -220,25 +221,25 @@ function MainHomePage() {
       </div>
       <div className="flex flex-wrap justify-evenly items-center h-fit mx-14 mb-5 py-3 rounded-lg bg-gradient-to-l from-[#F2B655] to-[#ffebc3]">
         <div className="flex flex-col items-center">
-          <p className="text-4xl m-0">546+</p>
+          <p className="text-4xl m-0"><CountUpAnimation targetNumber={546} duration={2000} />+</p>
           <p className="text-xl font-extrabold">{t("registered_riders")}</p>
         </div>
         <div className="vr hidden md:block lg:block" />
         <hr className="w-52 block md:hidden lg:hidden" />
         <div className="flex flex-col items-center">
-          <p className="text-4xl m-0">789,900+</p>
+          <p className="text-4xl m-0"><CountUpAnimation targetNumber={789900} duration={2000} />+</p>
           <p className="text-xl font-extrabold">{t("orders_delivered")}</p>
         </div>
         <div className="vr hidden md:block lg:block" />
         <hr className="w-52 block md:hidden lg:hidden" />
         <div className="flex flex-col items-center">
-          <p className="text-4xl m-0">690+</p>
+          <p className="text-4xl m-0"><CountUpAnimation targetNumber={690} duration={2000} />+</p>
           <p className="text-xl font-extrabold">{t("restaurants_partnered")}</p>
         </div>
         <div className="vr hidden md:block lg:block" />
         <hr className="w-52 block md:hidden lg:hidden" />
         <div className="flex flex-col items-center">
-          <p className="text-4xl m-0">17,457+</p>
+          <p className="text-4xl m-0"><CountUpAnimation targetNumber={17457} duration={2000} />+</p>
           <p className="text-xl font-extrabold">{t("food_items")}</p>
         </div>
       </div>

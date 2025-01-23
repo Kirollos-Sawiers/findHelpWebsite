@@ -20,7 +20,7 @@ function RestaurantCard({ restaurant }) {
 
   return (
     <div
-      className={`rounded-2xl mb-3 shadow-md w-44 ${
+      className={`rounded-2xl mb-3 mx-1 shadow-md w-44 ${
         !isOpen ? "opacity-50 cursor-not-allowed" : ""
       }`}
     >
